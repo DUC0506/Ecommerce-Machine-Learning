@@ -1,1 +1,1 @@
-# Supermarket Template
+# Ecommerce Page
