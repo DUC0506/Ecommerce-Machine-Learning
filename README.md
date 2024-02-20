@@ -3,7 +3,7 @@
 <h1 align="center">
  
 
-  <h3 align="center">Ecommerce API</h3>
+  <h3 align="center">Ecommerce Website</h3>
 </h1>
 
 <h4 align="center">An e-commerce application that supports revenue prediction (Machine
