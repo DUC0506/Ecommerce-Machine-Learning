@@ -3,10 +3,12 @@
 <h1 align="center">
  
 
-  <h3 align="center">Ecommerce API</h3>
+  <h3 align="center">Ecommerce Website</h3>
 </h1>
 
-<h4 align="center">E-commerce API built using NodeJS & MongoDB</h4>
+<h4 align="center">An e-commerce application that supports revenue prediction (Machine
+Learning) built using ReactJS & NodeJS & MongoDB & Machine
+Learning</h4>
 
 <!-- TABLE OF CONTENTS -->
 
@@ -91,8 +93,9 @@
 ## Built With
 
 List of any major frameworks used to build the project.
-
 - [NodeJS](https://nodejs.org/) - JS runtime environment
+- [ReactJS](https://react.dev/) - Use build Frontend
+- [Python](https://www.python.org/)-Use build API revenue
 - [ExpressJS](https://expressjs.com/) - The NodeJS framework used
 - [MongoDB](https://www.mongodb.com/) - NoSQL Database uses JSON-like documents with optional schemas
 - [Mongoose](https://mongoosejs.com/) - Object Data Modeling (ODM) library for MongoDB and NodeJS
@@ -119,39 +122,3 @@ List of any major frameworks used to build the project.
 - [Swagger UI Express](https://www.npmjs.com/package/swagger-ui-express) - Allows you to serve auto-generated swagger-ui generated API docs from express.
 - [Express Locale](https://www.npmjs.com/package/express-locale) - Express middleware to determine the locale identifier of the incomming request.
 - [Node Polyglot](https://www.npmjs.com/package/node-polyglot) - It provides a simple solution for interpolation and pluralization, based off of Airbnb’s experience adding I18n functionality to its Backbone.js and Node apps.
-
-## Plans
-
-- Rewrite project with TypeScript NestJS.
-- Use Redis for caching
-- Use Elasticsearch as a search engine for products/categories
-- Use Kubernetes for Deployment
-- Use Prometheus & Grafana for monitoring
-- Use Terraform
-- Extend API's Functionality
-- Use multi-database (MongoDB - PostgreSQL)
-- Use Microservices
-- Use Sockets for handling real-time things.
-
-## Installation
-
-You can fork the app or you can git-clone the app into your local machine. Once done that, please install all the
-dependencies by running
-
-```
-$ yarn install
-set your env variables
-$ yarn run start
-```
-
-### Docker Installation
-
-You can fork the app or you can git-clone the app into your local machine.
-
-_Note:Set the environment variables up to date and setup the database environment and also you need install docker on your local machine_
-
-```
-$ docker-compose up -d
-```
-
-
