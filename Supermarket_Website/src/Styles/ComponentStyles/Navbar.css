@@ -1,0 +1,10 @@
+.nav-cover{
+    min-height:2rem;
+    @apply w-full bg-white
+}
+.main-nav{
+    @apply flex m-auto max-w-7xl p-2 items-center justify-between
+}
+.category-link:hover {
+    background-color: bg-yellow-400; /* Thay đổi màu nền tùy chọn */
+  }
