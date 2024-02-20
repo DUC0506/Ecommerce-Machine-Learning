@@ -1,9 +1,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <h1 align="center">
-  <a href="https://github.com/Braineanear/EcommerceAPI">
-    <img src="https://hackernoon.com/hn-images/1*lAR9Uh_gJ7dp23e0vhy5Hg.png" alt="Logo" width="200" height="200">
-  </a>
+ 
 
   <h3 align="center">Ecommerce API</h3>
 </h1>
@@ -11,46 +9,7 @@
 <h4 align="center">E-commerce API built using NodeJS & MongoDB</h4>
 
 <!-- TABLE OF CONTENTS -->
-<details open="open">
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#deployed-version">Demo</a>
-    </li>
-    <li>
-      <a href="#key-features">Key Features</a>
-    </li>
-    <li>
-      <a href="#api-usage">API Usage</a>
-    </li>
-    <li>
-      <a href="#deployment">Deployment</a>
-    </li>
-    <li>
-      <a href="#build-with">Build With</a>
-    </li>
-    <li>
-      <a href="#plans">Plans</a>
-    </li>
-    <li>
-      <a href="#installation">Installation</a>
-    </li>
-    <li>
-      <a href="#known-bugs">Known Bugs</a>
-    </li>
-    <li>
-      <a href="#contributing">Contributing</a>
-    </li>
-    <li>
-      <a href="#contact">Contact</a>
-    </li>
 
-  </ol>
-</details>
-
-## Deployed Version
-
-Live demo (Feel free to visit) 👉 : <a href="https://e-commerce-a-p-i.herokuapp.com">E-commerce API</a>
 
 ## Key Features
 
@@ -127,19 +86,7 @@ Live demo (Feel free to visit) 👉 : <a href="https://e-commerce-a-p-i.herokuap
   - Delete Category [Admin]
 - Multi-Language Support
 
-## API Usage
 
-Check [Ecommerce API Documentation](https://e-commerce-a-p-i.herokuapp.com/api-docs/#/) for more info.
-
-## Deployment
-
-The API is deployed with git into Heroku. Below are the steps taken:
-
-```
-git init
-git add -A
-git commit -m "Commit message"
-```
 
 ## Built With
 
@@ -207,19 +154,4 @@ _Note:Set the environment variables up to date and setup the database environmen
 $ docker-compose up -d
 ```
 
-## Known Bugs
 
-Feel free to email me at mle.mahmoud.yasser@gmail.com if you run into any issues or have questions, ideas or concerns.
-Please enjoy and feel free to share your opinion, constructive criticism, or comments about my work. Thank you! 🙂
-
-<!-- CONTRIBUTING -->
-
-## Contributing
-
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
