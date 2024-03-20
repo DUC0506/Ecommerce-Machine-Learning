@@ -2,7 +2,7 @@
 import catchAsync from './catchAsync';
 import AppError from './appError';
 
-const apiFeatures = catchAsync(async (req, model, populate) => {
+const apiFeatures = catchAsync(async (req, model, populate, apartment) => {
   let query;
 
   // Copy req.query
@@ -28,6 +28,10 @@ const apiFeatures = catchAsync(async (req, model, populate) => {
 
   if (!query) {
     throw new AppError('No Data Found', 400);
+  }
+
+  if (apartment) {
+    query = query.where('apartment').equals(apartment);
   }
 
   // Select Fields

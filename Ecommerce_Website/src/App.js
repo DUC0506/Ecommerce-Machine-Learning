@@ -1,4 +1,4 @@
-import './App.css';
+
 import { Routes, Route } from 'react-router-dom'
 import HomePage from './PageSections/HomePage';
 import { useSelector } from 'react-redux'
@@ -13,10 +13,12 @@ import Cart from './PageSections/Cart';
 import OrderInfoPage from './PageSections/OrderInfo';
 import './App.css';
 import Signin from './Components/SignIn';
-import Layout from 'C:/Users/HUAWEI/Desktop/Supermarket_Website/src/Components/admin/shared/Layout'
-import Dashboard from 'C:/Users/HUAWEI/Desktop/Supermarket_Website/src/Components/pages/Dashboard'
-import Products from 'C:/Users/HUAWEI/Desktop/Supermarket_Website/src/Components/pages/Products'
+import Layout from '../src/Components/admin/shared/Layout'
+import Dashboard from '../src/Components/pages/Dashboard'
+import Products from '../src/Components/pages/Products';
+
 import Order from './Components/pages/Order';
+import Product from './Components/Product';
 function App() {
   const {soon, product, products, addedsuccessfully} = useSelector((state) => state.changestate)
   return (

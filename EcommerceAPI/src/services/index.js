@@ -47,7 +47,8 @@ import {
   updateProductMainImage,
   updateProductImages,
   deleteProduct,
-  getProductStats
+  getProductStats,
+  queryProductsByApartment
 } from './product.service';
 
 import {
@@ -84,6 +85,14 @@ import {
   deleteProductFromFavorite,
   checkProductInFavoriteList
 } from './favorite.service';
+
+import {
+  createApartment,
+  queryApartments,
+  queryApartment,
+  deleteApartmentById,
+  updateApartmentDetails
+} from './apartment.service';
 
 const authService = {
   signin,
@@ -134,7 +143,8 @@ const productService = {
   updateProductMainImage,
   updateProductImages,
   deleteProduct,
-  getProductStats
+  getProductStats,
+  queryProductsByApartment
 };
 
 const cartService = {
@@ -171,6 +181,13 @@ const favoriteService = {
   deleteProductFromFavorite,
   checkProductInFavoriteList
 };
+const apartmentService = {
+  createApartment,
+  queryApartments,
+  queryApartment,
+  deleteApartmentById,
+  updateApartmentDetails
+};
 
 export {
   authService,
@@ -181,5 +198,6 @@ export {
   cartService,
   orderService,
   discountService,
-  favoriteService
+  favoriteService,
+  apartmentService
 };

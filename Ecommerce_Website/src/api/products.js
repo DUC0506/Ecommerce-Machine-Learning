@@ -16,6 +16,28 @@ export const getProducts=async()=>{
         
     }
 }
+export const getProductsByApartment=async()=>{
+
+    const token= getToken()
+    try {
+        const {data} =await client.get(`/product/products-apartment`,
+        {
+            headers:{
+                Authorization:'Bearer ' + token,
+                
+            },
+        });
+
+     
+        return data;
+        
+    } catch (error) {
+        console.log(error);
+        return error
+     
+        
+    }
+}
 export const createProduct=async(product)=>{
 
     const token= getToken()

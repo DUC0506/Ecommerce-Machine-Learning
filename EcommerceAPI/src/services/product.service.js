@@ -5,7 +5,8 @@ import APIFeatures from '../utils/apiFeatures';
 import { uploadFile, destroyFile } from '../utils/cloudinary';
 
 // Model
-import { Product, Color, Size } from '../models/index';
+import { Product, Color, Size, User } from '../models/index';
+import AppError from '../utils/appError';
 
 /**
  * @desc    Query products
@@ -37,7 +38,40 @@ export const queryProducts = catchAsync(async (req) => {
     products
   };
 });
+export const queryProductsByApartment = catchAsync(async (req) => {
+  const populateQuery = [
+    { path: 'colors', select: 'color' },
+    { path: 'sizes', select: 'size' }
+  ];
+  const { user } = req;
+  // Thêm thông tin về apartment vào query
+  const { apartment } = user; // Giả sử thông tin về apartment được truyền qua query string
+  if (!apartment) {
+    return {
+      type: 'Error',
+      message: 'noApartmentFound',
+      statusCode: 404
+    };
+  }
+  const products = await APIFeatures(req, Product, populateQuery, apartment);
 
+  // 1) Kiểm tra nếu không có sản phẩm
+  if (!products || products.length === 0) {
+    return {
+      type: 'Error',
+      message: 'noProductsFound',
+      statusCode: 404
+    };
+  }
+
+  // 3) Nếu mọi thứ đều ổn, gửi dữ liệu
+  return {
+    type: 'Success',
+    message: 'successfulProductsFound',
+    statusCode: 200,
+    products
+  };
+});
 /**
  * @desc    Query Product Using It's ID
  * @param   { String } productId - Product ID
@@ -143,7 +177,7 @@ export const createProduct = catchAsync(async (body, files, seller) => {
     priceAfterDiscount =
       Number(price) - (Number(price) / 100) * Number(priceDiscount);
   }
-
+  const userApartment = await User.findById(seller);
   // 4) Create product
   let product = await Product.create({
     mainImage: imageResult.secure_url,
@@ -157,6 +191,7 @@ export const createProduct = catchAsync(async (body, files, seller) => {
     priceAfterDiscount,
     priceDiscount: Number(priceDiscount),
     seller,
+    apartment: userApartment.apartment,
     quantity: Number(quantity),
     sold: Number(sold),
     isOutOfStock
@@ -259,12 +294,10 @@ export const updateProductDetails = catchAsync(
         statusCode: 401
       };
     }
-    console.log(infoProduct);
     // 3) Update product by it's ID
     const result = await Product.findByIdAndUpdate(productId, infoProduct, {
       new: true
     });
- 
     // 4) If everything is OK, send data
     return {
       type: 'Success',

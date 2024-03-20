@@ -34,6 +34,10 @@ const productSchema = mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: 'User'
     },
+    apartment: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Apartment' // Tham chiếu đến model Apartment
+    },
     price: {
       type: Number,
       required: true,

@@ -13,15 +13,16 @@ import svgimg10 from '../assets/svgs/svg-006-d.svg'
 import svgimg9 from '../assets/svgs/svg-004-g.svg'
 import svgimg8 from '../assets/svgs/svg-005-t.svg'
 import { comingsoon } from '../features/stateChangeSlice'
-import { getProducts } from '../api/products'
+import { getProducts, getProductsByApartment } from '../api/products'
 // import lens from '../assets/images/img-5.png'
 const Links = ({categorys}) => {
         const dispatch = useDispatch();
         // const { items } = useSelector((state) => state.add);
         const [items,setItems]=useState([])
         const fetchItems=async()=>{
-                const{error,products}=await getProducts()
-                if(error) return error;
+                const{error,message,products}=await getProductsByApartment()
+                if(error) return message;
+                console.log(message);
                 setItems([...products]);
         }
 

@@ -26,7 +26,8 @@ const {
   updateProductImages,
   deleteProduct,
   top5Cheap,
-  productStats
+  productStats,
+  getAllProductsByApartment
 } = productController;
 
 const router = express.Router();
@@ -37,11 +38,12 @@ router.get('/top-5-cheap', getAllProducts, top5Cheap);
 
 router.get('/product-stats', productStats);
 
+router.use(protect);
 router.get('/', getAllProducts);
 
-router.get('/:productId', getProduct);
+router.get('/products-apartment', getAllProductsByApartment);
 
-router.use(protect);
+router.get('/:productId', getProduct);
 
 router
   .route('/color/:productId')

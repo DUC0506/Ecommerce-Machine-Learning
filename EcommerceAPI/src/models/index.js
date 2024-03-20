@@ -9,6 +9,7 @@ import Discount from './discount.model';
 import Favorite from './favorite.model';
 import Color from './color.model';
 import Size from './size.model';
+import Apartment from './apartment.model';
 
 export {
   User,
@@ -21,5 +22,6 @@ export {
   Discount,
   Favorite,
   Color,
-  Size
+  Size,
+  Apartment
 };

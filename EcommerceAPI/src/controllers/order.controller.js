@@ -163,7 +163,8 @@ export const cancelOrder = catchAsync(async (req, res) => {
 });
 export const totalAllOrder = catchAsync(async (req, res) => {
   // 1) Update order status
-  const { type, message, statusCode,totalRevenue} = await orderService.totalSales();
+  const { type, message, statusCode, totalRevenue } =
+    await orderService.totalSales();
 
   // 2) Check if there is an error
   if (type === 'Error') {
@@ -183,7 +184,8 @@ export const totalAllOrder = catchAsync(async (req, res) => {
 
 export const totalOrderAll = catchAsync(async (req, res) => {
   // 1) Update order status
-  const { type, message, statusCode,totalOrder} = await orderService.totalOrders(req.query);
+  const { type, message, statusCode, totalOrder } =
+    await orderService.totalOrders(req.query);
 
   // 2) Check if there is an error
   if (type === 'Error') {

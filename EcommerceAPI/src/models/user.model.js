@@ -68,6 +68,11 @@ const userSchema = mongoose.Schema(
     companyName: {
       type: String
     },
+    apartment: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Apartment',
+      required: true // Tham chiếu đến model Apartment
+    },
     phone: {
       type: String
     },

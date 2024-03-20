@@ -35,9 +35,11 @@ const ShoppingCart = () => {
   const fetchCart= async ()=>{
       const {error, cart}= await getCart();
       if (error) return error;
+      if(cart){
       setCart(cart)
       setCartItems(cart.items)
-      console.log(cart);
+     
+      }
   }
   const navigate =useNavigate()
 
@@ -91,7 +93,7 @@ const ShoppingCart = () => {
       {cartItems.map((item,index) => (
         <CartItem
           key={index}
-          id={item.product.id} 
+          id={item.product._id} 
           name={item.product.name}
           price={item.product.priceAfterDiscount}
           quantity={item.totalProductQuantity}
@@ -104,7 +106,9 @@ const ShoppingCart = () => {
         />
       ))}
       <div className="flex justify-end mt-4">
-        <p className="font-bold text-xl">Total: ${cart.totalPrice}</p>
+       
+        <p className="font-bold text-xl">Total: ${cart.totalPrice ? cart.totalPrice : 0}</p> 
+          
       </div>
       <div className="flex justify-center mt-8">
         <input type="text" placeholder="Enter discount code" className="border p-2 mr-2" />

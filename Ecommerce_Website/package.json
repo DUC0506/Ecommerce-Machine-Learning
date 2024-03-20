@@ -5,6 +5,7 @@
   "dependencies": {
     "@headlessui/react": "^1.7.18",
     "@reduxjs/toolkit": "^1.8.5",
+    "@stripe/react-stripe-js": "^2.6.2",
     "@syncfusion/ej2": "^19.4.48",
     "@syncfusion/ej2-react-calendars": "^19.4.48",
     "@syncfusion/ej2-react-charts": "^19.4.50",

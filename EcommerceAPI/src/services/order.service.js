@@ -24,9 +24,10 @@ const stripe = STRIPE_SDK(config.stripe.secret_key);
 export const createOrder = catchAsync(async (body, user) => {
   // 1) Extract data from parameters
   const { shippingAddress, paymentMethod, phone } = body;
-  const { address, city, country, postalCode } = shippingAddress;
 
+  const { address, city, country, postalCode } = shippingAddress;
   // 2) Check if user entered all fields
+
   if (
     !address ||
     !city ||

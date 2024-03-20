@@ -23,7 +23,8 @@ import {
   updateProductImages,
   deleteProduct,
   top5Cheap,
-  productStats
+  productStats,
+  getAllProductsByApartment
 } from './product.controller';
 
 import {
@@ -86,6 +87,14 @@ import {
   checkProductInFavoriteList
 } from './favorite.controller';
 
+import {
+  addApartment,
+  getAllApartments,
+  getApartment,
+  deleteApartment,
+  updateApartmentDetails
+} from './apartment.controller';
+
 const authController = {
   signin,
   signup,
@@ -130,7 +139,8 @@ const productController = {
   updateProductImages,
   deleteProduct,
   top5Cheap,
-  productStats
+  productStats,
+  getAllProductsByApartment
 };
 
 const reviewController = {
@@ -174,6 +184,13 @@ const favoriteController = {
   checkProductInFavoriteList
 };
 
+const apartmentsController = {
+  addApartment,
+  getAllApartments,
+  getApartment,
+  deleteApartment,
+  updateApartmentDetails
+};
 export {
   authController,
   userController,
@@ -183,5 +200,6 @@ export {
   cartController,
   orderController,
   discountController,
-  favoriteController
+  favoriteController,
+  apartmentsController
 };
