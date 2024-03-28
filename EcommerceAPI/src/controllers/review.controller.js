@@ -15,9 +15,10 @@ import { reviewService } from '../services/index';
  */
 export const addReview = catchAsync(async (req, res) => {
   // 1) Create new review
-  const { type, message, statusCode, review } =
+
+  const { type, message, statusCode, newReview } =
     await reviewService.createReview(
-      req.params.productId,
+      req.query.productId,
       req.user.id,
       req.body
     );
@@ -34,7 +35,7 @@ export const addReview = catchAsync(async (req, res) => {
   return res.status(statusCode).json({
     type,
     message: req.polyglot.t(message),
-    review
+    newReview
   });
 });
 

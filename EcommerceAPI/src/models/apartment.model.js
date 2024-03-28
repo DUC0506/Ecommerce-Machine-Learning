@@ -12,6 +12,22 @@ const apartmentSchema = mongoose.Schema(
     address: {
       type: String,
       required: [true, 'Please provide the address of the apartment']
+    },
+    numberOfCourt: {
+      type: Number,
+      required: [true, 'Please provide the number of the Court']
+    },
+    numberOfHouse: {
+      type: Number,
+      required: [true, 'Please provide the number of the House']
+    },
+    condition: {
+      type: String,
+      required: [true, 'Please provide Condition of the apartment']
+    },
+    description: {
+      type: String,
+      required: [true, 'Please provide description of the apartment']
     }
   },
   {

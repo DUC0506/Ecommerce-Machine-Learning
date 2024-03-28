@@ -9,6 +9,7 @@ import orderRoute from './order.route';
 import discountRoute from './discount.route';
 import favoriteRoute from './favorite.route';
 import apartmentRoute from './apartment.route';
+import reviewRoute from './review.route';
 
 const router = express.Router();
 
@@ -21,5 +22,6 @@ router.use('/order', orderRoute);
 router.use('/discount', discountRoute);
 router.use('/favorite', favoriteRoute);
 router.use('/apartment', apartmentRoute);
+router.use('/review', reviewRoute);
 
 export default router;

@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import { useAuth } from '../hooks';
 
 const Signin = () => {
-
-   
+  const{authInfo} = useAuth()
+  console.log(authInfo.isLoggedIn);
+   console.log(1);
     const [userInfo,setUserInfo]= useState({
    
         email:"",
         password:"",
     })
+    
     const{handleLogin }=useAuth()
    
     const handleChange=({target})=>{

@@ -5,9 +5,23 @@ import { Apartment } from '../models';
 
 // eslint-disable-next-line import/prefer-default-export
 export const createApartment = catchAsync(async (body) => {
-  const { name, address } = body;
+  const {
+    name,
+    address,
+    numberOfCourt,
+    numberOfHouse,
+    condition,
+    description
+  } = body;
 
-  if (!name || !address) {
+  if (
+    !name ||
+    !address ||
+    !numberOfCourt ||
+    !numberOfHouse ||
+    !condition ||
+    !description
+  ) {
     return {
       type: 'Error',
       message: 'fieldsRequired',
@@ -16,7 +30,11 @@ export const createApartment = catchAsync(async (body) => {
   }
   const object = {
     name,
-    address
+    address,
+    numberOfCourt,
+    numberOfHouse,
+    condition,
+    description
   };
   const apartment = await Apartment.create(object);
 

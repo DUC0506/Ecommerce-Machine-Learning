@@ -23,7 +23,15 @@ export const createUser = catchAsync(async (body, profileImage) => {
     };
   }
 
-  const { name, username, email, password, passwordConfirmation, role } = body;
+  const {
+    name,
+    username,
+    email,
+    password,
+    passwordConfirmation,
+    role,
+    apartment
+  } = body;
   let { companyName, address, phone } = body;
 
   if (!companyName) companyName = '';
@@ -38,6 +46,7 @@ export const createUser = catchAsync(async (body, profileImage) => {
     !password ||
     !passwordConfirmation ||
     !role ||
+    !apartment ||
     profileImage.length === 0
   ) {
     return {
@@ -79,6 +88,7 @@ export const createUser = catchAsync(async (body, profileImage) => {
     companyName,
     address,
     phone,
+    apartment,
     profileImage: image.secure_url,
     profileImageId: image.public_id
   });
@@ -98,7 +108,7 @@ export const createUser = catchAsync(async (body, profileImage) => {
  * @returns { Object<type|message|statusCode|users> }
  */
 export const queryUsers = catchAsync(async (req) => {
-  const users = await APIFeatures(req, User);
+  const users = await APIFeatures(req, User, 'apartment');
 
   // 1) Check if users doesn't exist
   if (users.length === 0) {
@@ -124,7 +134,7 @@ export const queryUsers = catchAsync(async (req) => {
  * @return  { Object<type|message|statusCode|user> }
  */
 export const queryUser = catchAsync(async (id) => {
-  const user = await User.findById(id);
+  const user = await User.findById(id).populate('apartment');
 
   // 1) Check if user doesn't exist
   if (!user) {

@@ -3,9 +3,15 @@ import client from "./client";
 
 export const getProducts=async()=>{
 
-   
+    const token= getToken()
     try {
-        const {data} =await client.get(`/product/`);
+        const {data} =await client.get(`/product`,
+        {
+            headers:{
+                Authorization:'Bearer ' + token,
+                
+            },
+        });
 
      
         return data;
@@ -64,9 +70,15 @@ export const createProduct=async(product)=>{
  
 export const getProduct=async(productId)=>{
 
-   
+    const token= getToken()
     try {
-        const {data} =await client.get(`/product/${productId}`);
+        const {data} =await client.get(`/product/${productId}`,
+        {
+            headers:{
+                Authorization:'Bearer ' + token,
+                
+            },
+        });
 
      
         return data;

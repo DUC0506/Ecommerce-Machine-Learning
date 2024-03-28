@@ -34,12 +34,11 @@ const ShoppingCart = () => {
   console.log(1);
   const fetchCart= async ()=>{
       const {error, cart}= await getCart();
+      console.log(cart.items);
       if (error) return error;
-      if(cart){
       setCart(cart)
       setCartItems(cart.items)
      
-      }
   }
   const navigate =useNavigate()
 

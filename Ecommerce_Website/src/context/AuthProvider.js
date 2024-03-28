@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useState } from 'react'
 
 // import { useNotification } from '../hooks'
 import { useNavigate } from 'react-router-dom'
-import { signInUser } from '../api/user'
+import { signInUser, getIsAuth } from '../api/user'
 
 export const AuthContext=createContext()
 
@@ -33,16 +33,17 @@ export default function AuthProvider({children}) {
 
         localStorage.setItem('auth-token',tokens.accessToken)
     }
-    // const isAuth=async ()=>{
-    //     const token=localStorage.getItem('auth-token')
-    //     if(!token) return;
-    //     setAuthInfo({...authInfo,isPending:true})
-    //   const{error,user}=  await getIsAuth(token)
-    //   if(error){
-    //     return setAuthInfo({...authInfo,isPending:false,error})
-    //  }
-    //  setAuthInfo({profile:{...user},isPending:false,isLoggedIn:true, error:''})
-    // }
+    const isAuth=async ()=>{
+        const token=localStorage.getItem('auth-token')
+        if(!token) return;
+        setAuthInfo({...authInfo,isPending:true})
+      const{error,user}=  await getIsAuth(token)
+      console.log(user);
+      if(error){
+        return setAuthInfo({...authInfo,isPending:false,error})
+     }
+     setAuthInfo({profile:{...user},isPending:false,isLoggedIn:true, error:''})
+    }
  
     const handleLogout=()=>{
     localStorage.removeItem('auth-token')
@@ -50,10 +51,10 @@ export default function AuthProvider({children}) {
     }
 
 
-    // useEffect(()=>{
-    //     isAuth()
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // },[])
+    useEffect(()=>{
+        isAuth()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
 
   return (
     <AuthContext.Provider value={{authInfo,handleLogin,handleLogout}}>

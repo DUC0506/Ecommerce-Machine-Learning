@@ -14,7 +14,6 @@ import { Review, Product } from '../models/index';
  */
 export const createReview = catchAsync(async (product, user, body) => {
   const { review, rating } = body;
-
   // 1) Check if user entered all fields
   if (!review || !rating) {
     return {
@@ -66,7 +65,7 @@ export const createReview = catchAsync(async (product, user, body) => {
  * @returns { Object<type|message|statusCode|reviews> }
  */
 export const queryReviews = catchAsync(async (req) => {
-  const product = await Product.findById(req.params.productId);
+  const product = await Product.findById(req.query.productId);
 
   // 1) Check if product doesn't exist
   if (!product) {
@@ -77,7 +76,7 @@ export const queryReviews = catchAsync(async (req) => {
     };
   }
 
-  let reviews = await APIFeatures(req, Review);
+  let reviews = await APIFeatures(req, Review, 'user');
 
   // 2) Check if reviews doesn't exist
   if (reviews.length === 0) {
@@ -90,7 +89,7 @@ export const queryReviews = catchAsync(async (req) => {
 
   // 3) Filter review to select only reviews of the product only
   reviews = reviews.filter(
-    (review) => review.product.toString() === req.params.productId.toString()
+    (review) => review.product.toString() === req.query.productId.toString()
   );
 
   // 4) If everything is OK, send data

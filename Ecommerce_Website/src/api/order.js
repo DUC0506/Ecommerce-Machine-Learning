@@ -90,3 +90,27 @@ export const getTotalSales=async()=>{
          
      }
  }
+
+ export const getAllOrders=async(id)=>{
+
+    const token= getToken()
+
+     try {
+        const url =`/order?id=${id}` ;
+
+        const { data } = await client.get(url,
+         {
+             headers:{
+                 Authorization:'Bearer ' + token,
+             },
+         });
+ 
+      
+         return data;
+         
+     } catch (error) {
+        console.log(error);
+         return error
+         
+     }
+ }

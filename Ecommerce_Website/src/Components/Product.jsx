@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux'
 import  {addToCart}  from '../features/addToCartSlice'
 import { updateadded } from '../features/stateChangeSlice'
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom'
 import React from 'react'
 import { addItemtoCart } from '../api/cart';
 const Product = ({name, price, images, option, id,item}) => {
@@ -11,6 +12,7 @@ const Product = ({name, price, images, option, id,item}) => {
   //   dispatch(updateadded());
   //   toast.success('Added To Cart Successfully')
   // }
+  const navigate =useNavigate()
 
   const addItemCart =async(id)=>{
     const product={
@@ -23,10 +25,13 @@ const Product = ({name, price, images, option, id,item}) => {
     if (error) return null;
     console.log(cart);
   }
+  const getDetailProduct=(id)=>{
+    navigate(`/product/${id}`)
+  }
   return (
     <div>
        <div className='inline-block items-center align-middle bg-gray-50 p-2 rounded-lg mb-2'>
-                <div className='imagecont' style={{
+                <div className='imagecont' onClick={()=>getDetailProduct(id)} style={{
                     backgroundImage:`${images}`
                 }}>
                 </div>

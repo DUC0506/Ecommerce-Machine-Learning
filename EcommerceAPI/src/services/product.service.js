@@ -128,6 +128,7 @@ export const createProduct = catchAsync(async (body, files, seller) => {
   } = body;
   const mainImage = files.filter((image) => image.fieldname === 'mainImage');
   const images = files.filter((image) => image.fieldname === 'images');
+
   // 1) Check if there any empty field
   if (
     !name ||
@@ -156,6 +157,7 @@ export const createProduct = catchAsync(async (body, files, seller) => {
   const imagesPromises = images.map((image) =>
     uploadFile(dataUri(image).content, folderName)
   );
+
   const imagesResult = await Promise.all(imagesPromises);
   const imageResult = await uploadFile(
     dataUri(mainImage[0]).content,

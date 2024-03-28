@@ -9,6 +9,7 @@ import Footer from '../Components/Footer'
 const HomePage = () => {
   return (
     <div>
+      {console.log('Ahome page')}
        <ToastContainer/>
         <Landing/>
         <Links categorys={'Trending products'}/>

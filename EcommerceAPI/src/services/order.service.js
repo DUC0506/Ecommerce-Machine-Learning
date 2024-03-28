@@ -254,7 +254,11 @@ export const orderStatus = catchAsync(async (status, id) => {
  * @returns { Object<type|message|statusCode|orders> }
  */
 export const queryOrders = catchAsync(async (req) => {
-  req.query.user = req.user._id;
+  if (req.query.id) {
+    req.query.user = req.query.id;
+  } else {
+    req.query.user = req.user._id;
+  }
 
   // 1) Get all orders
   const orders = await APIFeatures(req, Order);

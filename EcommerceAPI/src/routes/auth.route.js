@@ -38,6 +38,13 @@ router.post('/reset-password', resetPassword);
 
 router.post('/verify-email', verifyEmail);
 
+router.get('/is-auth', protect, (req, res) => {
+  const { user } = req;
+  res.json({
+    user
+  });
+});
+
 router.use(protect);
 
 router.post('/send-verification-email', sendVerificationEmail);
