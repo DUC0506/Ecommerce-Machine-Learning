@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom'
 import React from 'react'
 import { addItemtoCart } from '../api/cart';
+import { useNotification } from '../hooks';
 const Product = ({name, price, images, option, id,item}) => {
   const dispatch = useDispatch();
   // const updatestate = (id) => {
@@ -13,7 +14,7 @@ const Product = ({name, price, images, option, id,item}) => {
   //   toast.success('Added To Cart Successfully')
   // }
   const navigate =useNavigate()
-
+  const {updateNotification}=useNotification()
   const addItemCart =async(id)=>{
     const product={
       productId: id,
@@ -21,8 +22,9 @@ const Product = ({name, price, images, option, id,item}) => {
       selectedColor:item.colors[0]._id,
       selectedSize:item.sizes[0]._id,
     }
-    const {error ,cart}=await addItemtoCart(product);
-    if (error) return null;
+    const {type,message,cart}=await addItemtoCart(product);
+    if (type==='Error') return updateNotification('error',message);
+    updateNotification('success',message);
     console.log(cart);
   }
   const getDetailProduct=(id)=>{
@@ -37,8 +39,8 @@ const Product = ({name, price, images, option, id,item}) => {
                 </div>
             <div className='flex justify-between items-center m-3'>
                <div className='mr-2'>
-               <div className='font-bold text-sm'>{price}</div>
-                <div className='header1 font-normal text-xs'>{name}</div>
+               <div className='font-bold text-sm font-sans'>{price}</div>
+                <div className='header1 font-normal font-sans text-normal'>{name}</div>
                
                 </div>
                 <div><button onClick={() => addItemCart(id)} className='transition ease-out duration-200  border-gray-50 border-2 focus:ring-2 focus:ring-yellow-300  text-sm m-1 bg-yellow-500 mt-1 p-2 rounded-md text-slate-50'>Add to Cart</button></div>

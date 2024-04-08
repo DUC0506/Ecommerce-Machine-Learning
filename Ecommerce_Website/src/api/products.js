@@ -22,11 +22,13 @@ export const getProducts=async()=>{
         
     }
 }
-export const getProductsByApartment=async()=>{
+export const getProductsByApartment=async(IdCategory)=>{
 
+    let url =IdCategory ? `products-apartment?category=${IdCategory}` :`/products-apartment`
+    console.log(url);
     const token= getToken()
     try {
-        const {data} =await client.get(`/product/products-apartment`,
+        const {data} =await client.get(`/product/${url}`,
         {
             headers:{
                 Authorization:'Bearer ' + token,
@@ -125,6 +127,62 @@ export const updateProduct=async(productId,product)=>{
     } catch (error) {
        
         return error
+        
+    }
+}
+export const getSellerProducts= async(id)=>{
+    const token= getToken()
+    try {
+        const {data} =await client.get(`/product/products-seller?filter=${id}`,{
+        
+            headers:{
+                Authorization:'Bearer ' + token,
+                
+            },
+        });
+        
+        return data;
+        
+    } catch (error) {
+       
+        if (error.response && error.response.data) {
+           
+            const errorMessage = error.response.data.message;
+            console.log(errorMessage); 
+            return errorMessage;
+        } else {
+           
+            console.error('Unexpected error:', error);
+            return 'An unexpected error occurred. Please try again later.';
+        }
+        
+    }
+}
+export const getTop5Cheap= async()=>{
+    const token= getToken()
+    try {
+        const {data} =await client.get(`/product/top-5-cheap`,{
+        
+            headers:{
+                Authorization:'Bearer ' + token,
+                
+            },
+        });
+        
+        return data;
+        
+    } catch (error) {
+       
+        if (error.response && error.response.data) {
+           
+            const errorMessage = error.response.data.message;
+            console.log(errorMessage); 
+            return errorMessage;
+        } else {
+           
+            console.error('Unexpected error:', error);
+            return 'An unexpected error occurred. Please try again later.';
+        }
         
     }
 }

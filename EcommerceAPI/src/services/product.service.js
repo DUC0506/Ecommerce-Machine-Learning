@@ -72,6 +72,42 @@ export const queryProductsByApartment = catchAsync(async (req) => {
     products
   };
 });
+
+export const queryProductsBySeller = catchAsync(async (req) => {
+  const populateQuery = [
+    { path: 'colors', select: 'color' },
+    { path: 'sizes', select: 'size' },
+    { path: 'category' }
+  ];
+  // const { sellerId } = req.query;
+  // // Thêm thông tin về apartment vào query
+  // // Giả sử thông tin về apartment được truyền qua query string
+  // if (!sellerId) {
+  //   return {
+  //     type: 'Error',
+  //     message: 'noSellerIdFound',
+  //     statusCode: 404
+  //   };
+  // }
+  const products = await APIFeatures(req, Product, populateQuery, null);
+
+  // 1) Kiểm tra nếu không có sản phẩm
+  if (!products || products.length === 0) {
+    return {
+      type: 'Error',
+      message: 'noProductsFound',
+      statusCode: 404
+    };
+  }
+
+  // 3) Nếu mọi thứ đều ổn, gửi dữ liệu
+  return {
+    type: 'Success',
+    message: 'successfulProductsFound',
+    statusCode: 200,
+    products
+  };
+});
 /**
  * @desc    Query Product Using It's ID
  * @param   { String } productId - Product ID

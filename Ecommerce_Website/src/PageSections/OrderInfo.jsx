@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import Navbar from '../Components/Navbar';
 import { ToastContainer } from 'react-toastify';
@@ -6,7 +7,8 @@ import Footer from '../Components/Footer';
 import { getCart } from '../api/cart';
 import { createOrder } from '../api/order';
 import { FaCreditCard } from 'react-icons/fa';
-
+import { useNotification } from '../hooks';
+import { TbCurrencyDong } from "react-icons/tb";
 
 const AddressSection = ({ onAddressChange }) => {
   const [city, setCity] = useState('');
@@ -23,52 +25,52 @@ const AddressSection = ({ onAddressChange }) => {
 
 
     <div className="mb-6">
-      <h3 className="text-xl font-semibold mb-2">Delivery Address</h3>
+      <h3 className="text-xl font-semibold mb-2 font-sans">Delivery Address</h3>
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="fullName" className="block text-sm font-medium text-gray-700  font-sans">
             City
           </label>
           <input
             type="text"
             id="city"
-            className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+            className="mt-1 p-2 border border-gray-300 rounded-md w-full  font-sans"
             value={city}
             onChange={(e) => setCity(e.target.value)}
           />
         </div>
         <div>
-          <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700  font-sans">
             Phone Number
           </label>
           <input
             type="text"
             id="phoneNumber"
-            className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+            className="mt-1 p-2 border border-gray-300 rounded-md w-full  font-sans"
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
           />
         </div>
         <div>
-          <label htmlFor="deliveryArea" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="deliveryArea" className="block text-sm font-medium text-gray-700  font-sans">
            Country
           </label>
           <input
             type="text"
             id="deliveryArea"
-            className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+            className="mt-1 p-2 border border-gray-300 rounded-md w-full  font-sans"
             value={country}
             onChange={(e) => setCountry(e.target.value)}
           />
         </div>
         <div>
-          <label htmlFor="deliveryAddress" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="deliveryAddress" className="block text-sm font-medium text-gray-700  font-sans">
             Address
           </label>
           <input
             type="text"
             id="deliveryAddress"
-            className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+            className="mt-1 p-2 border border-gray-300 rounded-md w-full  font-sans"
             value={deliveryAddress}
             onChange={(e) => setDeliveryAddress(e.target.value)}
           />
@@ -103,7 +105,7 @@ const TimePaymentNoteSection = ({ onTimePaymentNoteChange }) => {
 
   return (
     <div className="mb-6">
-      <h3 className="text-xl font-semibold mb-2">Payment Method, and Notes</h3>
+      <h3 className="text-xl font-semibold mb-2 font-sans">Payment Method, and Notes</h3>
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label htmlFor="deliveryTime" className="block text-sm font-medium text-gray-700">
@@ -112,25 +114,25 @@ const TimePaymentNoteSection = ({ onTimePaymentNoteChange }) => {
           <input
             type="text"
             id="postalCode"
-            className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+            className="mt-1 p-2 border border-gray-300 rounded-md w-full font-sans"
             value={postalCode}
             onChange={(e) => setPostalCode(e.target.value)}
           />
         </div>
         <div>
-          <label htmlFor="paymentMethod" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="paymentMethod" className="block text-sm font-medium text-gray-700 font-sans">
             Payment Method
           </label>
           <select
             id="paymentMethod"
-            className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+            className="mt-1 p-2 border border-gray-300 rounded-md w-full font-sans"
             value={paymentMethod}
             onChange={handlePaymentMethodChange}
           >
-            <option value="">Select Payment Method</option>
-            <option value="creditCard">Credit Card</option>
-            <option value="paypal">PayPal</option>
-            <option value="cash">Cash on Delivery</option>
+            <option className='font-sans font-medium' value="">Select Payment Method</option>
+            <option className='font-sans font-medium' value="creditCard">Credit Card</option>
+            <option className='font-sans font-medium' value="paypal">PayPal</option>
+            <option  className='font-sans font-medium' value="cash">Cash on Delivery</option>
           </select>
         </div>
         {showCreditCardFields && (
@@ -185,7 +187,7 @@ const TimePaymentNoteSection = ({ onTimePaymentNoteChange }) => {
         )}
         <div>
           <label htmlFor="note" className="block text-sm font-medium text-gray-700">
-            Additional Notes
+            Additional Notes(Time Delivery)
           </label>
           <textarea
             id="note"
@@ -205,7 +207,7 @@ const OrderInfoPage = () => {
     const [cart,setCart]=useState({})
     const [addressInfo, setAddressInfo] = useState({});
     const [timePaymentNoteInfo, setTimePaymentNoteInfo] = useState({})
-
+    const {updateNotification}=useNotification()
   const handlePurchase = async() => {
     const part =timePaymentNoteInfo.expiry.split("/");
     const orderInfo = {
@@ -223,15 +225,16 @@ const OrderInfoPage = () => {
       expYear: parseInt(part[1]) // Chu
     }
    
-    const{error,order} = await createOrder(orderInfo)
+    const{type,message} = await createOrder(orderInfo)
     console.log(orderInfo);
-    if (error) return error.message;
-    console.log(order);
-    alert('Order placed successfully!');
+    console.log(message);
+    if (type==='Error') return  updateNotification('error',message)
+    updateNotification('success',message)
+   
   };
   const fetchCart = async() => {
-    const{error,cart}=await getCart();
-    if(error) return error.message;
+    const{type,message,cart}=await getCart();
+    if (type==='Error') return  updateNotification('error',message)
     setCart(cart);
     console.log(cart);
 
@@ -252,9 +255,9 @@ const OrderInfoPage = () => {
     <div>
     <ToastContainer/>
     <Navbar/>
-    <div className="container mx-auto  p-4">
-      <h2 className="text-2xl font-bold  ">Order Information</h2>
-      <div >
+    <div className="container mx-auto  p-4 bg-slate-50">
+
+      <div className='bg-white  p-4'>
       {/* Phần địa chỉ nhận hàng */}
       <AddressSection onAddressChange={handleAddressChange}/>
 
@@ -265,27 +268,27 @@ const OrderInfoPage = () => {
       {/* (Thêm các trạng thái và logic xử lý thông tin hóa đơn tại đây) */}
 
       </div>
-      <div className="mb-2">
-        <h3 className="text-xl font-semibold mb-2">Order Information </h3>
+      <div className="mt-8 mb-4 bg-white  p-4">
+        <h3 className="text-xl font-semibold mb-2  font-sans">Order Information </h3>
         <div>
-          <p className='pt-4'>
-            <strong>Total Amount:</strong> ${cart.totalQuantity}
+          <p className='pt-4  font-sans font-semibold flex items-center '>
+            <strong className="font-sans font-semibold  mr-2">Total Amount:</strong><div className='text-yellow-400'> {cart.totalQuantity}</div>
           </p>
-          <p className='pt-4'>
-            <strong>Shipping Fee:</strong> Free
-          </p>
+          {/* <p className='pt-4  font-sans flex  items-center font-semibold '>
+            <strong  className="text-yellow-400 font-sans font-semibold mr-2">Shipping Fee:</strong > 0 <TbCurrencyDong className='text-xl text-yellow-500' />
+          </p> */}
           {/* <p>
             <strong>Discount Amount:</strong> ${discountAmount}
           </p> */}
-          <p className='pt-4'>
-            <strong>Total Payment:</strong> ${cart.totalPrice}
+          <p className='pt-4  font-sans flex  items-center font-semibold   '>
+            <strong  className=" font-sans font-semibold mr-2">Total Payment:</strong> <div className='text-yellow-400'>{cart.totalPrice}</div> <TbCurrencyDong className='text-xl text-yellow-500' />
           </p>
         </div>
       </div>
       <div className="flex justify-center">
         <button
           onClick={handlePurchase}
-          className="bg-yellow-500 text-white px-8 py-3 rounded-md hover:bg-yellow-600 focus:outline-none"
+          className="bg-yellow-500 text-white px-8 py-3 rounded-md hover:bg-yellow-600 focus:outline-none  font-sans"
         >
           Purchase
         </button>

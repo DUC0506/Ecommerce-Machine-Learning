@@ -146,21 +146,21 @@ const DetailProduct = () => {
       <div className="container mx-auto my-8 p-4 ">
         <div className="flex bg-slate-50 p-6">
           <div className="w-1/2">
-            <img src={mainImage || product.images[0]} alt={product.name} className="w-full h-auto rounded-md shadow-md" />
+            <img src={mainImage || product.images[0]} alt={product.name} className="w-full h-80 object-contain mb-2   rounded-md shadow-md" />
             <div className="mt-4 flex ">
               {product.images.map((image, index) => (
                 <img
                   key={index}
                   src={image}
                   alt={product.name}
-                  className="w-1/4 h-auto rounded-md shadow-md cursor-pointer mr-2"
+                  className="w-1/4  rounded-md shadow-md cursor-pointer mr-2 h-20  object-contain"
                   onClick={() => changeMainImage(image)}
                 />
               ))}
                <img
                   src={product.mainImage }
                   alt={product.name}
-                  className="w-1/4 h-auto rounded-md shadow-md cursor-pointer"
+                  className="w-1/4 rounded-md shadow-md cursor-pointer h-20  object-contain"
                   onClick={() => changeMainImage(product.mainImage)}
                 />
             </div>
@@ -185,10 +185,10 @@ const DetailProduct = () => {
             {/* <p className="text-gray-800 mb-2">Category: {product.category.name}</p> */}
             <p className="text-gray-800 mb-2 flex items-center mt-4">{product.ratingsAverage } {getStarRating(product.ratingsAverage)}</p>
             <div className="flex">
-              <button onClick={()=>addItemCart(product._id)} className="bg-yellow-400 mr-2 flex items-center text-white px-2 py-3 rounded-md focus:outline-none">
+              <button onClick={()=>addItemCart(product._id)} className="bg-yellow-400  hover:bg-yellow-500 mr-2 flex items-center text-white px-2 py-3 rounded-md focus:outline-none">
               <CiShoppingCart className="text-2xl mr-1 "/> Thêm vào giỏ hàng
               </button>
-              <button className="bg-yellow-400 text-white px-4 py-3 rounded-md focus:outline-none">
+              <button className="bg-yellow-400 hover:bg-yellow-500 text-white px-4 py-3 rounded-md focus:outline-none">
                 Mua ngay
               </button>
             </div>
@@ -214,19 +214,12 @@ const DetailProduct = () => {
         </div>
 
         {/* Thông tin sản phẩm liên quan */}
-        {/* <div className="mt-8">
-          <h3 className="text-xl font-bold mb-4">Related Products</h3>
-          <div className="flex">
-            {[].map((relatedProduct) => (
-              <div key={relatedProduct.id} className="w-1/4 p-2">
-                <img src={relatedProduct.imageUrl} alt={relatedProduct.name} className="w-full h-auto rounded-md shadow-md" />
-                <p className="text-gray-800 font-bold mt-2">{relatedProduct.name}</p>
-                <p className="text-yellow-400">${relatedProduct.price}</p>
-                <p className="text-gray-800 mb-2">Origin: {relatedProduct.origin}</p>
-              </div>
-            ))}
+        <div className="mt-8 w-full p-4 bg-slate-50">
+          <h3 className="text-xl font-medium  font-sans mb-4">Thông tin </h3>
+          <div className="flex w-full">
+              <p className="font-sans px-2 py-2" >{product.description}</p>
           </div>
-        </div> */}
+        </div>
 
         {/* Đánh giá */}
         <div className="mt-8 bg-slate-50   p-4">

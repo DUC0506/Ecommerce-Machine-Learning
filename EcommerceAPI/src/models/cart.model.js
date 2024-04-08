@@ -35,6 +35,10 @@ const cartSchema = mongoose.Schema(
         totalProductPrice: {
           type: Number,
           required: true
+        },
+        seller: {
+          type: mongoose.Types.ObjectId,
+          ref: 'User'
         }
       }
     ],

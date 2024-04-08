@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import { useAuth } from '../hooks';
+import { useNavigate } from 'react-router-dom'
 
 const Signin = () => {
+
+  const navigate = useNavigate()
+  
   const{authInfo} = useAuth()
   console.log(authInfo.isLoggedIn);
    console.log(1);
+  
     const [userInfo,setUserInfo]= useState({
    
         email:"",
@@ -25,48 +30,63 @@ const Signin = () => {
     
   };
 
+  const handleNavigator=()=>{
+    navigate(`/signUp`)
+  }
+
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="bg-white p-8 rounded shadow-md w-96">
-        <h2 className="text-2xl font-semibold mb-6">Đăng Nhập</h2>
+    <div className="min-h-screen  flex items-center  justify-center bg-green-500">
+      <div className='flex'>
+      <div class='h-full  rounded-l-lg shadow-md bg-yellow-300 '>
+        <img src="https://res.cloudinary.com/dvdjknpvp/image/upload/v1711596786/Users/duc/ey72rnm54gjjmiukemwk.webp" alt="12" />
+      </div>
+
+
+      <div className=" p-8 rounded-r-lg shadow-md w-96 bg-white  '">
+        <h2 className="text-2xl font-bold font-sans mt-8 ">Xin chào,</h2>
+        <h2 className="text-2xl font-bold mb-10 font-sans">Chào mừng trở lại</h2>
         <form>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-600 text-sm font-medium mb-2">
-              Email
-            </label>
+           
             <input
               type="email"
               name='email'
               id="email"
-              className="w-full border rounded-md p-2"
-              placeholder="Nhập Email"
+              className="w-full  rounded-md p-3 outline-none hover:outline-yellow-400 active:outline-yellow-400 "
+              placeholder="Email Address"
               value={userInfo.email}
               onChange={handleChange}
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="password" className="block text-gray-600 text-sm font-medium mb-2">
-              Mật Khẩu
-            </label>
+        
             <input
               type="password"
               name='password'
               id="password"
-              className="w-full border rounded-md p-2"
-              placeholder="Nhập Mật Khẩu"
+              className="w-full rounded-md p-3 outline-none hover:outline-yellow-400 active:outline-yellow-400"
+              placeholder=" Mật Khẩu"
               value={userInfo.password}
               onChange={handleChange}
             />
           </div>
+          <div className='mb-4  flex '>
+            <div className='font-sans font-bold text-sm flex  cursor-pointer ml-auto'>Quên mật khẩu ?</div>
+          </div>
           <button
             type="button"
             onClick={handleSubmit}
-            className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none"
+            className="bg-yellow-400 text-white text-xl font-sans font-medium  w-full py-3 mt-2 mb-4 rounded-md hover:bg-yellow-600 focus:outline-none"
           >
             Đăng Nhập
           </button>
         </form>
+          <div className='flex text-base '>
+            <div className='font-sans font-medium text-current'>Chưa có tài khoản?</div>
+            <div className='font-sans font-medium ml-1 text-yellow-400 cursor-pointer' onClick={()=>handleNavigator()}>Đăng kí</div>
+          </div>
       </div>
+    </div>
     </div>
   );
 };

@@ -128,6 +128,27 @@ export const queryUsers = catchAsync(async (req) => {
   };
 });
 
+export const querySellers = catchAsync(async (req) => {
+  const users = await APIFeatures(req, User, 'apartment', null);
+
+  // 1) Check if users doesn't exist
+  if (users.length === 0) {
+    return {
+      type: 'Error',
+      message: 'noUsersFound',
+      statusCode: 404
+    };
+  }
+
+  // 2) If everything is OK, send data
+  return {
+    type: 'Success',
+    message: 'successfulUsersFound',
+    statusCode: 200,
+    users
+  };
+});
+
 /**
  * @desc    Query User Using It's ID
  * @param   { Object } id - User ID
@@ -183,7 +204,7 @@ export const updateUserDetails = catchAsync(async (user, body) => {
       statusCode: 409
     };
   }
-
+  
   // 3) Find user document and update it
   user = await User.findByIdAndUpdate(id, body, {
     new: true,
@@ -229,7 +250,7 @@ export const updateUserProfileImage = catchAsync(async (user, profileImage) => {
     folderName,
     600
   );
-
+  console.log(image);
   // 5) Find user document and update it
   user = await User.findByIdAndUpdate(
     id,

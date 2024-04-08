@@ -124,15 +124,16 @@ const CustomerAdmin = () => {
 
 				{/* Các dòng sản phẩm */}
 				{users.map((user, index) => (
-					<div onClick={()=>{handleNavigate(user._id)}} key={user._id} className={`flex rounded cursor-pointer bg-white ${index !== 0 ? 'mt-2' : ''}`}>
-						<div className="w-1/4  p-4 flex items-center space-x-4 cursor-pointer">
-							<img src={user.profileImage} alt={user.name} className="w-10 h-10 object-cover  font-sans " />
-							<span className=' font-sans font-medium '>{user.name}</span>
-						</div>
-						<div className="w-1/6  font-sans font-medium justify-center flex  p-4 items-center">{user.username}</div>
-						<div className="w-1/6  font-sans font-medium justify-center flex  p-4 items-center">{user.email}</div>
-						<div className="w-1/6  font-sans font-medium justify-center flex items-center  p-4">{user.role} </div>
-						<div className="w-1/6  font-sans font-medium justify-center flex items-center  p-4">{user?.apartment?.name} </div>
+					<div key={user._id} className={`flex rounded cursor-pointer bg-white ${index !== 0 ? 'mt-2' : ''}`}>
+                      
+          <div onClick={()=>{handleNavigate(user._id)}} className="w-1/4  p-4 flex items-center space-x-4 cursor-pointer">
+            <img src={user.profileImage} alt={user.name} className="w-10 h-10 object-cover  font-sans " />
+            <span className=' font-sans font-medium '>{user.name}</span>
+          </div>
+          <div onClick={()=>{handleNavigate(user._id)}} className="w-1/6  font-sans font-medium justify-center flex  p-4 items-center">{user.username}</div>
+          <div onClick={()=>{handleNavigate(user._id)}} className="w-1/6  font-sans font-medium justify-center flex  p-4 items-center">{user.email}</div>
+          <div onClick={()=>{handleNavigate(user._id)}} className="w-1/6  font-sans font-medium justify-center flex items-center  p-4">{user.role} </div>
+          <div onClick={()=>{handleNavigate(user._id)}} className="w-1/6  font-sans font-medium justify-center flex items-center  p-4">{user?.apartment?.name} </div>
 						<div className="w-1/6  font-sans font-medium  p-4 md:flex items-center">
 							<button onClick={() => handleDeleteUser(user._id)} className="bg-yellow-400 text-white px-2 mr-0.5 py-1 font-sans font-medium rounded">
                             <MdDeleteForever />

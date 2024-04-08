@@ -1,20 +1,25 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
+from flask_cors import cross_origin
+import numpy as np
 import joblib
 import pandas as pd
 import lightgbm as lgb
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}})
 MODEL_PATH = './main.pkl'
 model = joblib.load(MODEL_PATH)
 
 MODEL_FILE='./lgb_model.pkl'
 loaded_model = joblib.load(MODEL_FILE)
 @app.route('/predict', methods=['POST'])
+@cross_origin()
 def predict_sales():
     json_data = request.json
     start_date = json_data['start_date']
     end_date = json_data['end_date']
-
-    date_range = pd.date_range(start=start_date, end=end_date, freq='D')
+    print(start_date)
+    date_range = pd.date_range(start=start_date, end=end_date, freq='W')
     # Convert JSON data to DataFrame
     # input_data = pd.DataFrame.from_dict(json_data, orient='index').T
 
@@ -47,11 +52,11 @@ def predict_sales():
             input_data.loc[holiday_date, 'IsHoliday'] = 1
     # Perform prediction
     prediction = model.predict(input_data)
-    
+
     # Return prediction as JSON response
     return jsonify({'prediction': prediction.tolist()})
 def create_sample_data(start_date, end_date, store_id, item_id):
-    date_range = pd.date_range(start=start_date, end=end_date)
+    date_range = pd.date_range(start=start_date, end=end_date ,freq='W')
     sample_data = pd.DataFrame(columns=[
         'store', 'item', 'day_of_month', 'day_of_year', 'week_of_year', 
         'is_wknd', 'is_month_start', 'is_month_end', 
@@ -93,13 +98,21 @@ def create_sample_data(start_date, end_date, store_id, item_id):
     ])
     sample_data['store'] = store_id
     sample_data['item'] = item_id
-    sample_data['day_of_month'] = date_range.day
-    sample_data['day_of_year'] = date_range.dayofyear
-    sample_data['week_of_year'] = date_range.isocalendar().week
-    sample_data['is_wknd'] = date_range.dayofweek >= 5
-    sample_data['is_month_start'] = date_range.is_month_start
-    sample_data['is_month_end'] = date_range.is_month_end
-    sample_data = sample_data.fillna(1)  # Replace NaN with 0
+    sample_data['day_of_month'] = np.random.randint(1, 28, len(date_range))
+    sample_data['day_of_year'] = np.random.randint(1, 365, len(date_range))
+    sample_data['week_of_year'] = np.random.randint(1, 52, len(date_range))
+    sample_data['is_wknd'] = np.random.choice([True, False], size=len(date_range))
+    sample_data['is_month_start'] = np.random.choice([True, False], size=len(date_range))
+    sample_data['is_month_end'] = np.random.choice([True, False], size=len(date_range))
+    
+    # Randomly fill sales-related columns
+    for col in sample_data.columns[7:70]:
+        sample_data[col] = np.random.randint(1, 1000, len(date_range))
+    
+    # Randomly fill day_of_week and month columns
+    for col in sample_data.columns[70:]:
+        sample_data[col] = np.random.choice([0, 1], size=len(date_range))
+    
     return sample_data
 @app.route('/predict-item/<int:item_id>', methods=['POST'])
 def predict_item(item_id):
@@ -109,6 +122,6 @@ def predict_item(item_id):
     store_id = 4
     sample_data = create_sample_data(start_date, end_date, store_id, item_id)
     predictions = loaded_model.predict(sample_data)
-    return jsonify(predictions.tolist())
+    return jsonify({'predictions': predictions.tolist()})
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,28 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { getCart, increaseOneProduct, reduceOneProduct } from '../api/cart';
 import { useNavigate } from 'react-router-dom'
+import NotFound from './admin/shared/NotFound';
+import { TbCurrencyDong } from 'react-icons/tb';
 const CartItem = ({ id, name, price, quantity, discount, image, onIncrease, onDecrease,color,size }) => {
   const discountedPrice = price - (price * discount) / 100;
 
   return (
-    <div className="flex items-center justify-between p-4 border-b">
-      <div className="flex items-center">
+    <div className="flex items-center justify-between p-4 border-b bg-white rounded mt-2">
+      <div className="flex items-center w-2/3">
         <img src={image} alt={name} className="w-12 h-12 object-cover rounded" />
         <div className="ml-4">
-          <p className="font-bold">{name}</p>
-          <p className="text-gray-600">${discountedPrice.toFixed(2)}</p>
-          {discount > 0 && <p className="text-red-500">Discount: {discount}% off</p>}
+          <p className="font-bold font-sans">{name}</p>
+          <p className="text-gray-600 font-sans">${discountedPrice.toFixed(2)}</p>
+          {discount > 0 && <p className="text-red-500 font-sans">Discount: {discount}% off</p>}
         </div>
       </div>
-      <div className="flex items-center space-x-4">
-        <button onClick={() => onDecrease(id,color,size)} className="text-gray-500">
+      <div className="flex items-center space-x-4 w-1/3">
+        <button onClick={() => onDecrease(id,color,size)} className="text-yellow-500 w-1/4">
           -
         </button>
-        <p className="font-bold">{quantity}</p>
-        <button onClick={() => onIncrease(id,color,size)} className="text-gray-500">
+        <p className="font-bold w-1/4 font-sans">{quantity}</p>
+        <button onClick={() => onIncrease(id,color,size)} className="text-yellow-500">
           +
         </button>
-        <p className="font-bold">${(discountedPrice * quantity).toFixed(2)}</p>
+        <p className="font-bold w-1/2 flex items-center font-sans text-yellow-400">{(discountedPrice * quantity).toFixed(2)} <TbCurrencyDong className='text-xl text-yellow-500' /></p>
       </div>
     </div>
   );
@@ -34,10 +36,13 @@ const ShoppingCart = () => {
   console.log(1);
   const fetchCart= async ()=>{
       const {error, cart}= await getCart();
-      console.log(cart.items);
+      console.log(error);
       if (error) return error;
+      if(cart)
+      {
       setCart(cart)
       setCartItems(cart.items)
+      }
      
   }
   const navigate =useNavigate()
@@ -87,9 +92,11 @@ const ShoppingCart = () => {
   },[])
 
   return (
-    <div className="container mx-auto my-8 p-4">
-      <h2 className="text-2xl font-bold mb-4">Shopping Cart</h2>
-      {cartItems.map((item,index) => (
+    <div className="container mx-auto my-8 p-4 h-screen bg-slate-50">
+      <div className='h-3/4'>
+      {/* <h2 className="text-2xl font-bold mb-4">Shopping Cart</h2> */}
+      {cartItems.length > 0 
+       ?(cartItems.map((item,index) => (
         <CartItem
           key={index}
           id={item.product._id} 
@@ -99,32 +106,42 @@ const ShoppingCart = () => {
           discount={item.product.priceDiscount}
           color={item.selectedColor._id}
           size={item.selectedSize._id}
-           image={item.product.mainImage}
+          image={item.product.mainImage}
           onIncrease={handleIncreaseQuantity}
           onDecrease={handleDecreaseQuantity}
         />
-      ))}
-      <div className="flex justify-end mt-4">
-       
-        <p className="font-bold text-xl">Total: ${cart.totalPrice ? cart.totalPrice : 0}</p> 
-          
+      ))) :(
+        <NotFound message='Your cart is Empty!!!!' />
+      )}
+      <div className='w-full flex'>
+        <div className='w-2/3'></div>
+        <div className="flex justify-end mt-4 w-1/3 ">
+        
+          <p className="font-bold text-xl w-full"> {cartItems.length > 0 ? (<div className='flex w-full'>
+          <p className="font-bold font-sans text-xl w-1/4 ">Tổng:</p>
+          <p className="font-bold font-sans text-xl w-3/4 flex items-center text-yellow-400">{cart.totalPrice ? cart.totalPrice : 0} <TbCurrencyDong className='text-xl text-yellow-500' /></p>
+        </div>):('')}</p> 
       </div>
-      <div className="flex justify-center mt-8">
+      </div>  
+      </div>  
+      <div className='h-1/4 bg-white rounded p-4'>
+      <div className={cartItems.length > 0 ? 'flex justify-center mt-8' :'hidden'}>
         <input type="text" placeholder="Enter discount code" className="border p-2 mr-2" />
         <button
           onClick={() => handleApplyDiscount(discountCode)}
-          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none"
+          className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none"
         >
           Apply Discount
         </button>
       </div>
-      <div className="flex justify-center mt-4">
+      <div className={cartItems.length > 0 ? 'flex justify-center mt-4' :'hidden'}>
         <button
           onClick={handlePlaceOrder}
-          className="bg-yellow-400 text-white px-8 py-3 rounded-md hover:bg-yellow-500 focus:outline-none"
+          className="bg-yellow-400 w-1/3 text-white px-8 py-3 rounded-md hover:bg-yellow-500 focus:outline-none"
         >
           Place Order
         </button>
+      </div>
       </div>
     </div>
   );

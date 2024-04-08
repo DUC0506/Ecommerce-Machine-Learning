@@ -1,8 +1,11 @@
 import client from "./client";
 import { getToken } from "../utils/hepler";
 
-export const createOrder=async(order)=>{
 
+
+
+export const createOrder=async(order)=>{
+   
    const token= getToken()
    console.log(order);
 
@@ -18,8 +21,8 @@ export const createOrder=async(order)=>{
         return data;
         
     } catch (error) {
-       console.log(error);
-        return error
+        console.log(error);
+        return error.response.data
         
     }
 }
@@ -44,13 +47,15 @@ export const getTotalSales=async()=>{
          
      }
  }
- export const getTotalOrders=async(number = null)=>{
+ export const getTotalOrders=async(number = null,sellerId=null)=>{
 
     const token= getToken()
-
+        console.log(number);
      try {
-        const url = number ? `/order/totalOrders?limits=${number}` : '/order/totalOrders';
-
+        let url =  '/order/totalOrders'
+        if(sellerId){ url=`/order/orderBySeller?seller=${sellerId}`}
+        else if(number) {url =`/order/totalOrders?limits=${number}`}
+        console.log(url);
         const { data } = await client.get(url,
          {
              headers:{
@@ -99,6 +104,74 @@ export const getTotalSales=async()=>{
         const url =`/order?id=${id}` ;
 
         const { data } = await client.get(url,
+         {
+             headers:{
+                 Authorization:'Bearer ' + token,
+             },
+         });
+ 
+      
+         return data;
+         
+     } catch (error) {
+        console.log(error);
+         return error
+         
+     }
+ }
+ export const getAllOrdersByUser=async(id)=>{
+
+    const token= getToken()
+
+     try {
+        
+
+        const { data } = await client.get(`/order/?status=Delivered`,
+         {
+             headers:{
+                 Authorization:'Bearer ' + token,
+             },
+         });
+ 
+      
+         return data;
+         
+     } catch (error) {
+        console.log(error);
+         return error
+         
+     }
+ }
+
+ export const getTotalSalesBySeller=async(id)=>{
+
+    const token= getToken()
+   
+
+     try {
+         const {data} =await client.get(`/order/totalSalesBySeller/${id}`,
+         {
+             headers:{
+                 Authorization:'Bearer ' + token,
+             },
+         });
+ 
+      
+         return data;
+         
+     } catch (error) {
+        console.log(error);
+         return error
+         
+     }
+ }
+
+ export const getOrder=async(id)=>{
+
+    const token= getToken()
+
+     try {
+         const {data} =await client.get(`/order/${id}`,
          {
              headers:{
                  Authorization:'Bearer ' + token,

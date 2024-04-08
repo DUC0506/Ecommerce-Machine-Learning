@@ -23,7 +23,8 @@ import {
   updateUserDetails,
   updateUserProfileImage,
   deleteUser,
-  deleteMyAccount
+  deleteMyAccount,
+  querySellers
 } from './user.service';
 
 import {
@@ -48,7 +49,8 @@ import {
   updateProductImages,
   deleteProduct,
   getProductStats,
-  queryProductsByApartment
+  queryProductsByApartment,
+  queryProductsBySeller
 } from './product.service';
 
 import {
@@ -67,7 +69,10 @@ import {
   queryOrder,
   cancelOrder,
   totalSales,
-  totalOrders
+  totalOrders,
+  createOrderBySeller,
+  queryOrdersBySeller,
+  totalSalesBySeller
 } from './order.service';
 
 import {
@@ -119,7 +124,8 @@ const userService = {
   updateUserDetails,
   updateUserProfileImage,
   deleteUser,
-  deleteMyAccount
+  deleteMyAccount,
+  querySellers
 };
 
 const categoryService = {
@@ -144,7 +150,8 @@ const productService = {
   updateProductImages,
   deleteProduct,
   getProductStats,
-  queryProductsByApartment
+  queryProductsByApartment,
+  queryProductsBySeller
 };
 
 const cartService = {
@@ -163,7 +170,10 @@ const orderService = {
   queryOrder,
   cancelOrder,
   totalSales,
-  totalOrders
+  totalOrders,
+  createOrderBySeller,
+  queryOrdersBySeller,
+  totalSalesBySeller
 };
 
 const discountService = {

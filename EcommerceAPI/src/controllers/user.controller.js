@@ -75,6 +75,36 @@ export const getUsers = catchAsync(async (req, res) => {
   });
 });
 
+export const getSellers = catchAsync(async (req, res) => {
+  let { page, sort, limit, select } = req.query;
+
+  // 1) Setting default params
+  if (!page) page = 1;
+  if (!sort) sort = '';
+  if (!limit) limit = 10;
+  if (!select) select = '';
+
+  // 2) Get all users
+  const { type, message, statusCode, users } = await userService.querySellers(
+    req
+  );
+
+  // 3) Check if there is an error
+  if (type === 'Error') {
+    return res.status(statusCode).json({
+      type,
+      message: req.polyglot.t(message)
+    });
+  }
+
+  // 4) If everything is OK, send data
+  return res.status(statusCode).json({
+    type,
+    message: req.polyglot.t(message),
+    users
+  });
+});
+
 /**
  * @desc      Get User Data Using It's ID Controller
  * @param     { Object } req - Request object

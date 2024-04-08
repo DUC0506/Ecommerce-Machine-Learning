@@ -14,6 +14,7 @@ const HomePage = () => {
         <Landing/>
         <Links categorys={'Trending products'}/>
         <Footer/>
+        {console.log('foot page')}
     </div>
   )
 }

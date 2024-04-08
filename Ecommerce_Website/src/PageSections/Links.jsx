@@ -14,21 +14,31 @@ import svgimg9 from '../assets/svgs/svg-004-g.svg'
 import svgimg8 from '../assets/svgs/svg-005-t.svg'
 import { comingsoon } from '../features/stateChangeSlice'
 import { getProducts, getProductsByApartment } from '../api/products'
+import NotFound from '../Components/admin/shared/NotFound'
+import { useNavigate } from 'react-router-dom'
 // import lens from '../assets/images/img-5.png'
-const Links = ({categorys}) => {
+const Links = ({categorys , idCategory}) => {
         const dispatch = useDispatch();
         // const { items } = useSelector((state) => state.add);
+        const navigate= useNavigate()
+                console.log(idCategory);
         const [items,setItems]=useState([])
         const fetchItems=async()=>{
-                const{error,message,products}=await getProductsByApartment()
+                const{error,message,products}=await getProductsByApartment(idCategory)
                 if(error) return message;
-                console.log(message);
+                console.log(products);
+                if(products){
                 setItems([...products]);
+                }
+        }
+        const handleNavigate=(name)=>{
+                navigate(`/product-page?category=${name}`)
         }
 
         useEffect(() => {
                 fetchItems();
-        },[])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        },[idCategory])
   return (
     <div className='m-auto max-w-6xl mt-16'>
         <div className='flex sitems-center'>
@@ -38,29 +48,29 @@ const Links = ({categorys}) => {
         </div>
         </div>
         <div className='flex m-auto max-w-4xl mt-10 mb-10 flex-wrap align-middle items-center w-full'>
-            <div onClick={() => dispatch(comingsoon())} className='mx-2 my-2 inline-block p-4 w-24 h-32 rounded-md items-center hover:shadow-pink-500 hover:shadow-2xl hover:bg-slate-50 cursor-pointer transition duration-300 ease-in-out  text-center align-middle bg-gray-400 bg-opacity-20'>
+            <div onClick={() => handleNavigate('Trai Cay')} className='mx-2 my-2 inline-block p-4 w-24 h-32 rounded-md items-center hover:shadow-pink-500 hover:shadow-2xl hover:bg-slate-50 cursor-pointer transition duration-300 ease-in-out  text-center align-middle bg-gray-400 bg-opacity-20'>
                     <div className='items-center m-auto w-10 h-14 mb-1'><img src={svgimg5} alt='svg' className=""/></div>
-                    <div className='text-gray-700 text-xs text-center'>Fruits </div>
+                    <div className='text-gray-700 text-xs text-center font-sans'>Trái cây </div>
             </div>
 
-            <div onClick={() => dispatch(comingsoon())} className=' mx-2 my-2 md:inline-block p-4 w-24 h-32 rounded-md items-center hover:shadow-gray-500 hover:shadow-2xl hover:bg-slate-50 cursor-pointer transition duration-300 ease-in-out text-center align-middle bg-gray-400 bg-opacity-20'>
+            <div onClick={() => handleNavigate('Thit')} className=' mx-2 my-2 md:inline-block p-4 w-24 h-32 rounded-md items-center hover:shadow-gray-500 hover:shadow-2xl hover:bg-slate-50 cursor-pointer transition duration-300 ease-in-out text-center align-middle bg-gray-400 bg-opacity-20'>
                     <div className='items-center m-auto w-10 h-14 mb-1'><img src={svgimg2} alt='svg' className=""/></div>
-                    <div className='text-gray-700 text-xs text-center'>Foods</div>
+                    <div className='text-gray-700 text-xs text-center font-sans'>Thịt</div>
             </div>
 
-            <div onClick={() => dispatch(comingsoon())} className='mx-2 my-2 md:inline-block p-4 w-24 h-32 rounded-md items-center hover:shadow-red-400 text-center hover:shadow-2xl hover:bg-slate-50 cursor-pointer transition duration-300 ease-in-out align-middle bg-gray-400 bg-opacity-20'>
+            <div onClick={() => handleNavigate('Hai san')} className='mx-2 my-2 md:inline-block p-4 w-24 h-32 rounded-md items-center hover:shadow-red-400 text-center hover:shadow-2xl hover:bg-slate-50 cursor-pointer transition duration-300 ease-in-out align-middle bg-gray-400 bg-opacity-20'>
                     <div className='items-center m-auto w-10 h-14 mb-1'><img src={svgimg10} alt='svg' className=""/></div>
-                    <div className='text-gray-700 text-xs text-center'>Drinks And Smoothies</div>
+                    <div className='text-gray-700 text-xs text-center font-sansr'>Hải sản</div>
             </div>
 
-            <div onClick={() => dispatch(comingsoon())} className='mx-2 my-2 inline-block p-4 w-24 h-32 rounded-md items-center text-center hover:shadow-yellow-500  hover:shadow-2xl hover:bg-slate-50 cursor-pointer transition duration-300 ease-in-out align-middle bg-gray-400 bg-opacity-20'>
+            <div onClick={() =>  handleNavigate('Do an nhanh')} className='mx-2 my-2 inline-block p-4 w-24 h-32 rounded-md items-center text-center hover:shadow-yellow-500  hover:shadow-2xl hover:bg-slate-50 cursor-pointer transition duration-300 ease-in-out align-middle bg-gray-400 bg-opacity-20'>
                     <div className='items-center m-auto w-10 h-14 mb-1'><img src={svgcos} alt='svg' className=""/></div>
-                    <div className='text-gray-700 text-xs text-center'>Cosmetics</div>
+                    <div className='text-gray-700 text-xs text-center font-sans'>Đồ ăn nhanh</div>
             </div>
 
-            <div onClick={() => dispatch(comingsoon())} className=' mx-2 my-2 inline-block p-4 w-24 h-32 rounded-md items-center hover:shadow-violet-500 text-center hover:shadow-2xl hover:bg-slate-50 cursor-pointer transition duration-300 ease-in-out align-middle bg-gray-400 bg-opacity-20'>
+            <div onClick={() => handleNavigate('Thuc pham nha lam')} className=' mx-2 my-2 inline-block p-4 w-24 h-32 rounded-md items-center hover:shadow-violet-500 text-center hover:shadow-2xl hover:bg-slate-50 cursor-pointer transition duration-300 ease-in-out align-middle bg-gray-400 bg-opacity-20'>
                     <div className='items-center m-auto w-10 h-14 mb-1'><img src={svgimg3} alt='svg' className=""/></div>
-                    <div className='text-gray-700 text-xs text-center'>Baby Products</div>
+                    <div className='text-gray-700 text-xs text-center font-sans'>Thực phẩm nhà làm</div>
             </div>
 
             <div onClick={() => dispatch(comingsoon())} className='mx-2 my-2 inline-block p-4 w-24 h-32 rounded-md items-center hover:shadow-violet-500 text-center hover:shadow-2xl hover:bg-slate-50 cursor-pointer transition duration-300 ease-in-out align-middle bg-gray-400 bg-opacity-20'>
@@ -79,19 +89,19 @@ const Links = ({categorys}) => {
             </div>
         </div>
         <div className='flex align-bottom items-center mb-10'>
-            <div className='font-semibold text-xl text-gray-800 mr-7'>{categorys}</div>
-            <div className='text-xs text-gray-500'>All features </div>
+            <div className='font-semibold text-xl text-gray-800 mr-4 font-sans'>{categorys}</div>
+            <div className='text-xs text-gray-500 font-sans'>All product </div>
         </div>
 
 
         {/* product section */}
         <div className='flex'>
         <div className='flex justify-around mb-5 flex-wrap w-full'>
-                {items && items.map((item) => (
+                {items.length> 0 ?(items && items.map((item) => (
                         <div key={item.id}>
                                 <Product item={item} id={item.id} name={item.name} price={item.price} images={`url('${item.mainImage}')`}/>
                         </div>
-                ))}
+                ))) : <NotFound message='There are no sellers in your apartment complex listing the product for sale' />}
         </div>
         </div>
     </div>

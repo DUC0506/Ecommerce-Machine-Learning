@@ -9,9 +9,9 @@ export default function Dashboard() {
 	return (
 		<div className="flex flex-col gap-4">
 			<DashboardStatsGrid />
-			<div className="flex flex-row gap-4 w-full">
+			<div className="flex flex-row  w-full">
 				<TransactionChart />
-				<BuyerProfilePieChart />
+				{/* <BuyerProfilePieChart /> */}
 			</div>
 			<div className="flex flex-row gap-4 w-full">
 				<RecentOrders number={5} />

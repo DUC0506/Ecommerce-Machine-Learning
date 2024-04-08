@@ -36,7 +36,15 @@ export const signup = catchAsync(async (body, profileImage) => {
     };
   }
 
-  const { name, username, email, password, passwordConfirmation, role } = body;
+  const {
+    name,
+    username,
+    email,
+    password,
+    passwordConfirmation,
+    role,
+    apartment
+  } = body;
   let { companyName, address, phone } = body;
 
   // 2) Check all fields
@@ -51,6 +59,7 @@ export const signup = catchAsync(async (body, profileImage) => {
     !password ||
     !passwordConfirmation ||
     !role ||
+    !apartment ||
     profileImage.length === 0
   ) {
     return {
@@ -110,6 +119,7 @@ export const signup = catchAsync(async (body, profileImage) => {
     companyName,
     address,
     phone,
+    apartment,
     profileImage: image.secure_url,
     profileImageId: image.public_id
   });

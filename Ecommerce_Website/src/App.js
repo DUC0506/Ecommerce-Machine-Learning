@@ -1,5 +1,5 @@
 
-import { Routes, Route,useNavigate  } from 'react-router-dom'
+import { Routes, Route  } from 'react-router-dom'
 import HomePage from './PageSections/HomePage';
 import { useSelector } from 'react-redux'
 // import Product from './Components/Product';
@@ -24,20 +24,44 @@ import LayoutAdmin from '../src/Components/admin/shared/LayoutAdmin';
 import ApartmentDashboard from './Components/pages/Apartment';
 import CustomerAdmin from './Components/pages/CustomerAdmin';
 import HistoryTransaction from './Components/admin/shared/HistoryTransaction';
+import SellersAdmin from './Components/pages/SellersAdmin';
+import SellerProducts from './Components/admin/shared/SellerProducts';
+import OrderSeller from './Components/pages/OrderSeller';
+import DashboardSeller from './Components/pages/DashboardSeller';
+import Promotions from './Components/pages/Promotions';
+import Finance from './Components/pages/Finance';
+import Status from './Components/pages/Status';
+import SignUp from './Components/SignUp';
+import {Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import UserInfo from './PageSections/UserInfo';
+import MyOrder from './PageSections/MyOrder';
+import Productpage from './PageSections/Productpage';
 function App() {
 
   const {soon, product, products, addedsuccessfully} = useSelector((state) => state.changestate)
   
   const{authInfo} = useAuth()
-  console.log('1221'+authInfo.isLoggedIn);
-  if (authInfo.isLoggedIn===false) {
+  if (!authInfo.isLoggedIn && !authInfo.isPending) {
     // Nếu không đăng nhập, chuyển hướng đến trang đăng nhập
-    return <Signin/>
+    console.log(123);
+    return (
+      <>
+      {/* <Navigate to="/signIn" /> */}
+      <Routes>
+        
+        <Route index path="/signIn" element={<Signin/>}/>
+        <Route index path="/signUp" element={<SignUp/>}/>
+      </Routes>
+      </>
+    )
   }
 
+  
   const isAdmin = authInfo.profile?.role === 'admin' 
   const isSeller = authInfo.profile?.role === 'seller' 
   const isUser = authInfo.profile?.role === 'user';
+ 
   console.log(isUser);
       if(isAdmin ) 
           return (
@@ -47,17 +71,27 @@ function App() {
                           <Route path="dashboard/apartments" element={<ApartmentDashboard />} />
                           <Route path="dashboard/customers" element={<CustomerAdmin />} />
                           <Route path="dashboard/customers/history-transactions/:id" element={<HistoryTransaction />} />
+                          <Route path="dashboard/sellers" element={<SellersAdmin />} />
+                          <Route path="dashboard/sellers/seller-products/:id" element={<SellerProducts />} />
+                          <Route path="dashboard/orders" element={<Order />} />
+                          <Route path="dashboard/user-info" element={<UserInfo />} />
               </Route>
             </Routes>)
       if(isSeller ) 
       return (
         <Routes>
           <Route path="/" element={<Layout />}>
-                      <Route index element={<Dashboard />} />
+                      <Route index element={<DashboardSeller />} />
                       <Route path="dashboard/products" element={<Products />} />
-                      <Route path="dashboard/orders" element={<Order />} />
+                      <Route path="dashboard/orders" element={<OrderSeller />} />
+                      <Route path="dashboard/promotions" element={<Promotions />} />
+                      <Route path="dashboard/finance" element={<Finance />} />
+                      <Route path="dashboard/status" element={<Status />} />
+                      <Route path="dashboard/user-info" element={<UserInfo />} />
+
           </Route>
         </Routes>)
+      
       else if(isUser )
       console.log('ss' +isUser);
     return (
@@ -74,6 +108,10 @@ function App() {
         <Route index path="/cart" element={<Cart/>}/>
         <Route index path="/checkout" element={<OrderInfoPage/>}/>
         <Route index path="/signIn" element={<Signin/>}/>
+        <Route index path="/signUp" element={<SignUp/>}/>
+        <Route index path="/user-info" element={<UserInfo/>}/>
+        <Route index path="/user-order" element={<MyOrder/>}/>
+        <Route index path="/product-page" element={<Productpage/>}/>
         {/* <Route path='/:id/product' element={<Product/>}/>
         <Route path="/comingSoon" element={<Comingsoon/>}/>
         <Route path="/added-to-cart" element={<Addtocart/>}/> */}
@@ -87,6 +125,7 @@ function App() {
     </div>
     
   );
+  
 
 }
 

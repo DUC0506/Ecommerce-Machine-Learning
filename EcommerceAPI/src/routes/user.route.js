@@ -12,7 +12,8 @@ import {
   updateUserDetails,
   updateUserProfileImage,
   deleteUser,
-  deleteMyAccount
+  deleteMyAccount,
+  getSellers
 } from '../controllers/user.controller';
 
 // Utils
@@ -25,6 +26,8 @@ const router = express.Router();
 router.get('/', getUsers);
 
 // Get User Route
+router.get('/get-sellers', getSellers);
+
 router.get('/:id', getUser);
 
 // Protect All Next Routes

@@ -56,6 +56,10 @@ const orderSchema = mongoose.Schema(
       type: String,
       required: [true, 'Phone Is Required']
     },
+    seller: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User'
+    },
     status: {
       type: String,
       default: 'Not Processed',

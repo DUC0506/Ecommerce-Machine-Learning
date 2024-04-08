@@ -17,6 +17,7 @@ export const addProductToCart = catchAsync(
   async (email, productId, quantity, selectedColor, selectedSize) => {
     const cart = await Cart.findOne({ email });
     const product = await Product.findById(productId);
+
     // 1) Check if product doesn't exist
     if (!product) {
       return {
@@ -26,25 +27,36 @@ export const addProductToCart = catchAsync(
       };
     }
 
-    const { priceAfterDiscount } = product;
+    const { priceAfterDiscount, seller } = product;
     // 2) Check if cart exist
     if (cart) {
       // Find product index in the cart
       const indexFound = cart.items.findIndex(
         (item) => item.product.toString() === productId.toString()
       );
-
+      // console.log(indexFound);
+      // // eslint-disable-next-line no-console
+      // console.log(
+      //   cart.items[indexFound].selectedColor._id.toString(),
+      //   selectedColor.toString()
+      // );
+      // // eslint-disable-next-line no-console
+      // console.log(
+      //   cart.items[indexFound].selectedSize._id.toString(),
+      //   selectedSize.toString()
+      // );
       // Check product index
       if (indexFound !== -1 && quantity <= 0) {
         cart.items.splice(indexFound, 1);
       } else if (
         indexFound !== -1 &&
-        cart.items[indexFound].selectedColor.toString() ===
+        cart.items[indexFound].selectedColor._id.toString() ===
           selectedColor.toString() &&
-        cart.items[indexFound].selectedSize.toString() ===
+        cart.items[indexFound].selectedSize._id.toString() ===
           selectedSize.toString()
       ) {
         // In case product exist in the cart and have the same color and size.
+    
         cart.items[indexFound].totalProductQuantity += quantity;
         cart.items[indexFound].totalProductPrice +=
           priceAfterDiscount * quantity;
@@ -59,7 +71,8 @@ export const addProductToCart = catchAsync(
           selectedColor: selectedColor,
           selectedSize: selectedSize,
           totalProductQuantity: quantity,
-          totalProductPrice: priceAfterDiscount * quantity
+          totalProductPrice: priceAfterDiscount * quantity,
+          seller: seller
         });
 
         cart.totalQuantity += quantity;
@@ -93,13 +106,13 @@ export const addProductToCart = catchAsync(
           selectedColor: selectedColor,
           selectedSize: selectedSize,
           totalProductQuantity: quantity,
-          totalProductPrice: priceAfterDiscount * quantity
+          totalProductPrice: priceAfterDiscount * quantity,
+          seller: product.seller
         }
       ],
       totalQuantity: quantity,
       totalPrice: priceAfterDiscount * quantity
     };
-
     // 4) Create new cart
     const createdCart = await Cart.create(cartData);
 

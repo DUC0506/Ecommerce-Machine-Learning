@@ -24,7 +24,8 @@ import {
   deleteProduct,
   top5Cheap,
   productStats,
-  getAllProductsByApartment
+  getAllProductsByApartment,
+  getAllProductsBySeller,
 } from './product.controller';
 
 import {
@@ -34,7 +35,8 @@ import {
   updateUserDetails,
   updateUserProfileImage,
   deleteUser,
-  deleteMyAccount
+  deleteMyAccount,
+  getSellers
 } from './user.controller';
 
 import {
@@ -68,7 +70,10 @@ import {
   orderStatus,
   getAllOrders,
   getOrder,
-  cancelOrder
+  cancelOrder,
+  createOrderEachSeller,
+  getAllOrdersBySeller,
+  totalAllOrderBySeller
 } from './order.controller';
 
 import {
@@ -114,7 +119,8 @@ const userController = {
   updateUserDetails,
   updateUserProfileImage,
   deleteUser,
-  deleteMyAccount
+  deleteMyAccount,
+  getSellers
 };
 
 const categoryController = {
@@ -140,7 +146,8 @@ const productController = {
   deleteProduct,
   top5Cheap,
   productStats,
-  getAllProductsByApartment
+  getAllProductsByApartment,
+  getAllProductsBySeller
 };
 
 const reviewController = {
@@ -165,7 +172,10 @@ const orderController = {
   orderStatus,
   getAllOrders,
   getOrder,
-  cancelOrder
+  cancelOrder,
+  createOrderEachSeller,
+  getAllOrdersBySeller,
+  totalAllOrderBySeller
 };
 
 const discountController = {

@@ -8,6 +8,9 @@ import {
 	HiOutlineQuestionMarkCircle,
 	HiOutlineCog
 } from 'react-icons/hi'
+import { AiOutlineNotification } from "react-icons/ai";
+import { MdPolicy } from "react-icons/md";
+import { SiInstatus } from "react-icons/si";
 
 export const DASHBOARD_SIDEBAR_LINKS = [
 	{
@@ -29,16 +32,28 @@ export const DASHBOARD_SIDEBAR_LINKS = [
 		icon: <HiOutlineShoppingCart />
 	},
 	{
-		key: 'customers',
-		label: 'Customers',
-		path: '/dashboard/customers',
-		icon: <HiOutlineUsers />
+		key: 'promotions',
+		label: 'Promotions',
+		path: '/dashboard/promotions',
+		icon: <AiOutlineNotification />
 	},
 	{
-		key: 'transactions',
-		label: 'Transactions',
-		path: '/dashboard/transactions',
+		key: 'finance',
+		label: 'Finance',
+		path: '/dashboard/finance',
 		icon: <HiOutlineDocumentText />
+	},
+	{
+		key: 'status',
+		label: 'Status',
+		path: '/dashboard/status',
+		icon: <SiInstatus />
+	},
+	{
+		key: 'policy',
+		label: 'Policy',
+		path: '/dashboard/policy',
+		icon: <MdPolicy />
 	},
 	{
 		key: 'messages',
@@ -46,6 +61,7 @@ export const DASHBOARD_SIDEBAR_LINKS = [
 		path: '/dashboard/messages',
 		icon: <HiOutlineAnnotation />
 	}
+	
 ]
 export const DASHBOARD_SIDEBAR_LINKS_ADMIN = [
 	{
@@ -73,9 +89,9 @@ export const DASHBOARD_SIDEBAR_LINKS_ADMIN = [
 		icon: <HiOutlineUsers />
 	},
 	{
-		key: 'transactions',
-		label: 'Transactions',
-		path: '/dashboard/transactions',
+		key: 'sellers',
+		label: 'Sellers',
+		path: '/dashboard/sellers',
 		icon: <HiOutlineDocumentText />
 	},
 	{

@@ -15,8 +15,9 @@ const apiFeatures = catchAsync(async (req, model, populate, apartment) => {
   removeFields.forEach((param) => delete reqQuery[param]);
 
   // Create query string
-  let queryStr = JSON.stringify(reqQuery);
 
+  let queryStr = JSON.stringify(reqQuery);
+  console.log(queryStr)
   // Create operators ($gt, $gte, etc)
   queryStr = queryStr.replace(
     /\b(gt|gte|lt|lte|in)\b/g,

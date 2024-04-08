@@ -40,7 +40,7 @@ export const getCart=async(product)=>{
          return data;
          
      } catch (error) {
-        console.log(error);
+        console.log(error.response.data.message);
          return error
          
      }

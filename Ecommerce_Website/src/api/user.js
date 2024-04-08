@@ -34,6 +34,7 @@ export const getUsers= async()=>{
         
     }
 }
+
 export const getUser= async(userId)=>{
     try {
         const {data} =await client.get(`/user/${userId}`);
@@ -126,6 +127,82 @@ export const createUser= async(user)=>{
 export const updateUser= async(user)=>{
     try {
         const {data} =await client.patch(`/user/update-details`,user);
+        
+        return data;
+        
+    } catch (error) {
+       
+        const{response}=error;
+
+        if(response?.data) return response.data
+
+        return {error:error.message || error}
+        
+    }
+}
+
+export const getSellers= async(user)=>{
+    const token= getToken()
+    try {
+        const {data} =await client.get(`/user/get-sellers?filter=seller`,{
+        
+            headers:{
+                Authorization:'Bearer ' + token,
+                
+            },
+        });
+        
+        return data;
+        
+    } catch (error) {
+       
+        if (error.response && error.response.data) {
+           
+            const errorMessage = error.response.data.message;
+            console.log(errorMessage); 
+            return errorMessage;
+        } else {
+           
+            console.error('Unexpected error:', error);
+            return 'An unexpected error occurred. Please try again later.';
+        }
+        
+    }
+}
+export const updateUserDetails= async(user)=>{
+    console.log(user);
+    const token= getToken()
+    try {
+        const {data} =await client.patch(`/user/update-details`,user,{
+        
+            headers:{
+                Authorization:'Bearer ' + token,
+                
+            },
+        });
+        
+        return data;
+        
+    } catch (error) {
+       
+        const{response}=error;
+
+        if(response?.data) return response.data
+
+        return {error:error.message || error}
+        
+    }
+}
+export const updateUserProfileImage= async(image)=>{
+    const token= getToken()
+    try {
+        const {data} =await client.patch(`/user/update-profile-image`,image,{
+        
+            headers:{
+                Authorization:'Bearer ' + token,
+                
+            },
+        });
         
         return data;
         

@@ -12,6 +12,7 @@ import { anyMulter } from '../utils/multer';
 
 // Routes
 import reviewRoute from './review.route';
+import { getAllProductsBySeller } from '../controllers/product.controller';
 
 const {
   getAllProducts,
@@ -34,7 +35,7 @@ const router = express.Router();
 
 router.use('/:productId/reviews', reviewRoute);
 
-router.get('/top-5-cheap', getAllProducts, top5Cheap);
+router.get('/top-5-cheap', top5Cheap, getAllProducts);
 
 router.get('/product-stats', productStats);
 
@@ -42,6 +43,7 @@ router.use(protect);
 router.get('/', getAllProducts);
 
 router.get('/products-apartment', getAllProductsByApartment);
+router.get('/products-seller', getAllProductsBySeller);
 
 router.get('/:productId', getProduct);
 
