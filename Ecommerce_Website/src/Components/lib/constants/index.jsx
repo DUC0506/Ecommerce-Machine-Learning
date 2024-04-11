@@ -44,6 +44,12 @@ export const DASHBOARD_SIDEBAR_LINKS = [
 		icon: <HiOutlineDocumentText />
 	},
 	{
+		key: 'feed',
+		label: 'Feed',
+		path: '/dashboard/feed-seller',
+		icon: <HiOutlineDocumentText />
+	},
+	{
 		key: 'status',
 		label: 'Status',
 		path: '/dashboard/status',

@@ -18,3 +18,8 @@ export const uploadFile = (file, folderName, width) =>
     crop: 'fit',
     format: 'webp'
   });
+export const uploadFileVideo = (file, folderName) =>
+  cloudinary.v2.uploader.upload(file, {
+    folder: `${config.cloud.project}/${folderName}`,
+    resource_type: 'video'
+  });

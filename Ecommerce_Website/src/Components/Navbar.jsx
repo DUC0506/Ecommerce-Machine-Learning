@@ -48,6 +48,9 @@ const Navbar = () => {
 		handleLogout();
     navigate('/signIn')
 	};
+  const handleNews=()=>{
+    navigate('/feed-page')
+  }
   return (
     <div className='nav-cover'>
         <div className='divide-y divide-gray-200  items-center'>
@@ -126,7 +129,7 @@ const Navbar = () => {
                 <a href='/' className='block py-2 pl-2 hover:bg-yellow-400'>Category 7</a>
                 <a href='/' className='block py-2 pl-2 hover:bg-yellow-400'>Category 8</a>
                 <a href='/' className='block py-2 pl-2 hover:bg-yellow-400'>Category 9</a>
-                <a href='/' className='block py-2 pl-2 hover:bg-yellow-400'>Category 10</a>
+                <a onClick={()=>handleNews()} className='block py-2 pl-2 hover:bg-yellow-400'>Category 10</a>
                 {/* Add more categories as needed */}
               </div>
               )}

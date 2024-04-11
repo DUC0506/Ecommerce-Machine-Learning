@@ -5,11 +5,15 @@ import AppError from './appError';
 const storage = multer.memoryStorage();
 
 const limits = {
-  fileSize: 1024 * 1024
+  fileSize: 1024 * 1024 * 100
 };
 
 const fileFilter = (req, file, cb) => {
-  if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|WEBP|webp)$/)) {
+  if (
+    !file.originalname.match(
+      /\.(jpg|JPG|jpeg|JPEG|png|PNG|WEBP|webp|mp4|MP4|mov|MOV|avi|AVI|wmv|WMV|mkv|MKV)$/
+    )
+  ) {
     req.fileValidationError = 'Only image files are allowed!';
     return cb(
       new AppError('Not an image! Please upload only images', 400),

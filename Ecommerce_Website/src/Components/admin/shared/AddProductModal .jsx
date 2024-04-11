@@ -84,23 +84,23 @@ const AddProductModal = ({ isOpen, onRequestClose, onAddProduct }) => {
   
     onAddProduct(formData1);
   
-    // setFormData({
-    //   name: '',
-    //   category: '',
-    //   description: '',
-    //   price: '',
-    //   priceDiscount: '',
-    //   colors: '',
-    //   sizes: '',
-    //   quantity: '',
-    //   sold: '',
-    //   isOutOfStock: false,
-    //   mainImage: '',
-    //   images: [],
-    // });
-    // setMainImageUrl('');
-    // setImageUrls([]);
-    // onRequestClose();
+    setFormData({
+      name: '',
+      category: '',
+      description: '',
+      price: '',
+      priceDiscount: '',
+      colors: '',
+      sizes: '',
+      quantity: '',
+      sold: '',
+      isOutOfStock: false,
+      mainImage: '',
+      images: [],
+    });
+    setMainImageUrl('');
+    setImageUrls([]);
+    onRequestClose();
   };
 
   useEffect(() => {

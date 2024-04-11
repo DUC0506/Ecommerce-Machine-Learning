@@ -25,7 +25,7 @@ import {
   top5Cheap,
   productStats,
   getAllProductsByApartment,
-  getAllProductsBySeller,
+  getAllProductsBySeller
 } from './product.controller';
 
 import {
@@ -99,6 +99,20 @@ import {
   deleteApartment,
   updateApartmentDetails
 } from './apartment.controller';
+import {
+  addNews,
+  getAllNewsByApartment,
+  updateNewsDetails,
+  updateNewsMainImage,
+  updateNewsImages,
+  deleteNews
+} from './news.controller';
+import {
+  addComment,
+  getAllCommentsByNews,
+  updateComment,
+  deleteComment
+} from './commentController';
 
 const authController = {
   signin,
@@ -201,6 +215,20 @@ const apartmentsController = {
   deleteApartment,
   updateApartmentDetails
 };
+const newsController = {
+  addNews,
+  getAllNewsByApartment,
+  updateNewsDetails,
+  updateNewsMainImage,
+  updateNewsImages,
+  deleteNews
+};
+const commentController = {
+  addComment,
+  getAllCommentsByNews,
+  updateComment,
+  deleteComment
+};
 export {
   authController,
   userController,
@@ -211,5 +239,7 @@ export {
   orderController,
   discountController,
   favoriteController,
-  apartmentsController
+  apartmentsController,
+  newsController,
+  commentController
 };

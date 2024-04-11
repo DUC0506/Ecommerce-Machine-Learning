@@ -17,7 +17,7 @@ const apiFeatures = catchAsync(async (req, model, populate, apartment) => {
   // Create query string
 
   let queryStr = JSON.stringify(reqQuery);
-  console.log(queryStr)
+
   // Create operators ($gt, $gte, etc)
   queryStr = queryStr.replace(
     /\b(gt|gte|lt|lte|in)\b/g,
@@ -36,8 +36,10 @@ const apiFeatures = catchAsync(async (req, model, populate, apartment) => {
   }
 
   // Select Fields
+
   if (req.query.select) {
     const fields = req.query.select.split(',').join(' ');
+
     query = query.select(fields);
   }
 
@@ -61,6 +63,7 @@ const apiFeatures = catchAsync(async (req, model, populate, apartment) => {
   const limit = req.query.limit * 1 || 100;
   const skip = (page - 1) * limit;
 
+  console.log(skip,req.query.limit);
   query = query.skip(skip).limit(limit);
 
   if (populate) {

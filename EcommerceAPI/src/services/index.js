@@ -98,6 +98,20 @@ import {
   deleteApartmentById,
   updateApartmentDetails
 } from './apartment.service';
+import {
+  createNews,
+  queryNewsByApartment,
+  updateNewsDetails,
+  updateNewsMainVideo,
+  updateNewsImages,
+  deleteNews
+} from './news.service';
+import {
+  createComment,
+  queryComments,
+  updateComments,
+  deleteComments
+} from './comment.service';
 
 const authService = {
   signin,
@@ -198,6 +212,20 @@ const apartmentService = {
   deleteApartmentById,
   updateApartmentDetails
 };
+const newsService = {
+  createNews,
+  queryNewsByApartment,
+  updateNewsDetails,
+  updateNewsMainVideo,
+  updateNewsImages,
+  deleteNews
+};
+const commentService = {
+  createComment,
+  queryComments,
+  updateComments,
+  deleteComments
+};
 
 export {
   authService,
@@ -209,5 +237,7 @@ export {
   orderService,
   discountService,
   favoriteService,
-  apartmentService
+  apartmentService,
+  newsService,
+  commentService
 };

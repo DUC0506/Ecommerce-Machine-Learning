@@ -37,6 +37,8 @@ import { useEffect } from 'react';
 import UserInfo from './PageSections/UserInfo';
 import MyOrder from './PageSections/MyOrder';
 import Productpage from './PageSections/Productpage';
+import Feed from './Components/pages/Feed';
+import FeedSeller from './Components/pages/FeedSeller';
 function App() {
 
   const {soon, product, products, addedsuccessfully} = useSelector((state) => state.changestate)
@@ -88,6 +90,7 @@ function App() {
                       <Route path="dashboard/finance" element={<Finance />} />
                       <Route path="dashboard/status" element={<Status />} />
                       <Route path="dashboard/user-info" element={<UserInfo />} />
+                      <Route path="dashboard/feed-seller" element={<FeedSeller />} />
 
           </Route>
         </Routes>)
@@ -112,6 +115,7 @@ function App() {
         <Route index path="/user-info" element={<UserInfo/>}/>
         <Route index path="/user-order" element={<MyOrder/>}/>
         <Route index path="/product-page" element={<Productpage/>}/>
+        <Route index path="/feed-page" element={<Feed/>}/>
         {/* <Route path='/:id/product' element={<Product/>}/>
         <Route path="/comingSoon" element={<Comingsoon/>}/>
         <Route path="/added-to-cart" element={<Addtocart/>}/> */}

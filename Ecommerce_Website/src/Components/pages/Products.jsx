@@ -32,11 +32,12 @@ export default function Products() {
         const { message, product } = await createProduct(newProduct);
         console.log(message);
         if (message === 'error') return message;
-
+      
         if (product) {
+            setAddProductModalOpen(false);
             return fetchProducts();
         }
-        setAddProductModalOpen(false);
+       
     };
 
     const handleInfo = async (id) => {

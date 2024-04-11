@@ -10,6 +10,8 @@ import Favorite from './favorite.model';
 import Color from './color.model';
 import Size from './size.model';
 import Apartment from './apartment.model';
+import News from './news.model';
+import Comment from './comment.model';
 
 export {
   User,
@@ -23,5 +25,7 @@ export {
   Favorite,
   Color,
   Size,
-  Apartment
+  Apartment,
+  News,
+  Comment
 };

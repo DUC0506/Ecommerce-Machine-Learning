@@ -10,6 +10,8 @@ import discountRoute from './discount.route';
 import favoriteRoute from './favorite.route';
 import apartmentRoute from './apartment.route';
 import reviewRoute from './review.route';
+import newsRoute from './news.route';
+import commentRoute from './comment.route';
 
 const router = express.Router();
 
@@ -23,5 +25,7 @@ router.use('/discount', discountRoute);
 router.use('/favorite', favoriteRoute);
 router.use('/apartment', apartmentRoute);
 router.use('/review', reviewRoute);
+router.use('/news', newsRoute);
+router.use('/comment', commentRoute);
 
 export default router;
