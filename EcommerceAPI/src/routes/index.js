@@ -12,6 +12,8 @@ import apartmentRoute from './apartment.route';
 import reviewRoute from './review.route';
 import newsRoute from './news.route';
 import commentRoute from './comment.route';
+import promotionRoute from './promotion.route';
+import campaignRoute from './campaign.route';
 
 const router = express.Router();
 
@@ -27,5 +29,7 @@ router.use('/apartment', apartmentRoute);
 router.use('/review', reviewRoute);
 router.use('/news', newsRoute);
 router.use('/comment', commentRoute);
+router.use('/promotion', promotionRoute);
+router.use('/campaign', campaignRoute);
 
 export default router;

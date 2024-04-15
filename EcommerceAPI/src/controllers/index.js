@@ -113,6 +113,20 @@ import {
   updateComment,
   deleteComment
 } from './commentController';
+import {
+  addPromotion,
+  getAllPromotion,
+  updatePromotionDetails,
+  removePromotion,
+  getPromotion
+} from './promotion.controller';
+import {
+  addCampaign,
+  getAllCampaign,
+  updateCampaignDetails,
+  removeCampaign,
+  getCampaign
+} from './campaign.controller';
 
 const authController = {
   signin,
@@ -229,6 +243,20 @@ const commentController = {
   updateComment,
   deleteComment
 };
+const promotionController = {
+  addPromotion,
+  getAllPromotion,
+  updatePromotionDetails,
+  removePromotion,
+  getPromotion
+};
+const campaignController = {
+  addCampaign,
+  getAllCampaign,
+  updateCampaignDetails,
+  removeCampaign,
+  getCampaign
+};
 export {
   authController,
   userController,
@@ -241,5 +269,7 @@ export {
   favoriteController,
   apartmentsController,
   newsController,
-  commentController
+  commentController,
+  promotionController,
+  campaignController
 };

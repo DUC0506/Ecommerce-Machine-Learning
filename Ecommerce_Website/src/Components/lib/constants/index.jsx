@@ -11,6 +11,7 @@ import {
 import { AiOutlineNotification } from "react-icons/ai";
 import { MdPolicy } from "react-icons/md";
 import { SiInstatus } from "react-icons/si";
+import { FaRegNewspaper } from "react-icons/fa";
 
 export const DASHBOARD_SIDEBAR_LINKS = [
 	{
@@ -47,7 +48,7 @@ export const DASHBOARD_SIDEBAR_LINKS = [
 		key: 'feed',
 		label: 'Feed',
 		path: '/dashboard/feed-seller',
-		icon: <HiOutlineDocumentText />
+		icon: <FaRegNewspaper />
 	},
 	{
 		key: 'status',
@@ -58,7 +59,7 @@ export const DASHBOARD_SIDEBAR_LINKS = [
 	{
 		key: 'policy',
 		label: 'Policy',
-		path: '/dashboard/policy',
+		path: '/dashboard/policy-seller',
 		icon: <MdPolicy />
 	},
 	{
@@ -98,6 +99,12 @@ export const DASHBOARD_SIDEBAR_LINKS_ADMIN = [
 		key: 'sellers',
 		label: 'Sellers',
 		path: '/dashboard/sellers',
+		icon: <HiOutlineDocumentText />
+	},
+	{
+		key: 'promotion',
+		label: 'Promotion',
+		path: '/dashboard/promotion',
 		icon: <HiOutlineDocumentText />
 	},
 	{

@@ -1,11 +1,10 @@
 import catchAsync from '../utils/catchAsync';
 import dataUri from '../utils/datauri';
-import dataUriVideo from '../utils/dataUriVideo';
-import APIFeatures from '../utils/apiFeatures';
+
 import { uploadFile, destroyFile, uploadFileVideo } from '../utils/cloudinary';
 
 // Model
-import { Product, News, User } from '../models/index';
+import { News } from '../models/index';
 import apiFeatures from '../utils/apiFeatures';
 
 /**

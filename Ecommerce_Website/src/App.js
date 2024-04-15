@@ -39,6 +39,9 @@ import MyOrder from './PageSections/MyOrder';
 import Productpage from './PageSections/Productpage';
 import Feed from './Components/pages/Feed';
 import FeedSeller from './Components/pages/FeedSeller';
+import SellerPolicy from './Components/pages/SellerPolicy';
+import Campaign from './Components/pages/Campaign';
+import PromotionSeller from './Components/pages/PromotionSeller';
 function App() {
 
   const {soon, product, products, addedsuccessfully} = useSelector((state) => state.changestate)
@@ -77,6 +80,7 @@ function App() {
                           <Route path="dashboard/sellers/seller-products/:id" element={<SellerProducts />} />
                           <Route path="dashboard/orders" element={<Order />} />
                           <Route path="dashboard/user-info" element={<UserInfo />} />
+                          <Route path="dashboard/promotion" element={<PromotionSeller />} />
               </Route>
             </Routes>)
       if(isSeller ) 
@@ -91,6 +95,8 @@ function App() {
                       <Route path="dashboard/status" element={<Status />} />
                       <Route path="dashboard/user-info" element={<UserInfo />} />
                       <Route path="dashboard/feed-seller" element={<FeedSeller />} />
+                      <Route path="dashboard/policy-seller" element={<SellerPolicy />} />
+                      <Route index path="dashboard/campaign/:idPromotion" element={<Campaign/>}/>
 
           </Route>
         </Routes>)
@@ -116,6 +122,7 @@ function App() {
         <Route index path="/user-order" element={<MyOrder/>}/>
         <Route index path="/product-page" element={<Productpage/>}/>
         <Route index path="/feed-page" element={<Feed/>}/>
+       
         {/* <Route path='/:id/product' element={<Product/>}/>
         <Route path="/comingSoon" element={<Comingsoon/>}/>
         <Route path="/added-to-cart" element={<Addtocart/>}/> */}
@@ -124,6 +131,8 @@ function App() {
                     <Route path="products" element={<Products />} />
                     <Route path="orders" element={<Order />} />
         </Route> */}
+        
+       
       </Routes>
       
     </div>

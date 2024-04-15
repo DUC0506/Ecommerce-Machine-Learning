@@ -186,3 +186,31 @@ export const getTop5Cheap= async()=>{
         
     }
 }
+export const getProductsBySeller= async(idSeller)=>{
+    const token= getToken()
+    try {
+        const {data} =await client.get(`/product/products-seller?sellerId${idSeller}`,{
+        
+            headers:{
+                Authorization:'Bearer ' + token,
+                
+            },
+        });
+        
+        return data;
+        
+    } catch (error) {
+       
+        if (error.response && error.response.data) {
+           
+            const errorMessage = error.response.data.message;
+            console.log(errorMessage); 
+            return errorMessage;
+        } else {
+           
+            console.error('Unexpected error:', error);
+            return 'An unexpected error occurred. Please try again later.';
+        }
+        
+    }
+}

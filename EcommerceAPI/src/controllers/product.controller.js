@@ -59,7 +59,7 @@ export const getAllProductsByApartment = catchAsync(async (req, res) => {
   // 1) Setting default params
   if (!page) req.query.page = 1;
   if (!sort) req.query.sort = '';
-  if (!limit) req.query.limit = 10;
+  if (!limit) req.query.limit = 100;
   if (!select) req.query.select = '';
 
   // 1) Get all products
@@ -97,7 +97,7 @@ export const getAllProductsBySeller = catchAsync(async (req, res) => {
   // 1) Setting default params
   if (!page) req.query.page = 1;
   if (!sort) req.query.sort = '';
-  if (!limit) req.query.limit = 10;
+  if (!limit) req.query.limit = 100;
   if (!select) req.query.select = '';
 
   // 1) Get all products

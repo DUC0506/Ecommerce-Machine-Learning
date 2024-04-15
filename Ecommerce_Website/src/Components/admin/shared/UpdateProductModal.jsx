@@ -75,7 +75,7 @@ const handleImagesChange = (e) => {
   }, [isOpen, product]);
 
   return (
-    <div class={`absolute w-full top-1/3 left-1/2 md:top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-100 p-8 rounded shadow-md overflow-y-auto max-h-full ${
+    <div class={`absolute w-full top-1/2 left-1/2 md:top-1/2 h-full transform -translate-x-1/2 -translate-y-1/2 bg-slate-100 p-8 rounded shadow-md overflow-y-auto max-h-full ${
       isOpen ? 'block' : 'hidden'
     }`}>
       <h2 class="text-2xl  mb-4 font-sans font-medium">Thông tin cơ bản</h2>

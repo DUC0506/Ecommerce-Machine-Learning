@@ -12,6 +12,8 @@ import Size from './size.model';
 import Apartment from './apartment.model';
 import News from './news.model';
 import Comment from './comment.model';
+import Promotion from './promotion.model';
+import Campaign from './campaign.model';
 
 export {
   User,
@@ -27,5 +29,7 @@ export {
   Size,
   Apartment,
   News,
-  Comment
+  Comment,
+  Promotion,
+  Campaign
 };

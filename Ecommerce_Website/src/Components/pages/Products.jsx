@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from 'react'
-import { createProduct, deleteProduct, getProduct, getProducts, getProductsByApartment, updateProduct } from '../../api/products';
+import { createProduct, deleteProduct, getProduct, getProducts, getProductsByApartment, getProductsBySeller, updateProduct } from '../../api/products';
 import AddProductModal from '../admin/shared/AddProductModal ';
 import UpdateProductModal from '../admin/shared/UpdateProductModal';
 import { IoSearchOutline } from "react-icons/io5";
 import { FaStar } from "react-icons/fa";
 import { TbCurrencyDong } from "react-icons/tb";
 import { MdDeleteForever ,MdEdit} from "react-icons/md";
+import { useAuth } from '../../hooks';
 
 export default function Products() {
 	const[products, setProducts]=useState([]);
 	const [isAddProductModalOpen, setAddProductModalOpen] = useState(false);
 	const [isUpdateProductModalOpen, setUpdateProductModalOpen] = useState(false);
 	const[product, setProduct]=useState(null);
+    const {authInfo}=useAuth()
 	const fetchProducts = async () => {
-        const { type, products } = await getProducts();
+        const { type, products } = await getProductsBySeller(authInfo.profile._id);
         console.log(products);
         if (type === 'error') return type;
         setProducts(products);

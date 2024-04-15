@@ -211,7 +211,7 @@ const Feed = () => {
         {posts.map(post => (
           <Post
             id={post._id}
-            key={post.title}
+            key={post._id}
             name={post.author.username}
             avatar={post.author.profileImage}
             content={post.content}

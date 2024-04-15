@@ -108,7 +108,7 @@ const AddProductModal = ({ isOpen, onRequestClose, onAddProduct }) => {
   }, []);
 
   return (
-    <div class={`absolute w-full top-1/3 left-1/2 md:top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-100 p-8 rounded shadow-md overflow-y-auto max-h-full ${
+    <div class={`absolute w-full top-1/3 left-1/2 h-full md:top-1/2  transform -translate-x-1/2 -translate-y-1/2 bg-slate-100 p-8 rounded shadow-md overflow-y-auto max-h-full ${
       isOpen ? 'block' : 'hidden'
     }`}>
       <h2 class="text-2xl  mb-4 font-sans font-medium">Thông tin cơ bản</h2>
@@ -142,7 +142,7 @@ const AddProductModal = ({ isOpen, onRequestClose, onAddProduct }) => {
 
         <label for="sizes" class="flex mb-2 font-sans font-medium"><p className='text-red-500'>*</p>Sizes:</label>
         <input type="text" id="sizes" name="sizes" value={formData.sizes} onChange={handleChange} class="w-full border p-2 mb-4 focus:outline-none  focus:border-yellow-500" />
-      {errors.sizes && <p className="text-red-500">{errors.sizes}</p>}   
+        {errors.sizes && <p className="text-red-500">{errors.sizes}</p>}   
 
         <label for="quantity" class="flex mb-2 font-sans font-medium"><p className='text-red-500'>*</p>Quantity:</label>
         <input type="number" id="quantity" name="quantity" value={formData.quantity} onChange={handleChange} class="w-full border p-2 mb-4 focus:outline-none  focus:border-yellow-500" />

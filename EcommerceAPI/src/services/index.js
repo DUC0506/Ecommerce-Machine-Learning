@@ -113,6 +113,22 @@ import {
   deleteComments
 } from './comment.service';
 
+import {
+  createPromotion,
+  updatePromotionDetails,
+  queryPromotion,
+  deletePromotion,
+  queryPromotionById
+} from './promotion.service';
+
+import {
+  createCampaign,
+  queryCampaigns,
+  updateCampaignDetails,
+  deleteCampaign,
+  queryCampaignById
+} from './campaign.service';
+
 const authService = {
   signin,
   signup,
@@ -226,6 +242,20 @@ const commentService = {
   updateComments,
   deleteComments
 };
+const promotionService = {
+  createPromotion,
+  updatePromotionDetails,
+  queryPromotion,
+  deletePromotion,
+  queryPromotionById
+};
+const campaignService = {
+  createCampaign,
+  queryCampaigns,
+  updateCampaignDetails,
+  deleteCampaign,
+  queryCampaignById
+};
 
 export {
   authService,
@@ -239,5 +269,7 @@ export {
   favoriteService,
   apartmentService,
   newsService,
-  commentService
+  commentService,
+  promotionService,
+  campaignService
 };
