@@ -22,9 +22,9 @@ export const getProducts=async()=>{
         
     }
 }
-export const getProductsByApartment=async(IdCategory)=>{
-
-    let url =IdCategory ? `products-apartment?category=${IdCategory}` :`/products-apartment`
+export const getProductsByApartment=async(IdCategory,numberPage)=>{
+        console.log(numberPage);
+    let url =IdCategory ? `products-apartment?category=${IdCategory}&page=${numberPage}&limit=10` :`/products-apartment?page=${numberPage}&limit=10`
     console.log(url);
     const token= getToken()
     try {

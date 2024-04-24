@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+import socket from 'socket.io';
 import app from './app';
 import logger from './config/logger';
 import connectDB from './config/db';
@@ -14,6 +16,27 @@ const server = app.listen(serverPort, () => {
       🚀 Server listening on port: ${serverPort} 🚀
       ################################################
   `);
+});
+const io = socket(server, {
+  cors: {
+    origin: 'http://localhost:3001',
+    credentials: true
+  }
+});
+
+global.onlineUsers = new Map();
+io.on('connection', (socket1) => {
+  global.chatSocket = socket1;
+  socket1.on('add-user', (userId) => {
+    onlineUsers.set(userId, socket1.id);
+  });
+
+  socket1.on('send-msg', (data) => {
+    const sendUserSocket = onlineUsers.get(data.to);
+    if (sendUserSocket) {
+      socket1.to(sendUserSocket).emit('msg-receive', data.msg);
+    }
+  });
 });
 
 const exitHandler = () => {

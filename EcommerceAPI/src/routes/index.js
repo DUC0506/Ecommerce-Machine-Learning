@@ -14,6 +14,7 @@ import newsRoute from './news.route';
 import commentRoute from './comment.route';
 import promotionRoute from './promotion.route';
 import campaignRoute from './campaign.route';
+import messageRoute from './message.route';
 
 const router = express.Router();
 
@@ -31,5 +32,6 @@ router.use('/news', newsRoute);
 router.use('/comment', commentRoute);
 router.use('/promotion', promotionRoute);
 router.use('/campaign', campaignRoute);
+router.use('/message', messageRoute);
 
 export default router;

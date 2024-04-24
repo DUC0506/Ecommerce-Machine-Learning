@@ -129,6 +129,8 @@ import {
   queryCampaignById
 } from './campaign.service';
 
+import { createMessage, queryMessages } from './message.service';
+
 const authService = {
   signin,
   signup,
@@ -256,7 +258,10 @@ const campaignService = {
   deleteCampaign,
   queryCampaignById
 };
-
+const messageService = {
+  createMessage,
+  queryMessages
+};
 export {
   authService,
   userService,
@@ -271,5 +276,6 @@ export {
   newsService,
   commentService,
   promotionService,
-  campaignService
+  campaignService,
+  messageService
 };

@@ -10,6 +10,11 @@ import { addComment, getCommentByNews, removeComment } from '../../api/comments'
 import { useNavigate } from 'react-router-dom';
 import { FaRegComment } from "react-icons/fa";
 import { CiCircleRemove } from "react-icons/ci";
+import { MdApartment } from "react-icons/md";
+import { getApartment } from '../../api/apartment';
+import { FaEarthAfrica } from "react-icons/fa6";
+import { MdOutlineDisabledVisible } from "react-icons/md";
+import { IoLocationSharp } from "react-icons/io5";
 
 const Post = ({ name, avatar, content, images, timestamp, video, id ,product }) => {
   const videoRef = useRef(null);
@@ -184,6 +189,7 @@ const Post = ({ name, avatar, content, images, timestamp, video, id ,product }) 
 
 const Feed = () => {
   const [posts,setPosts]=useState([])
+  const [apartment,setApartment]=useState({})
   const{authInfo} = useAuth()
   const {updateNotification}=useNotification()
   const fetchNews=async()=>{
@@ -196,8 +202,13 @@ const Feed = () => {
     setPosts(news)
 
   }
+  const fetchApartment=async ()=>{
+    const {type, message, apartment} = await getApartment(authInfo.profile.apartment)
+      setApartment(apartment)
+  }
   useEffect(()=>{
     fetchNews()
+    fetchApartment()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
   return (
@@ -206,21 +217,48 @@ const Feed = () => {
         <ToastContainer />
         <Navbar />
       </div>
-  
-      <div className="top-28 mt-10 max-w-xl mx-auto relative">
-        {posts.map(post => (
-          <Post
-            id={post._id}
-            key={post._id}
-            name={post.author.username}
-            avatar={post.author.profileImage}
-            content={post.content}
-            video={post?.video}
-            images={post.images}
-            timestamp={post.slug}
-            product={post?.products[0]}
-          />
-        ))}
+      <div className='flex w-full top-28 mt-10 relative'>
+        <div className='w-1/4 font-sans font-bold text-xl p-4 rounded  shadow-md bg-white '>
+          <div className=' font-sans font-semibold text-xl flex items-center justify-center flex-wrap'>
+          <MdApartment className='mr-1 text-yellow-400' />Chợ chung cư {apartment.name}
+          </div>
+          <div className=' font-sans mt-4   '>
+          <div className='flex items-center ont-sans font-medium text-base'><FaEarthAfrica className='mr-1 text-yellow-400 ' />Public</div>
+            <p className='flex-wrap flex font-sans font-medium text-base'>Anyone can see who's in the group and what they post.</p>
+          </div>
+          <div className=' font-sans mt-4   '>
+          <div className='flex items-center ont-sans font-medium text-base'><MdOutlineDisabledVisible className='mr-1 text-yellow-400 ' />Visible</div>
+            <p className='flex-wrap flex font-sans font-medium text-base'>Only residents of this apartment can find this group.</p>
+          </div>
+          <div className=' font-sans mt-4   '>
+          <div className='flex items-center ont-sans font-medium text-base'><IoLocationSharp className='mr-1 text-yellow-400 ' />Location</div>
+            <p className='flex-wrap flex font-sans font-medium text-base'>{apartment.address}</p>
+          </div>
+        </div>
+        {/* top-28 mt-10 */}
+          <div className=" max-w-xl mx-auto relative w-1/2 "> 
+            
+            {posts.map(post => (
+              <Post
+                id={post._id}
+                key={post._id}
+                name={post.author.username}
+                avatar={post.author.profileImage}
+                content={post.content}
+                video={post?.video}
+                images={post.images}
+                timestamp={post.slug}
+                product={post?.products[0]}
+              />
+            ))}
+          
+          </div>
+          <div className='w-1/4 rounded py-4  px-2 shadow-md bg-white h-fit mr-2'>
+           <div className='font-bold font-sans  '>About</div> 
+           <div className='font-sans'>
+           {apartment.description}
+           </div>
+          </div>
       </div>
       
     </div>

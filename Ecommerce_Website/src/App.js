@@ -1,5 +1,5 @@
 
-import { Routes, Route  } from 'react-router-dom'
+import { Routes, Route, useNavigate  } from 'react-router-dom'
 import HomePage from './PageSections/HomePage';
 import { useSelector } from 'react-redux'
 // import Product from './Components/Product';
@@ -42,13 +42,17 @@ import FeedSeller from './Components/pages/FeedSeller';
 import SellerPolicy from './Components/pages/SellerPolicy';
 import Campaign from './Components/pages/Campaign';
 import PromotionSeller from './Components/pages/PromotionSeller';
+import Chat from './Components/pages/Chat';
+
 function App() {
 
   const {soon, product, products, addedsuccessfully} = useSelector((state) => state.changestate)
   
   const{authInfo} = useAuth()
+  const navigate=useNavigate()
   if (!authInfo.isLoggedIn && !authInfo.isPending) {
     // Nếu không đăng nhập, chuyển hướng đến trang đăng nhập
+    // navigate(`/signIn`)
     console.log(123);
     return (
       <>
@@ -81,6 +85,7 @@ function App() {
                           <Route path="dashboard/orders" element={<Order />} />
                           <Route path="dashboard/user-info" element={<UserInfo />} />
                           <Route path="dashboard/promotion" element={<PromotionSeller />} />
+                          <Route path="dashboard/chat" element={<Chat role="seller" />} />
               </Route>
             </Routes>)
       if(isSeller ) 
@@ -97,7 +102,7 @@ function App() {
                       <Route path="dashboard/feed-seller" element={<FeedSeller />} />
                       <Route path="dashboard/policy-seller" element={<SellerPolicy />} />
                       <Route index path="dashboard/campaign/:idPromotion" element={<Campaign/>}/>
-
+                      <Route path="dashboard/messages" element={<Chat role="user" apartment={authInfo.profile.apartment} />} />
           </Route>
         </Routes>)
       

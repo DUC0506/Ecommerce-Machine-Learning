@@ -14,7 +14,7 @@ import { Comment, News } from '../models/index';
  */
 export const createComment = catchAsync(async (news, user, body) => {
   const { comments } = body;
-  console.log(comments);
+
   // 1) Check if user entered all fields
   if (!comments) {
     return {

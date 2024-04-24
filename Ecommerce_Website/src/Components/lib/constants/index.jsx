@@ -110,7 +110,7 @@ export const DASHBOARD_SIDEBAR_LINKS_ADMIN = [
 	{
 		key: 'messages',
 		label: 'Messages',
-		path: '/dashboard/messages',
+		path: '/dashboard/chat',
 		icon: <HiOutlineAnnotation />
 	}
 ]

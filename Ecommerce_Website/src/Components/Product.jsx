@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import React from 'react'
 import { addItemtoCart } from '../api/cart';
 import { useNotification } from '../hooks';
+import { TbCurrencyDong } from "react-icons/tb";
 const Product = ({name, price, images, option, id,item}) => {
   const dispatch = useDispatch();
   // const updatestate = (id) => {
@@ -32,15 +33,16 @@ const Product = ({name, price, images, option, id,item}) => {
   }
   return (
     <div>
-       <div className='inline-block items-center align-middle bg-gray-50 p-2 rounded-lg mb-2'>
+       <div className='inline-block   items-center align-middle bg-gray-100 p-2 rounded-lg mb-2 border-2 hover:border-yellow-400'>
                 <div className='imagecont' onClick={()=>getDetailProduct(id)} style={{
                     backgroundImage:`${images}`
                 }}>
                 </div>
             <div className='flex justify-between items-center m-3'>
                <div className='mr-2'>
-               <div className='font-bold text-sm font-sans'>{price}</div>
-                <div className='header1 font-normal font-sans text-normal'>{name}</div>
+               <div className='header1 font-normal font-sans text-normal'>{name}</div>
+               <div className='font-bold text-sm font-sans text-yellow-400 flex items-center'>{price} <TbCurrencyDong className='ml-1 text-lg' /></div>
+              
                
                 </div>
                 <div><button onClick={() => addItemCart(id)} className='transition ease-out duration-200  border-gray-50 border-2 focus:ring-2 focus:ring-yellow-300  text-sm m-1 bg-yellow-500 mt-1 p-2 rounded-md text-slate-50'>Add to Cart</button></div>

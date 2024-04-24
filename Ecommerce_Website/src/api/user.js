@@ -18,9 +18,22 @@ export const signInUser= async(userInfo)=>{
     }
 }
 
-export const getUsers= async()=>{
+export const getUsers= async(role,apartment)=>{
+    let url=`/user`
+    if(role && !apartment)
+    { 
+        url=`/user?role=${role}`
+    }
+    else if(!role && apartment) {
+        url=`/user?apartment=${apartment}`
+    }
+    else if(role && apartment) {
+        url=`/user?role=${role}&apartment=${apartment}`
+    }
+    else url=`/user`
+
     try {
-        const {data} =await client.get("/user");
+        const {data} =await client.get(url);
         
         return data;
         

@@ -14,6 +14,7 @@ import News from './news.model';
 import Comment from './comment.model';
 import Promotion from './promotion.model';
 import Campaign from './campaign.model';
+import Message from './message.model';
 
 export {
   User,
@@ -31,5 +32,6 @@ export {
   News,
   Comment,
   Promotion,
-  Campaign
+  Campaign,
+  Message
 };

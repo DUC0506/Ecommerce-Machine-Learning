@@ -13,7 +13,7 @@ const Landing = () => {
               <div className='md:w-80 text-2xl text-gray-600 sm:ml-14 mt-10 text-center md:text-left sm:px-0 sm:py-0 w-full px-10 py-5'>
                 <div className='p-1 bg-gray-400 text-xs rounded-xl w-32 text-center mb-1 sm:ml-0'>Our new products</div>
                 <div className='font-semibold mb-8'>Active Summer With Energy Drink 123 <span className='text-yellow-500'>300ml</span></div>
-                <div className='text-sm mb-10 leading-7'>Lorem ipsum dolor sit amet consectetur adipisicing e</div>
+                <div className='text-sm mb-10 leading-7 font-sans'>Chợ chung cư trực tuyến cung cấp một nền tảng thuận tiện để cư dân trao đổi hàng hóa, thông tin và dịch vụ.</div>
                 <button className='text-sm p-2 bg-white rounded-sm border-transparent border-2 text-semibold w-32 focus:ring-2 focus:sring-sky-400'>Shop Now</button>
               </div>
               <div className='bg-img w-8/12 bg-no-repeat relative rotate-6 bg-center bottom-0'>
@@ -35,7 +35,7 @@ const Landing = () => {
   <path strokeLinecap="round" strokeLinejoin="round" d="M6 6h.008v.008H6V6z" />
 </svg>
 20% SALE OFF</div>
-              <div className='text-xs mt-10 w-72 ml-10 text-gray-600 leading-2'>Lorem ipsum dolor sit amet consectetur adipisicing elit. </div>
+              <div className='text-xs mt-8 font-sans w-72 ml-10 text-gray-600 leading-2'>Để khám phá và tham gia vào chợ chung cư trực tuyến, truy cập ngay vào website của chúng tôi!. </div>
               <div className='images'></div>
             </div>
          </div>

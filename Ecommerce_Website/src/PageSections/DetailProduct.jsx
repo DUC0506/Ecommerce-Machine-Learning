@@ -14,11 +14,14 @@ import { getUser } from "../api/user";
 import { getReviews } from "../api/reviews";
 import CommentForm from "./CommentForm";
 import { addItemtoCart } from "../api/cart";
+import Chat from "../Components/pages/Chat";
+import { CiSquareChevDown } from "react-icons/ci";
 
 const DetailProduct = () => {
   const [mainImage, setMainImage] = useState(null);
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
+  const [showChat , setShowChat]=useState(false);
   const[user,setUser]=useState({
     name:'',
     profileImage:'',
@@ -86,7 +89,7 @@ const DetailProduct = () => {
     const roundedRating = Math.round(rating * 2) / 2; // Làm tròn số đến 0.5
     return Array.from({ length: 5 }, (_, index) => {
         if (index < roundedRating) {
-            return <FaStar className="text-yellow-500" key={index} />;
+            return <FaStar className="text-yellow-500 ml-1" key={index} />;
         } else {
             return <FaStar className="text-yellow-500" key={index} style={{ opacity: 0.5 }} />;
         }
@@ -118,6 +121,11 @@ const DetailProduct = () => {
     const {error ,cart}=await addItemtoCart(product1);
     if (error) return null;
     console.log(cart);
+  }   
+   console.log(showChat);
+  const handleShowChat=(bool)=>{
+
+    setShowChat(bool);
   }
 
   // const handleCommentSubmit = () => {
@@ -167,23 +175,24 @@ const DetailProduct = () => {
           </div>
           <div className="w-1/2 ml-4">
             <h2 className="text-2xl font-medium font-sans mb-2 ">{product.name}</h2>
+            <p className="text-gray-800 mb-2 flex items-center mt-4">{product.ratingsAverage } {getStarRating(product.ratingsAverage)}</p>
             <div className="flex text-sm font-medium mt-4 text-gray-800">
               <p className="   mb-2 mr-2">{product.sold} Đã bán</p>
               <p className=" mb-2 ml-2 underline underline-offset-8">{product.ratingsQuantity} Đánh giá</p>
             </div>
             <p className="text-2xl font-medium text-yellow-400 mb-2 p-4 flex bg-slate-200">{product.price} <FaDongSign /></p>
             <div className="flex text-sm font-medium font-sans mt-4 text-gray-800 p-4">
-              <p className="mb-2 mr-2 flex items-center"> <LuPackageCheck className="text-yellow-500 text-xl mr-1" /> Đổi trả miễn phí </p>
-              <p className="mb-2 mr-2 flex items-center">< FaCheckCircle className="text-yellow-500 text-xl mr-1" />Hàng có nguồn gốc xuất xứ 100%</p>
+              <p className="mb-2 mr-2 flex items-center font-sans"> <LuPackageCheck className="text-yellow-500 text-xl mr-1" /> Đổi trả miễn phí </p>
+              <p className="mb-2 mr-2 flex items-center font-sans">< FaCheckCircle className="text-yellow-500 text-xl mr-1" />Hàng có nguồn gốc xuất xứ 100%</p>
               
             </div>
             <div className="flex text-sm font-medium font-sans mt-4 text-gray-800 p-4">
-              <p className="mb-2 mr-2 flex items-center"><GrDeliver  className="text-yellow-500 text-xl mr-1" /> Miễn phí vận chuyển</p>
-              <p className="mb-2 mr-2 flex items-center"> <FaHandsHelping  className="text-yellow-500 text-xl mr-1" /> Hướng dẫn</p>
+              <p className="mb-2 mr-2 flex items-center font-sans"><GrDeliver  className="text-yellow-500 text-xl mr-1" /> Miễn phí vận chuyển</p>
+              <p className="mb-2 mr-2 flex items-center font-sans"> <FaHandsHelping  className="text-yellow-500 text-xl mr-1" /> Hướng dẫn</p>
               
             </div>
             {/* <p className="text-gray-800 mb-2">Category: {product.category.name}</p> */}
-            <p className="text-gray-800 mb-2 flex items-center mt-4">{product.ratingsAverage } {getStarRating(product.ratingsAverage)}</p>
+          
             <div className="flex">
               <button onClick={()=>addItemCart(product._id)} className="bg-yellow-400  hover:bg-yellow-500 mr-2 flex items-center text-white px-2 py-3 rounded-md focus:outline-none">
               <CiShoppingCart className="text-2xl mr-1 "/> Thêm vào giỏ hàng
@@ -204,9 +213,9 @@ const DetailProduct = () => {
               <p className="text-gray-800 font-bold">{user.name}</p>
             </div>
             <div className="flex">
-              <Link to={`/stores/`} className="bg-yellow-400 flex items-center font-medium font-sans text-white px-4 py-2 rounded hover:bg-yellow-600 focus:outline-none mr-2">
-                <FaFacebookMessenger className="text-xl mr-1 text-white" />Chat ngay
-              </Link>
+              <div onClick={()=>handleShowChat(true)} className="bg-yellow-400 flex items-center font-medium font-sans text-white px-4 py-2 rounded cursor-pointer hover:bg-yellow-600 focus:outline-none mr-2">
+                <FaFacebookMessenger className="text-xl mr-1 text-white"  />Chat ngay
+              </div>
               <Link to={`/stores/`} className="bg-orange-500 flex items-center font-medium font-sans text-white px-4 py-2 rounded hover:bg-orange-600 focus:outline-none">
               <FaStore className="text-xl mr-1 text-white" />Xem  người bán
               </Link>
@@ -245,7 +254,14 @@ const DetailProduct = () => {
             <CommentForm productId={product._id} reloadCmt={handleReloadCmt}/>
           </div>
         </div>
-  
+        <div className={`w-1/3 bottom-2 z-50 right-0 h-2/3 overflow-auto ${showChat ? 'fixed' : 'hidden'}`}>
+          <div className="flex justify-end text-lg w-full cursor-pointer" 
+            onClick={()=>handleShowChat(false)}><CiSquareChevDown /></div>
+
+            <Chat role="seller"/>
+
+            
+        </div>
         <Footer />
       </div>
       </div>

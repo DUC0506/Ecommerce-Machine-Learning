@@ -12,7 +12,7 @@ const CartItem = ({ id, name, price, quantity, discount, image, onIncrease, onDe
         <img src={image} alt={name} className="w-12 h-12 object-cover rounded" />
         <div className="ml-4">
           <p className="font-bold font-sans">{name}</p>
-          <p className="text-gray-600 font-sans">${discountedPrice.toFixed(2)}</p>
+          <p className="text-gray-600 font-sans flex items-center">{discountedPrice.toFixed(2)} <TbCurrencyDong className='text-xl text-yellow-500' /></p>
           {discount > 0 && <p className="text-red-500 font-sans">Discount: {discount}% off</p>}
         </div>
       </div>

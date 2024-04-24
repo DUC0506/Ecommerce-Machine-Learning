@@ -128,6 +128,8 @@ import {
   getCampaign
 } from './campaign.controller';
 
+import { addMessage, getMessages } from './message.controller';
+
 const authController = {
   signin,
   signup,
@@ -257,6 +259,10 @@ const campaignController = {
   removeCampaign,
   getCampaign
 };
+const messageController = {
+  addMessage,
+  getMessages
+};
 export {
   authController,
   userController,
@@ -271,5 +277,6 @@ export {
   newsController,
   commentController,
   promotionController,
-  campaignController
+  campaignController,
+  messageController
 };
