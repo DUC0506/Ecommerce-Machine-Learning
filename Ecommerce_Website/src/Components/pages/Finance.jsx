@@ -19,9 +19,12 @@ export default function Finance() {
 	const fetchRecentOrders=async ()=>{
 	
 		const{type,deliveredOrders}=await getTotalSalesBySeller(sellerId)
-		if(type==='error') return type;
-		setRecentOrders(deliveredOrders)
-		console.log(deliveredOrders);
+		if(type==='Success') 
+        {
+            setRecentOrders(deliveredOrders)
+		    console.log(deliveredOrders);
+        }
+		
 		
 	}
     const handleInfo=async (id)=>{
@@ -41,7 +44,14 @@ export default function Finance() {
 
      let time = new Date()
      // Tính tổng totalPrice của tất cả các đơn hàng
-    const totalOrderPriceAll = recentOrders.reduce((total, order) => total + order.totalPrice, 0);
+     console.log(recentOrders);
+     let totalOrderPriceAll
+     if(recentOrders.length > 0) {
+     totalOrderPriceAll = recentOrders.reduce((total, order) => total + order.totalPrice, 0);
+     }
+     else{
+        totalOrderPriceAll=0
+     }
 
 	useEffect(() => {
 	

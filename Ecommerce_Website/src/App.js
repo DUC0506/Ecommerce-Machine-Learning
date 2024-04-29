@@ -43,6 +43,8 @@ import SellerPolicy from './Components/pages/SellerPolicy';
 import Campaign from './Components/pages/Campaign';
 import PromotionSeller from './Components/pages/PromotionSeller';
 import Chat from './Components/pages/Chat';
+import SellerForm from './PageSections/SellerForm';
+import RegisterSeller from './PageSections/RegisterSeller';
 
 function App() {
 
@@ -127,6 +129,7 @@ function App() {
         <Route index path="/user-order" element={<MyOrder/>}/>
         <Route index path="/product-page" element={<Productpage/>}/>
         <Route index path="/feed-page" element={<Feed/>}/>
+        <Route index path="/seller-form" element={<RegisterSeller/>}/>
        
         {/* <Route path='/:id/product' element={<Product/>}/>
         <Route path="/comingSoon" element={<Comingsoon/>}/>

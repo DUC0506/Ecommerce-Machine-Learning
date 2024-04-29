@@ -162,6 +162,34 @@ export const updateUserDetails = catchAsync(async (req, res) => {
     user
   });
 });
+/**
+ * @desc      Update User Details Controller
+ * @param     { Object } req - Request object
+ * @param     { Object } res - Response object
+ * @property  { Object } req.body - Body object data
+ * @property  { Object } req.user - An object contains logged in user data
+ * @returns   { JSON } - A JSON object representing the type, message and user data
+ */
+export const updateToSeller = catchAsync(async (req, res) => {
+  // 1) Find user document and update it's details
+  const { type, message, statusCode, user } =
+    await userService.updateUserToSeller(req.user, req.body);
+
+  // 2) Check if there is an error
+  if (type === 'Error') {
+    return res.status(statusCode).json({
+      type,
+      message: req.polyglot.t(message)
+    });
+  }
+
+  // 3) If everything is OK, send data
+  return res.status(statusCode).json({
+    type,
+    message: req.polyglot.t(message),
+    user
+  });
+});
 
 /**
  * @desc      Update User Profile Image Controller

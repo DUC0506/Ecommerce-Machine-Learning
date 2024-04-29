@@ -187,9 +187,10 @@ export const getTop5Cheap= async()=>{
     }
 }
 export const getProductsBySeller= async(idSeller)=>{
+    console.log(idSeller);
     const token= getToken()
     try {
-        const {data} =await client.get(`/product/products-seller?sellerId${idSeller}`,{
+        const {data} =await client.get(`/product/products-seller?seller=${idSeller}`,{
         
             headers:{
                 Authorization:'Bearer ' + token,

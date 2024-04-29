@@ -13,12 +13,22 @@ export default function DashboardStatsGridSeller() {
 	const fetchRecentOrders=async ()=>{
 	
 		const{type,deliveredOrders}=await getTotalSalesBySeller(authInfo.profile._id)
-		if(type==='error') return type;
+		if(type==='Success'){
 		setRecentOrders(deliveredOrders)
 		console.log(deliveredOrders);
+		}
 		
 	}
-	const totalOrderPriceAll = recentOrders.reduce((total, order) => total + order.totalPrice, 0);
+	let totalOrderPriceAll 
+	if(recentOrders.length>1)
+	{
+		 totalOrderPriceAll = recentOrders.reduce((total, order) => total + order.totalPrice, 0);
+	}
+	else{
+		totalOrderPriceAll=0
+	}
+	console.log(recentOrders);
+	
 	const fetchTotalUsers =async()=>{
 		const{type,users}=await getSellers();
 		if(type==='error') return type;

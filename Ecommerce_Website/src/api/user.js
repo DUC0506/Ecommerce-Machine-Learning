@@ -31,7 +31,7 @@ export const getUsers= async(role,apartment)=>{
         url=`/user?role=${role}&apartment=${apartment}`
     }
     else url=`/user`
-
+    console.log(url);
     try {
         const {data} =await client.get(url);
         
@@ -153,7 +153,30 @@ export const updateUser= async(user)=>{
         
     }
 }
+export const updateUserToSeller= async(info)=>{
+    const token= getToken()
+    try {
+        const {data} =await client.patch(`/user/updateToSeller`,info,{
+        
+            headers:{
+                Authorization:'Bearer ' + token,
+                
+            },
+        }
+    );
+        
+        return data;
+        
+    } catch (error) {
+       
+        const{response}=error;
 
+        if(response?.data) return response.data
+
+        return {error:error.message || error}
+        
+    }
+}
 export const getSellers= async(user)=>{
     const token= getToken()
     try {

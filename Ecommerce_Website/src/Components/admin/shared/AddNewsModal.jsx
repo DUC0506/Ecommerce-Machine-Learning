@@ -42,7 +42,10 @@ export default function AddNewsModal({ isOpen,onRequestClose ,handleAddPost , av
     }, []);
     const fetchProducts=async()=>{
         const {type,message, products} = await getSellerProducts(authInfo.profile._id)
-        setProducts(products)
+        if(type==='Success'){
+          setProducts(products)
+        }
+        
     }
     const handleFileChange = (event) => {
         const files = event.target.files;

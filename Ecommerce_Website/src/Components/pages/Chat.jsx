@@ -9,6 +9,7 @@ import ChatContainer from "./ChatContainer";
 import { useAuth } from "../../hooks";
 import { getUsers } from "../../api/user";
 import Welcome from "./Welcome";
+import ContactsUser from "./ContactsUser";
 
 export default function Chat({role,apartment}) {
   const navigate = useNavigate();
@@ -17,13 +18,13 @@ export default function Chat({role,apartment}) {
   const [currentChat, setCurrentChat] = useState(undefined);
   const [currentUser, setCurrentUser] = useState(undefined);
 
-
+  console.log(apartment);
   const {authInfo} = useAuth()
   const host = "http://localhost:3000";
 
 
   const fetchUsers= async()=>{
-   
+    
         // const data = await axios.get(`${process.env.REACT_APP_ALL_USERS_ROUTE}/${currentUser._id}`);
         const {type, message , users}= await getUsers(role,apartment)
         console.log(users);
@@ -48,7 +49,8 @@ export default function Chat({role,apartment}) {
   return (
     <div className="w-full h-full flex flex-col justify-center items-center gap-4 bg-gray-900">
       <div className="container h-full w-full bg-yellow-400 bg-opacity-80 flex overflow-auto">
-        <Contacts contacts={contacts} changeChat={handleChatChange} />
+        {role==='seller'&&apartment ? <ContactsUser contacts={contacts} changeChat={handleChatChange} />:
+        <Contacts contacts={contacts} changeChat={handleChatChange} />}
         {currentChat === undefined ? (
           <Welcome/>
         ) : (

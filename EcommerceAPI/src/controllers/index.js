@@ -36,7 +36,8 @@ import {
   updateUserProfileImage,
   deleteUser,
   deleteMyAccount,
-  getSellers
+  getSellers,
+  updateToSeller
 } from './user.controller';
 
 import {
@@ -150,7 +151,8 @@ const userController = {
   updateUserProfileImage,
   deleteUser,
   deleteMyAccount,
-  getSellers
+  getSellers,
+  updateToSeller
 };
 
 const categoryController = {

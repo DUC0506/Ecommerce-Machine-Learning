@@ -14,11 +14,14 @@ export default function Products() {
 	const [isUpdateProductModalOpen, setUpdateProductModalOpen] = useState(false);
 	const[product, setProduct]=useState(null);
     const {authInfo}=useAuth()
+    console.log(authInfo.profile._id);
 	const fetchProducts = async () => {
+        
         const { type, products } = await getProductsBySeller(authInfo.profile._id);
-        console.log(products);
-        if (type === 'error') return type;
+        
+        if (type === 'Success') {
         setProducts(products);
+        }
     }
 
     const handleDeleteProduct = async (productId) => {

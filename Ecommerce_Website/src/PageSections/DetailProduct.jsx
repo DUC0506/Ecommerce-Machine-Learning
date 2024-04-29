@@ -16,16 +16,18 @@ import CommentForm from "./CommentForm";
 import { addItemtoCart } from "../api/cart";
 import Chat from "../Components/pages/Chat";
 import { CiSquareChevDown } from "react-icons/ci";
+// import { useAuth } from "../hooks";
 
 const DetailProduct = () => {
   const [mainImage, setMainImage] = useState(null);
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
   const [showChat , setShowChat]=useState(false);
+  // const {authInfo}=useAuth()
   const[user,setUser]=useState({
     name:'',
     profileImage:'',
-
+    apartment:{},
   });
   const[reviews,setReviews]=useState([]);
   const [product, setProduct] = useState({
@@ -53,7 +55,7 @@ const DetailProduct = () => {
     const {type ,message,product} = await getProduct(id);
     if(type==='Error') return message;
    
-    console.log(product.seller);
+    console.log(product);
     setProduct(product)
     setMainImage(product.mainImage)
     if(product){
@@ -254,12 +256,12 @@ const DetailProduct = () => {
             <CommentForm productId={product._id} reloadCmt={handleReloadCmt}/>
           </div>
         </div>
-        <div className={`w-1/3 bottom-2 z-50 right-0 h-2/3 overflow-auto ${showChat ? 'fixed' : 'hidden'}`}>
+        <div className={`w-1/2 bottom-2 z-50 right-0 h-2/3  overflow-auto ${showChat ? 'fixed' : 'hidden'}`}>
           <div className="flex justify-end text-lg w-full cursor-pointer" 
             onClick={()=>handleShowChat(false)}><CiSquareChevDown /></div>
 
-            <Chat role="seller"/>
-
+            {product.apartment ?<Chat role="seller" apartment={product.apartment}/>:'' }
+          
             
         </div>
         <Footer />

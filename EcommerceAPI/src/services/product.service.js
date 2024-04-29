@@ -6,7 +6,7 @@ import { uploadFile, destroyFile } from '../utils/cloudinary';
 
 // Model
 import { Product, Color, Size, User } from '../models/index';
-import AppError from '../utils/appError';
+// import AppError from '../utils/appError';
 
 /**
  * @desc    Query products

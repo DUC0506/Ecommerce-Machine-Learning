@@ -86,6 +86,15 @@ const userSchema = mongoose.Schema(
     },
     discountCode: {
       type: String
+    },
+    tax: {
+      taxAddress: { type: String },
+      taxEmail: { type: String },
+      taxId: { type: String }
+    },
+    card: {
+      cardId: { type: String },
+      cardName: { type: String }
     }
   },
   {

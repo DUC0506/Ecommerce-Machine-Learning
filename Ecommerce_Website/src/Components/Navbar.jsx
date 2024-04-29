@@ -13,6 +13,7 @@ import { IoIosLogOut } from "react-icons/io";
 import { FaRegNewspaper } from "react-icons/fa";
 import { IoPricetagsOutline } from "react-icons/io5";
 import { FaAngleDown } from "react-icons/fa6";
+import { IoStorefrontOutline } from "react-icons/io5";
 
 const Navbar = () => {
   
@@ -57,6 +58,9 @@ console.log(authInfo)
   }
   const handleNavigate=(name)=>{
     navigate(`/product-page?category=${name}`)
+}
+const handleSellerForm=()=>{
+  navigate(`/seller-form`)
 }
   return (
     <div className='nav-cover'>
@@ -149,7 +153,7 @@ console.log(authInfo)
 </svg>}/> */}
         <div className='md:flex items-center transition ease-in duration-200 ml-3 sm:hidden hover:bg-gray-200 px-2 rounded-full cursor-pointer' onClick={()=>handleNews()}>
           <FaRegNewspaper className=' mr-1 text-yellow-400 text-lg' />
-                  <div className='text-yellow-400'>News Today</div>
+                  <div className='text-yellow-400 font-sans'>News Today</div>
         </div>
   
         <div className='md:flex items-center transition ease-in duration-200 ml-3 sm:hidden hover:bg-gray-200 px-2 rounded-full cursor-pointer'>
@@ -188,10 +192,11 @@ console.log(authInfo)
                    </div>
                    </div>
                     <div></div>
-                    <div className="flex items-center  transition ease-in duration-200 ml-3  hover:bg-gray-200 px-2 py-2 rounded-full cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.3} stroke="currentColor" className="mr-2 w-4 h-4">
-  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12c0-1.232.046-2.453.138-3.662a4.006 4.006 0 013.7-3.7 48.678 48.678 0 017.324 0 4.006 4.006 0 013.7 3.7c.017.22.032.441.046.662M4.5 12l-3-3m3 3l3-3m12 3c0 1.232-.046 2.453-.138 3.662a4.006 4.006 0 01-3.7 3.7 48.657 48.657 0 01-7.324 0 4.006 4.006 0 01-3.7-3.7c-.017-.22-.032-.441-.046-.662M19.5 12l-3 3m3-3l3 3" />
-</svg>
-Recently Viewed</div>
+                    <div className='md:flex bg-yellow-400 p-1 items-center transition ease-in duration-200 ml-3 sm:hidden hover:bg-gray-200 px-2 rounded-full cursor-pointer' 
+                    onClick={()=>handleSellerForm()}>
+          <IoStorefrontOutline className=' mr-1 text-white text-lg' />
+                  <div className='text-white font-sans'>Kênh người bán </div>
+        </div>
                 </div>
             </div>
         </div>

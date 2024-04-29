@@ -13,7 +13,8 @@ import {
   updateUserProfileImage,
   deleteUser,
   deleteMyAccount,
-  getSellers
+  getSellers,
+  updateToSeller
 } from '../controllers/user.controller';
 
 // Utils
@@ -38,6 +39,8 @@ router.post('/', restrictedTo('admin'), singleFile('image'), createUser);
 
 // Update User Details Route
 router.patch('/update-details', updateUserDetails);
+
+router.patch('/updateToSeller', updateToSeller);
 
 // Update User Profile Image (Multer Middleware) Route
 router.patch(

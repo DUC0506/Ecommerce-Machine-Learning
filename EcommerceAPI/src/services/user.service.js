@@ -204,7 +204,6 @@ export const updateUserDetails = catchAsync(async (user, body) => {
       statusCode: 409
     };
   }
-  
   // 3) Find user document and update it
   user = await User.findByIdAndUpdate(id, body, {
     new: true,
@@ -212,6 +211,57 @@ export const updateUserDetails = catchAsync(async (user, body) => {
   });
 
   // 4) If everything is OK, send data
+  return {
+    type: 'Success',
+    message: 'successfulUserDetails',
+    statusCode: 200,
+    user
+  };
+});
+
+export const updateUserToSeller = catchAsync(async (user, body) => {
+  const { taxAddress, taxEmail, cardId, cardName } = body;
+  let { taxId } = body;
+  if (!taxAddress || !taxEmail || !cardId || !cardName) {
+    return {
+      type: 'Error',
+      message: 'fieldsRequired',
+      statusCode: 400
+    };
+  }
+  if (!taxId) {
+    taxId = '';
+  }
+  if (!user) {
+    return {
+      type: 'Error',
+      message: 'userNotFound',
+      statusCode: 400
+    };
+  }
+  if (user.role !== 'user') {
+    return { type: 'Error', message: 'notUser', statusCode: 400 };
+  }
+  const { id } = user;
+  user = await User.findByIdAndUpdate(
+    id,
+    {
+      role: 'seller',
+      tax: {
+        taxAddress,
+        taxEmail,
+        taxId: taxId
+      },
+      card: {
+        cardId,
+        cardName
+      }
+    },
+    {
+      new: true,
+      runValidators: true
+    }
+  );
   return {
     type: 'Success',
     message: 'successfulUserDetails',
@@ -250,7 +300,6 @@ export const updateUserProfileImage = catchAsync(async (user, profileImage) => {
     folderName,
     600
   );
-  console.log(image);
   // 5) Find user document and update it
   user = await User.findByIdAndUpdate(
     id,
