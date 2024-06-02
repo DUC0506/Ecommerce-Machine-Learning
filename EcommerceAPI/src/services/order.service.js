@@ -23,7 +23,7 @@ const stripe = STRIPE_SDK(config.stripe.secret_key);
  */
 export const createOrder = catchAsync(async (body, user) => {
   // 1) Extract data from parameters
-  const { shippingAddress, paymentMethod, phone } = body;
+  const { shippingAddress, paymentMethod, phone, timeDelivery } = body;
 
   const { address, city, country, postalCode } = shippingAddress;
   // 2) Check if user entered all fields
@@ -34,7 +34,8 @@ export const createOrder = catchAsync(async (body, user) => {
     !postalCode ||
     !country ||
     !paymentMethod ||
-    !phone
+    !phone ||
+    !timeDelivery
   ) {
     return {
       type: 'Error',
@@ -64,7 +65,8 @@ export const createOrder = catchAsync(async (body, user) => {
       totalPrice: cart.totalPrice,
       shippingAddress,
       paymentMethod,
-      phone
+      phone,
+      timeDelivery
     });
     // 2) Update product sold and quantity fields
     for (const item of cart.items) {
@@ -132,7 +134,8 @@ export const createOrder = catchAsync(async (body, user) => {
     shippingAddress,
     paymentMethod,
     paymentStripeId: charge.id,
-    phone
+    phone,
+    timeDelivery
   });
 
   // 10) Update product sold and quantity fields
@@ -162,7 +165,7 @@ export const createOrder = catchAsync(async (body, user) => {
 });
 export const createOrderBySeller = catchAsync(async (body, user) => {
   // 1) Extract data from parameters
-  const { shippingAddress, paymentMethod, phone } = body;
+  const { shippingAddress, paymentMethod, phone, timeDelivery } = body;
 
   const { address, city, country, postalCode } = shippingAddress;
   // 2) Check if user entered all fields
@@ -173,7 +176,8 @@ export const createOrderBySeller = catchAsync(async (body, user) => {
     !postalCode ||
     !country ||
     !paymentMethod ||
-    !phone
+    !phone ||
+    !timeDelivery
   ) {
     return {
       type: 'Error',
@@ -183,7 +187,10 @@ export const createOrderBySeller = catchAsync(async (body, user) => {
   }
 
   // 3) Get user cart
-  const cart = await Cart.findOne({ email: user.email });
+  const cart = await Cart.findOne({ email: user.email }).populate({
+    path: 'items.selectedSize',
+    select: 'size' // Bỏ qua reviews nếu bạn không muốn lấy thông tin này
+  });
 
   // 4) Check if cart doesn't exist
   if (!cart || cart.items.length === 0) {
@@ -214,6 +221,7 @@ export const createOrderBySeller = catchAsync(async (body, user) => {
     shippingAddress,
     paymentMethod,
     phone,
+    timeDelivery,
     seller
   ) {
     function calculateTotalPrice(items) {
@@ -223,13 +231,20 @@ export const createOrderBySeller = catchAsync(async (body, user) => {
       }
       return totalPrice;
     }
+    const itemsWithSize = items.map((item) => ({
+      ...item,
+      size: item.selectedSize.size
+    }));
+    console.log(itemsWithSize);
+
     const order = await Order.create({
-      products: items,
+      products: itemsWithSize,
       user: userId,
       totalPrice: calculateTotalPrice(items),
       shippingAddress,
       paymentMethod,
       phone,
+      timeDelivery,
       seller
     });
     return order;
@@ -242,7 +257,8 @@ export const createOrderBySeller = catchAsync(async (body, user) => {
     paymentMethod,
     phone,
     seller,
-    paymentStripeId,
+    timeDelivery,
+    paymentStripeId
   ) {
     function calculateTotalPrice(items) {
       let totalPrice = 0;
@@ -251,13 +267,18 @@ export const createOrderBySeller = catchAsync(async (body, user) => {
       }
       return totalPrice;
     }
+    const itemsWithSize = items.map((item) => ({
+      ...item,
+      size: item.selectedSize.size
+    }));
     const order = await Order.create({
-      products: items,
+      products: itemsWithSize,
       user: userId,
       totalPrice: calculateTotalPrice(items),
       shippingAddress,
       paymentMethod,
       phone,
+      timeDelivery,
       seller,
       paymentStripeId,
       paidAt: moment(),
@@ -278,6 +299,7 @@ export const createOrderBySeller = catchAsync(async (body, user) => {
         shippingAddress,
         paymentMethod,
         phone,
+        timeDelivery,
         sellerId
       );
       createdOrders.push(order);
@@ -349,6 +371,7 @@ export const createOrderBySeller = catchAsync(async (body, user) => {
       paymentMethod,
       phone,
       sellerId,
+      timeDelivery,
       charge.id
     );
     createdOrders.push(order);
@@ -395,7 +418,7 @@ export const orderStatus = catchAsync(async (status, id) => {
       statusCode: 400
     };
   }
- 
+
   // 2) Check if status doesn't meet the enum
   if (
     ![
@@ -414,7 +437,7 @@ export const orderStatus = catchAsync(async (status, id) => {
   }
 
   const order = await Order.findById(id);
- 
+
   // 3) Check if order doesn't exist
   if (!order) {
     return {
@@ -451,7 +474,10 @@ export const orderStatus = catchAsync(async (status, id) => {
       statusCode: 200
     };
   }
-
+  if (status === 'Delivered') {
+    order.isPaid = true;
+    order.isDelivered = true;
+  }
   // 5) Save order new status
   order.status = status;
 
@@ -463,7 +489,6 @@ export const orderStatus = catchAsync(async (status, id) => {
     message: 'successfulStatusUpdate',
     statusCode: 200
   };
-
 });
 
 /**
@@ -506,7 +531,8 @@ export const queryOrders = catchAsync(async (req) => {
  */
 export const queryOrdersBySeller = catchAsync(async (req) => {
   // 1) Get all orders
-  const populateQuery = [{ path: 'user', select: 'username' }];
+  console.log(req.query);
+  const populateQuery = [{ path: 'user', select: 'username phone email' }];
   const orders = await APIFeatures(req, Order, populateQuery);
 
   // 2) Check of orders doesn't exist
@@ -527,7 +553,6 @@ export const queryOrdersBySeller = catchAsync(async (req) => {
   };
 });
 
-
 /**
  * @desc    Query Order Using It's ID
  * @param   { String } id - Order ID
@@ -536,7 +561,6 @@ export const queryOrdersBySeller = catchAsync(async (req) => {
 export const queryOrder = catchAsync(async (id) => {
   // 1) Get order document using it's ID
   const order = await Order.findById(id);
-
   // 2) Check if order doesn't exist
   if (!order) {
     return {
@@ -652,7 +676,7 @@ export const totalSalesBySeller = catchAsync(async (req) => {
     status: 'Delivered',
     // isPaid: true,
     seller: sellerId
-  });
+  }).populate({ path: 'products.product', select: 'name' });
 
   // 2) Kiểm tra xem có đơn hàng đã giao hàng hay không
   if (!deliveredOrders || deliveredOrders.length === 0) {

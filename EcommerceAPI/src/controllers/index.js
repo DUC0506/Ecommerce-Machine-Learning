@@ -25,7 +25,10 @@ import {
   top5Cheap,
   productStats,
   getAllProductsByApartment,
-  getAllProductsBySeller
+  getAllProductsBySeller,
+  getAllProductsBySearch,
+  getAllProductsSoldBySeller,
+  updateProductApproved
 } from './product.controller';
 
 import {
@@ -106,7 +109,9 @@ import {
   updateNewsDetails,
   updateNewsMainImage,
   updateNewsImages,
-  deleteNews
+  deleteNews,
+  getAllNews,
+  updateNewsApproval
 } from './news.controller';
 import {
   addComment,
@@ -129,7 +134,28 @@ import {
   getCampaign
 } from './campaign.controller';
 
-import { addMessage, getMessages } from './message.controller';
+import { addMessage, getMessages, getGenerativeAI } from './message.controller';
+import {
+  addPredict,
+  getAllPredicts,
+  getPredict,
+  analysisPredict
+} from './predict.controller';
+import {
+  addExpense,
+  getAllExpenses,
+  getExpense,
+  deleteExpense,
+  getDistance,
+  getTotalExpense
+} from './expense.controller';
+import {
+  addStatus,
+  getAllStatuses,
+  getStatus,
+  updateStatusDetails,
+  removeStatus
+} from './status.controller';
 
 const authController = {
   signin,
@@ -179,7 +205,10 @@ const productController = {
   top5Cheap,
   productStats,
   getAllProductsByApartment,
-  getAllProductsBySeller
+  getAllProductsBySeller,
+  getAllProductsBySearch,
+  getAllProductsSoldBySeller,
+  updateProductApproved
 };
 
 const reviewController = {
@@ -239,7 +268,9 @@ const newsController = {
   updateNewsDetails,
   updateNewsMainImage,
   updateNewsImages,
-  deleteNews
+  deleteNews,
+  getAllNews,
+  updateNewsApproval
 };
 const commentController = {
   addComment,
@@ -263,7 +294,29 @@ const campaignController = {
 };
 const messageController = {
   addMessage,
-  getMessages
+  getMessages,
+  getGenerativeAI
+};
+const predictController = {
+  addPredict,
+  getAllPredicts,
+  getPredict,
+  analysisPredict
+};
+const expenseController = {
+  addExpense,
+  getAllExpenses,
+  getExpense,
+  deleteExpense,
+  getDistance,
+  getTotalExpense
+};
+const statusController = {
+  addStatus,
+  getAllStatuses,
+  getStatus,
+  updateStatusDetails,
+  removeStatus
 };
 export {
   authController,
@@ -280,5 +333,8 @@ export {
   commentController,
   promotionController,
   campaignController,
-  messageController
+  messageController,
+  predictController,
+  expenseController,
+  statusController
 };

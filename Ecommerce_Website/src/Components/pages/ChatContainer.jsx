@@ -6,27 +6,28 @@ import { v4 as uuidv4 } from "uuid";
 import ChatInput from "./ChatInput";
 import { useAuth } from "../../hooks";
 import { createMessage, getMessages } from "../../api/message";
+import { IoCall, IoVideocam, IoSettings } from "react-icons/io5";
 
 export default function ChatContainer({ currentChat, socket }) {
   const [messages, setMessages] = useState([]);
   const scrollRef = useRef();
   const [arrivalMessage, setArrivalMessage] = useState(null);
-  const {authInfo} = useAuth()
-  const fetchMessages =async () => {
-    const {projectedMessages,type , message}=await getMessages( currentChat._id )
-    if(type === 'Error'){
-      setMessages([])
-    }
-    else{
+  const { authInfo } = useAuth();
+  const fetchMessages = async () => {
+    const { projectedMessages, type, message } = await getMessages(
+      currentChat._id
+    );
+    if (type === "Error") {
+      setMessages([]);
+    } else {
+      console.log(projectedMessages);
       setMessages(projectedMessages);
     }
-   
-  }
-  useEffect(()=>{
-   
-    fetchMessages()
-    
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  };
+  useEffect(() => {
+    fetchMessages();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentChat]);
 
   // useEffect(() => {
@@ -46,9 +47,8 @@ export default function ChatContainer({ currentChat, socket }) {
       from: authInfo.profile._id,
       msg,
     });
- 
-    await createMessage({  to: currentChat._id,
-      message: msg});
+
+    await createMessage({ to: currentChat._id, message: msg });
     // await axios.post(sendMessageRoute, {
     //   from: authInfo.profile._id,
     //   to: currentChat._id,
@@ -59,17 +59,15 @@ export default function ChatContainer({ currentChat, socket }) {
     msgs.push({ fromSelf: true, message: msg });
     setMessages(msgs);
   };
-  
 
   useEffect(() => {
     if (socket.current) {
-   
       socket.current.on("msg-receive", (msg) => {
         console.log(msg);
         setArrivalMessage({ fromSelf: false, message: msg });
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -82,16 +80,33 @@ export default function ChatContainer({ currentChat, socket }) {
 
   return (
     <div className="flex flex-col h-full w-3/4 bg-white">
-      <div className="flex items-center justify-between p-4 h-1/6 rounded bg-yellow-400 ">
-        <div className="flex items-center gap-4 ">
-          <div className="flex-shrink-0 w-12 h-12">
-            <img
-              src={currentChat.profileImage}
-              alt=""
-              className="w-full h-full rounded-full"
-            />
+      <div className="flex w-full items-center justify-between p-4 h-1/6 rounded border-b border-slate-200 bg-yellow-400 ">
+        <div className="flex w-full items-center gap-4 ">
+          <div className="flex w-full justify-between">
+            <div className="flex items-center">
+              <img
+                src={currentChat.profileImage}
+                alt=""
+                className="w-12 h-12 rounded-full"
+              />
+
+              <h3 className="text-white font-sans font-bold text-lg">
+                {currentChat.username}
+              </h3>
+            </div>
+
+            <div className="flex items-center mr-2">
+              <span>
+                <IoCall className="text-white text-xl mr-2 cursor-pointer" />{" "}
+              </span>
+              <span>
+                <IoVideocam className="text-white text-xl mr-2 cursor-pointer" />
+              </span>
+              <span>
+                <IoSettings className="text-white text-xl mr-2 cursor-pointer" />
+              </span>
+            </div>
           </div>
-          <h3 className="text-white font-sans text-lg">{currentChat.username}</h3>
         </div>
         {/* <Logout /> */}
       </div>
@@ -110,11 +125,9 @@ export default function ChatContainer({ currentChat, socket }) {
           </div>
         ))}
       </div>
-        <div className="h-1/6">
+      <div className="h-1/6">
         <ChatInput handleSendMsg={handleSendMsg} />
-        </div>
-       
-      
+      </div>
     </div>
   );
 }

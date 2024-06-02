@@ -95,10 +95,10 @@ export default function MyOrder() {
 									</select>
 								</div> */}
 							</div>
-								<div className='flex flex-col justify-end'>
+								<div className='flex flex-col justify-end border-b-2 pb-2 border-b-red-400 w-full'>
 								
-									<div  key={index} className='text-yellow-400 font-sans font-bold text-xl  mt-2 mb-4 flex items-center justify-end'>{order.totalPrice} <TbCurrencyDong className='text-lg ml-1 font-sans' /></div>
-									<div className='bg-yellow-400 w-fit py-1 px-4 text-lg font-sans font-medium text-white rounded  flex justify-end mr-1'>{order.status}</div>
+									<div  key={index} className='text-yellow-400 font-sans cursor-pointer font-bold text-xl  mt-2 mb-2 flex items-center justify-end'>{order.totalPrice} <TbCurrencyDong className='text-lg ml-1 font-sans' /></div>
+									<div className='bg-yellow-400 cursor-pointer w-fit py-1 px-4 text-lg font-sans font-medium text-white rounded  flex justify-end mr-1'>{order.status}</div>
 									
 								</div>
 							</div>
@@ -133,7 +133,7 @@ export function InfoProduct({id,totalProductQuantity}){
 	return (
 		<div className=' items-center flex  justify-between w-full border-b border-yellow-400 pb-2'>
 				<div>
-					<div className='flex'>
+					<div className='flex font-sans'>
 						<img src={product?.mainImage} alt={product?.name} className="w-10 h-10 mr-2 font-sans font-medium" />
 						{product?.name} 
 					</div>

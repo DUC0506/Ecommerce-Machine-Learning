@@ -16,7 +16,10 @@ import { Product, Color, Size, User } from '../models/index';
 export const queryProducts = catchAsync(async (req) => {
   const populateQuery = [
     { path: 'colors', select: 'color' },
-    { path: 'sizes', select: 'size' }
+    { path: 'sizes', select: 'size' },
+    { path: 'category' },
+    { path: 'apartment', select: 'name' },
+    { path: 'seller', select: 'username email address phone' }
   ];
 
   const products = await APIFeatures(req, Product, populateQuery);
@@ -72,6 +75,60 @@ export const queryProductsByApartment = catchAsync(async (req) => {
     products
   };
 });
+export const queryProductsByKeyword = catchAsync(async (req) => {
+  const populateQuery = [
+    { path: 'colors', select: 'color' },
+    { path: 'sizes', select: 'size' }
+  ];
+  const { user } = req;
+  const { keyword } = req.query; // Lấy từ khóa tìm kiếm từ query string
+
+  // Thêm thông tin về apartment vào query
+  const { apartment } = user; // Giả sử thông tin về apartment được truyền qua query string
+  if (!apartment) {
+    return {
+      type: 'Error',
+      message: 'noApartmentFound',
+      statusCode: 404
+    };
+  }
+
+  let products;
+  // Tìm kiếm sản phẩm dựa trên từ khóa
+  if (keyword) {
+    products = await Product.find({
+      $or: [
+        { name: { $regex: keyword, $options: 'i' } }, // Tìm theo tên sản phẩm
+        { description: { $regex: keyword, $options: 'i' } } // Tìm theo mô tả sản phẩm
+      ],
+      apartment: apartment // Filter sản phẩm theo apartment của user
+    }).populate(populateQuery);
+  } else {
+    // Nếu không có từ khóa, trả về lỗi
+    return {
+      type: 'Error',
+      message: 'noKeywordProvided',
+      statusCode: 400
+    };
+  }
+
+  // Kiểm tra nếu không có sản phẩm được tìm thấy
+  if (!products || products.length === 0) {
+    return {
+      type: 'Error',
+      message: 'noProductsFound',
+      statusCode: 404
+    };
+  }
+
+  // Nếu mọi thứ đều ổn, gửi dữ liệu
+  return {
+    type: 'Success',
+    message: 'successfulProductsFound',
+    statusCode: 200,
+    products
+  };
+});
 
 export const queryProductsBySeller = catchAsync(async (req) => {
   const populateQuery = [
@@ -90,7 +147,6 @@ export const queryProductsBySeller = catchAsync(async (req) => {
   //   };
   // }
   const products = await APIFeatures(req, Product, populateQuery, null);
-
   // 1) Kiểm tra nếu không có sản phẩm
   if (!products || products.length === 0) {
     return {
@@ -108,6 +164,43 @@ export const queryProductsBySeller = catchAsync(async (req) => {
     products
   };
 });
+export const queryProductsSoldBySeller = catchAsync(async (req) => {
+  const populateQuery = [
+    { path: 'colors', select: 'color' },
+    { path: 'sizes', select: 'size' },
+    { path: 'category' }
+  ];
+  // const { sellerId } = req.query;
+  // // Thêm thông tin về apartment vào query
+  // // Giả sử thông tin về apartment được truyền qua query string
+  // if (!sellerId) {
+  //   return {
+  //     type: 'Error',
+  //     message: 'noSellerIdFound',
+  //     statusCode: 404
+  //   };
+  // }
+  const products = await APIFeatures(req, Product, populateQuery, null);
+  // Lọc các sản phẩm với sold > 0
+  const soldProducts = products.filter((product) => product.sold > 0);
+
+  // 1) Kiểm tra nếu không có sản phẩm
+  if (!products || products.length === 0) {
+    return {
+      type: 'Error',
+      message: 'noProductsFound',
+      statusCode: 404
+    };
+  }
+
+  // 3) Nếu mọi thứ đều ổn, gửi dữ liệu
+  return {
+    type: 'Success',
+    message: 'successfulProductsFound',
+    statusCode: 200,
+    products: soldProducts
+  };
+});
 /**
  * @desc    Query Product Using It's ID
  * @param   { String } productId - Product ID
@@ -116,7 +209,7 @@ export const queryProductsBySeller = catchAsync(async (req) => {
 export const queryProductById = catchAsync(async (productId) => {
   const populateQuery = [
     { path: 'colors', select: 'color' },
-    { path: 'sizes', select: 'size' },
+    { path: 'sizes' },
     { path: 'category', select: 'name' }
   ];
 
@@ -158,6 +251,7 @@ export const createProduct = catchAsync(async (body, files, seller) => {
     priceDiscount,
     colors,
     sizes,
+    priceSizes,
     quantity,
     sold,
     isOutOfStock
@@ -174,6 +268,7 @@ export const createProduct = catchAsync(async (body, files, seller) => {
     !priceDiscount ||
     !colors ||
     !sizes ||
+    !priceSizes ||
     !quantity ||
     !sold ||
     !isOutOfStock ||
@@ -234,12 +329,22 @@ export const createProduct = catchAsync(async (body, files, seller) => {
     sold: Number(sold),
     isOutOfStock
   });
-
   // 5) Convert colors and sizes string into an array
   const colorsArray = colors.split(',').map((color) => color.trim());
   const sizesArray = sizes.split(',').map((size) => size.trim());
   const sizesDocIds = [];
   const colorsDocIds = [];
+  const pricesArray = priceSizes
+    .split(',')
+    .map((priceSize) => parseFloat(priceSize.trim()));
+
+  if (pricesArray.length !== sizesArray.length) {
+    return {
+      type: 'Error',
+      message: 'sizes not match price',
+      statusCode: 400
+    };
+  }
 
   /*
     6) Map through the colors and sizes array and check if there is a color or size document already exist in the colors or sizes collection.
@@ -266,11 +371,18 @@ export const createProduct = catchAsync(async (body, files, seller) => {
   );
 
   await Promise.all(
-    sizesArray.map(async (size) => {
-      const sizeDocument = await Size.findOne({ size });
+    sizesArray.map(async (size, index) => {
+      const sizeDocument = await Size.findOne({
+        size,
+        ratioPrice: pricesArray[index]
+      });
 
       if (!sizeDocument) {
-        const newSize = await Size.create({ product: product.id, size });
+        const newSize = await Size.create({
+          product: product.id,
+          size,
+          ratioPrice: pricesArray[index]
+        });
         sizesDocIds.push(newSize.id);
       } else {
         sizesDocIds.push(sizeDocument.id);
@@ -345,6 +457,41 @@ export const updateProductDetails = catchAsync(
     };
   }
 );
+export const updateProductApproved = catchAsync(async (productId, body) => {
+  const product = await Product.findById(productId);
+  const infoProduct = body;
+  // 1) Check if product doesn't exist
+  if (!product) {
+    return {
+      type: 'Error',
+      message: 'noProductFound',
+      statusCode: 404
+    };
+  }
+
+  // 2) Check if user isn't the owner of product
+  if (product.isApproved) {
+    return {
+      type: 'Error',
+      message: 'notApproved',
+      statusCode: 404
+    };
+  }
+
+  // 3) Check if user try to update colors or sizes fields
+
+  // 3) Update product by it's ID
+  const result = await Product.findByIdAndUpdate(productId, infoProduct, {
+    new: true
+  });
+  // 4) If everything is OK, send data
+  return {
+    type: 'Success',
+    message: 'successfulProductDetails',
+    statusCode: 200,
+    result
+  };
+});
 
 /**
  * @desc    Update Product Color

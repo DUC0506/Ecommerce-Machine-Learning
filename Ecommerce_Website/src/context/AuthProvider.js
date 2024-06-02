@@ -35,11 +35,16 @@ export default function AuthProvider({children}) {
     }
     const isAuth=async ()=>{
         const token=localStorage.getItem('auth-token')
-        if(!token) return;
-        setAuthInfo({...authInfo,isPending:true})
+        if(!token) {
+          console.log(112);
+          navigate(`/signIn`,{replace:true})
+          return;
+        }
+      setAuthInfo({...authInfo,isPending:true})
       const{error,user}=  await getIsAuth(token)
       console.log(user);
       if(error){
+        
         return setAuthInfo({...authInfo,isPending:false,error})
      }
      setAuthInfo({profile:{...user},isPending:false,isLoggedIn:true, error:''})

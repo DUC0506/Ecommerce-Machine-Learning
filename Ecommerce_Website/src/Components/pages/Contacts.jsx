@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../hooks";
-import Email from '../../assets/mail.webp'
+import Email from "../../assets/mail.webp";
+import { FcHome } from "react-icons/fc";
 
 export default function Contacts({ contacts, changeChat }) {
   const [currentUserName, setCurrentUserName] = useState(undefined);
@@ -8,12 +9,12 @@ export default function Contacts({ contacts, changeChat }) {
   const [currentSelected, setCurrentSelected] = useState(undefined);
 
   console.log(contacts);
-  const {authInfo} = useAuth()
-  useEffect(()=>{
-    setCurrentUserName(authInfo.profile.username)
-    setCurrentUserImage(authInfo.profile.profileImage)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]);
+  const { authInfo } = useAuth();
+  useEffect(() => {
+    setCurrentUserName(authInfo.profile.username);
+    setCurrentUserImage(authInfo.profile.profileImage);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const changeCurrentChat = (index, contact) => {
     setCurrentSelected(index);
@@ -24,19 +25,18 @@ export default function Contacts({ contacts, changeChat }) {
   return (
     <>
       {currentUserImage && currentUserImage && (
-        <div className="flex flex-col  h-full bg-white w-1/4 ">
+        <div className="flex flex-col  h-full bg-slate-100 w-1/4 ">
           <div className="flex items-center justify-center h-1/6">
-            <div className="flex items-center gap-4">
-              <img src={Email} alt="logo" className="h-16" />
-            
+            <div className="flex items-center gap-4 ">
+              <img src={Email} alt="logo" className="h-16 rounded" />
             </div>
           </div>
-          <div className="overflow-auto rounded mx-1 h-5/6 ">
+          <div className="overflow-auto rounded mx-1 h-5/6 bg-white ">
             {contacts.map((contact, index) => (
               <div
                 key={contact._id}
-                className={`flex items-center py-4 cursor-pointer my-1 rounded hover:bg-yellow-500 ${
-                  index === currentSelected ? "bg-yellow-500" : "bg-yellow-300"
+                className={`flex items-center border-b border-slate-400 py-4 cursor-pointer my-1 rounded hover:bg-yellow-200 hover:within ${
+                  index === currentSelected ? "bg-yellow-500" : "bg-white "
                 }`}
                 onClick={() => changeCurrentChat(index, contact)}
               >
@@ -47,15 +47,28 @@ export default function Contacts({ contacts, changeChat }) {
                     className="w-full h-full rounded-full"
                   />
                 </div>
-                <div className="ml-4 text-white">
+                <div
+                  className={`ml-4   ${
+                    index === currentSelected
+                      ? " text-white"
+                      : " text-slate-400 "
+                  }`}
+                >
                   <h3>{contact.username}</h3>
-                 {contact.role ==='admin'?'':  <h3>({contact.apartment.name})</h3>}
-                  {contact.role ==='admin' ? <h3>Admin</h3> : ''}
+                  {contact.role === "admin" ? (
+                    ""
+                  ) : (
+                    <h3 className="font-sans font-semibold flex items-center">
+                      <FcHome className="text-xl mr-1" />{" "}
+                      {contact.apartment.name}
+                    </h3>
+                  )}
+                  {contact.role === "admin" ? <h3>Admin</h3> : ""}
                 </div>
               </div>
             ))}
           </div>
-          <div className="flex  items-center justify-center py-4 rounded bg-yellow-400 mt-1 mr-4  h-1/6 ">
+          {/* <div className="flex  items-center justify-center py-4 rounded bg-yellow-400 mt-1 mr-1  h-1/6 ">
             <div className="flex items-center gap-4 ">
               <div className="w-12 h-12">
                 <img
@@ -68,7 +81,7 @@ export default function Contacts({ contacts, changeChat }) {
                 <h2>{currentUserName}</h2>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       )}
     </>

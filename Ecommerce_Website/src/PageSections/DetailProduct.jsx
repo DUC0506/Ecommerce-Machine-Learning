@@ -16,13 +16,16 @@ import CommentForm from "./CommentForm";
 import { addItemtoCart } from "../api/cart";
 import Chat from "../Components/pages/Chat";
 import { CiSquareChevDown } from "react-icons/ci";
+import { useNotification } from "../hooks";
 // import { useAuth } from "../hooks";
 
 const DetailProduct = () => {
+  const {updateNotification}= useNotification()
   const [mainImage, setMainImage] = useState(null);
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
   const [showChat , setShowChat]=useState(false);
+  const [selectedSize, setSelectedSize] = useState({});
   // const {authInfo}=useAuth()
   const[user,setUser]=useState({
     name:'',
@@ -43,7 +46,7 @@ const DetailProduct = () => {
     ratingsAverage:0,
     ratingsQuantity:0,
     seller:'',
-    size:[],
+    sizes:[],
     colors:[],
 
   })
@@ -114,11 +117,14 @@ const DetailProduct = () => {
     }
   }
   const addItemCart =async(id)=>{
+    if(!selectedSize._id){
+        return updateNotification('error','Bạn chưa nhập size')
+    }
     const product1={
       productId: id,
       quantity:1,
       selectedColor: product.colors[0]._id,
-      selectedSize: product.sizes[0]._id,
+      selectedSize: selectedSize._id ? selectedSize._id : product.sizes[0]._id,
     }
     const {error ,cart}=await addItemtoCart(product1);
     if (error) return null;
@@ -128,6 +134,11 @@ const DetailProduct = () => {
   const handleShowChat=(bool)=>{
 
     setShowChat(bool);
+  }
+  console.log(selectedSize);
+  const handleSizeClick=(s)=>{
+    console.log(s);
+    setSelectedSize(s);
   }
 
   // const handleCommentSubmit = () => {
@@ -182,7 +193,19 @@ const DetailProduct = () => {
               <p className="   mb-2 mr-2">{product.sold} Đã bán</p>
               <p className=" mb-2 ml-2 underline underline-offset-8">{product.ratingsQuantity} Đánh giá</p>
             </div>
-            <p className="text-2xl font-medium text-yellow-400 mb-2 p-4 flex bg-slate-200">{product.price} <FaDongSign /></p>
+            <p className="text-2xl font-medium text-yellow-400 mb-2 p-4 flex bg-slate-200">{selectedSize.ratioPrice ?product.price*selectedSize.ratioPrice:product.price} <FaDongSign /></p>
+            <div className="flex items-center mt-4"> 
+            {
+              product.sizes.length > 0 && product.sizes.map((s, index) => (
+                <div key={index} 
+                className={`mr-2  ${
+                  selectedSize.size === s.size ? "bg-yellow-500 text-white" : ""
+                } px-2 py-1 font-semibold rounded cursor-pointer border-2 border-yellow-400 font-sans`}
+                onClick={() => handleSizeClick(s)}
+                >{s.size}</div>
+              ))
+            }
+            </div>
             <div className="flex text-sm font-medium font-sans mt-4 text-gray-800 p-4">
               <p className="mb-2 mr-2 flex items-center font-sans"> <LuPackageCheck className="text-yellow-500 text-xl mr-1" /> Đổi trả miễn phí </p>
               <p className="mb-2 mr-2 flex items-center font-sans">< FaCheckCircle className="text-yellow-500 text-xl mr-1" />Hàng có nguồn gốc xuất xứ 100%</p>
@@ -196,10 +219,10 @@ const DetailProduct = () => {
             {/* <p className="text-gray-800 mb-2">Category: {product.category.name}</p> */}
           
             <div className="flex">
-              <button onClick={()=>addItemCart(product._id)} className="bg-yellow-400  hover:bg-yellow-500 mr-2 flex items-center text-white px-2 py-3 rounded-md focus:outline-none">
+              <button onClick={()=>addItemCart(product._id)} className="bg-yellow-400  hover:bg-yellow-500 mr-2 flex items-center text-white px-2 py-3 rounded-md focus:outline-none font-sans">
               <CiShoppingCart className="text-2xl mr-1 "/> Thêm vào giỏ hàng
               </button>
-              <button className="bg-yellow-400 hover:bg-yellow-500 text-white px-4 py-3 rounded-md focus:outline-none">
+              <button className="bg-yellow-400 hover:bg-yellow-500 text-white px-4 py-3 rounded-md focus:outline-none font-sans">
                 Mua ngay
               </button>
             </div>
@@ -226,8 +249,8 @@ const DetailProduct = () => {
 
         {/* Thông tin sản phẩm liên quan */}
         <div className="mt-8 w-full p-4 bg-slate-50">
-          <h3 className="text-xl font-medium  font-sans mb-4">Thông tin </h3>
-          <div className="flex w-full">
+          <h3 className="text-xl font-medium  font-sans mb-4">Thông tin sản phẩm </h3>
+          <div className="flex w-full whitespace-pre-line">
               <p className="font-sans px-2 py-2" >{product.description}</p>
           </div>
         </div>

@@ -7,7 +7,8 @@ import Footer from '../Components/Footer';
 export default function Productpage() {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-  let queryParamValue = urlParams.get('category'); // Thay 'queryParamName' bằng tên của query parameter bạn muốn lấy
+  let queryParamValue = urlParams.get('category');
+  let queryParamSearchValue = urlParams.get('key'); // Thay 'queryParamName' bằng tên của query parameter bạn muốn lấy
 
   console.log(queryParamValue);
 
@@ -36,7 +37,7 @@ export default function Productpage() {
     <div>
         <ToastContainer />
         <Navbar />
-        <Links categorys={queryParamValue} idCategory={idCategory}/>
+        <Links categorys={queryParamValue} idCategory={idCategory} searchText={queryParamSearchValue}/>
         <Footer />
     </div>
   )

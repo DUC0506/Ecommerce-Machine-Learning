@@ -95,6 +95,10 @@ const userSchema = mongoose.Schema(
     card: {
       cardId: { type: String },
       cardName: { type: String }
+    },
+    isGlobalBan: {
+      type: Boolean,
+      default: false
     }
   },
   {

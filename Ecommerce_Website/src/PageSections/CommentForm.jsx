@@ -66,7 +66,7 @@ const CommentForm = ({productId,reloadCmt}) => {
 
   return (
     <div className="mt-4">
-      <h4 className="text-lg font-bold mb-2">Leave a Comment</h4>
+   
       <div className="flex items-center mb-2">
         {/* <label className="mr-2">Rating:</label> */}
         <StarRating rating={rating} onRatingChange={handleRatingChange} />
@@ -74,14 +74,14 @@ const CommentForm = ({productId,reloadCmt}) => {
       <textarea
         value={comment}
         onChange={handleCommentChange}
-        className="w-full h-24 border-gray-300 border rounded-md p-2 focus:outline-none focus:border-blue-500"
-        placeholder="Write your comment here..."
+        className="w-full font-sans h-24 border-gray-300 border rounded-md p-2 focus:outline-none focus:border-yellow-500"
+        placeholder="Viết bình luận ..."
       />
       <button
         onClick={handleCommentSubmit}
-        className="bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600 focus:outline-none"
+        className="bg-yellow-400 font-sans text-white px-4 py-2 rounded-md mt-2 hover:bg-yellow-600 focus:outline-none"
       >
-        Submit
+        Bình luận
       </button>
     </div>
   );

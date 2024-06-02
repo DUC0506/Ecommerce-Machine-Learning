@@ -149,7 +149,11 @@ export const getAllOrdersBySeller = catchAsync(async (req, res) => {
   // 1) Get all orders
   const { type, message, statusCode, orders } =
     await orderService.queryOrdersBySeller(req);
-
+  const ordersWithTimestamps = orders.map((order) => ({
+    ...order.toObject(),
+    createdAt: order.createdAt,
+    updatedAt: order.updatedAt
+  }));
   // 2) Check if there is an errors
   if (type === 'Error') {
     return res.status(statusCode).json({
@@ -162,7 +166,7 @@ export const getAllOrdersBySeller = catchAsync(async (req, res) => {
   return res.status(statusCode).json({
     type,
     message: req.polyglot.t(message),
-    orders
+    orders: ordersWithTimestamps
   });
 });
 
@@ -191,7 +195,7 @@ export const getOrder = catchAsync(async (req, res) => {
   return res.status(statusCode).json({
     type,
     message: req.polyglot.t(message),
-    order
+    order: order.toObject()
   });
 });
 
@@ -247,6 +251,11 @@ export const totalAllOrderBySeller = catchAsync(async (req, res) => {
   const { type, message, statusCode, totalRevenue, deliveredOrders } =
     await orderService.totalSalesBySeller(req);
 
+  const ordersWithTimestamps = deliveredOrders.map((order) => ({
+    ...order.toObject(),
+    createdAt: order.createdAt,
+    updatedAt: order.updatedAt
+  }));
   // 2) Check if there is an error
   if (type === 'Error') {
     return res.status(statusCode).json({
@@ -260,7 +269,7 @@ export const totalAllOrderBySeller = catchAsync(async (req, res) => {
     type,
     message: req.polyglot.t(message),
     totalRevenue,
-    deliveredOrders
+    deliveredOrders: ordersWithTimestamps
   });
 });
 

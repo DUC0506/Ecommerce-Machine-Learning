@@ -91,6 +91,44 @@ export const getAllProductsByApartment = catchAsync(async (req, res) => {
  * @property  { Number } req.query.limit - Maximum number of products
  * @returns   { JSON } - A JSON object representing the type, message and the products
  */
+export const getAllProductsBySearch = catchAsync(async (req, res) => {
+  let { page, sort, limit, select } = req.query;
+
+  // 1) Setting default params
+  if (!page) req.query.page = 1;
+  if (!sort) req.query.sort = '';
+  if (!limit) req.query.limit = 100;
+  if (!select) req.query.select = '';
+
+  // 1) Get all products
+  const { type, message, statusCode, products } =
+    await productService.queryProductsByKeyword(req);
+
+  // 2) Check if there is an error
+  if (type === 'Error') {
+    return res.status(statusCode).json({
+      type,
+      message: req.polyglot.t(message)
+    });
+  }
+
+  // 3) If everything is OK, send data
+  return res.status(statusCode).json({
+    type,
+    message: req.polyglot.t(message),
+    products
+  });
+});
+/**
+ * @desc      Get All Products Controller
+ * @param     { Object } req - Request object
+ * @param     { Object } res - Response object
+ * @property  { String } req.query.sort - Sort returned data
+ * @property  { String } req.query.select - Select specific fields
+ * @property  { Number } req.query.page - Page number
+ * @property  { Number } req.query.limit - Maximum number of products
+ * @returns   { JSON } - A JSON object representing the type, message and the products
+ */
 export const getAllProductsBySeller = catchAsync(async (req, res) => {
   let { page, sort, limit, select } = req.query;
 
@@ -103,6 +141,35 @@ export const getAllProductsBySeller = catchAsync(async (req, res) => {
   // 1) Get all products
   const { type, message, statusCode, products } =
     await productService.queryProductsBySeller(req);
+
+  // 2) Check if there is an error
+  if (type === 'Error') {
+    return res.status(statusCode).json({
+      type,
+      message: req.polyglot.t(message)
+    });
+  }
+
+  // 3) If everything is OK, send data
+  return res.status(statusCode).json({
+    type,
+    message: req.polyglot.t(message),
+    products
+  });
+});
+
+export const getAllProductsSoldBySeller = catchAsync(async (req, res) => {
+  let { page, sort, limit, select } = req.query;
+
+  // 1) Setting default params
+  if (!page) req.query.page = 1;
+  if (!sort) req.query.sort = '';
+  if (!limit) req.query.limit = 100;
+  if (!select) req.query.select = '';
+
+  // 1) Get all products
+  const { type, message, statusCode, products } =
+    await productService.queryProductsSoldBySeller(req);
 
   // 2) Check if there is an error
   if (type === 'Error') {
@@ -263,6 +330,26 @@ export const updateProductDetails = catchAsync(async (req, res) => {
       req.user.id,
       req.body
     );
+
+  // 2) Check if there is an error
+  if (type === 'Error') {
+    return res.status(statusCode).json({
+      type,
+      message: req.polyglot.t(message)
+    });
+  }
+
+  // 3) If everything is OK, send product
+  return res.status(statusCode).json({
+    type,
+    message: req.polyglot.t(message),
+    product
+  });
+});
+export const updateProductApproved = catchAsync(async (req, res) => {
+  // 1) Update product details using it's ID
+  const { type, message, statusCode, product } =
+    await productService.updateProductApproved(req.params.productId, req.body);
 
   // 2) Check if there is an error
   if (type === 'Error') {

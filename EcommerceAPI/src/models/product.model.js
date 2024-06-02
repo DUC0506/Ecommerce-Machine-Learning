@@ -92,6 +92,11 @@ const productSchema = mongoose.Schema(
     ratingsQuantity: {
       type: Number,
       default: 0
+    },
+    isApproved: {
+      type: Boolean,
+      default: false,
+      required: true
     }
   },
   {

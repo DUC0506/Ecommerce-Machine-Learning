@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../hooks";
-import Email from '../../assets/giphy.gif'
+import Email from "../../assets/giphy.gif";
 
 export default function ContactsUser({ contacts, changeChat }) {
   const [currentUserName, setCurrentUserName] = useState(undefined);
@@ -8,12 +8,12 @@ export default function ContactsUser({ contacts, changeChat }) {
   const [currentSelected, setCurrentSelected] = useState(undefined);
 
   console.log(contacts);
-  const {authInfo} = useAuth()
-  useEffect(()=>{
-    setCurrentUserName(authInfo.profile.username)
-    setCurrentUserImage(authInfo.profile.profileImage)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]);
+  const { authInfo } = useAuth();
+  useEffect(() => {
+    setCurrentUserName(authInfo.profile.username);
+    setCurrentUserImage(authInfo.profile.profileImage);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const changeCurrentChat = (index, contact) => {
     setCurrentSelected(index);
@@ -24,11 +24,10 @@ export default function ContactsUser({ contacts, changeChat }) {
   return (
     <>
       {currentUserImage && currentUserImage && (
-        <div className="flex flex-col  h-full bg-neutral-100 shadow-xl w-1/4  ">
+        <div className="flex flex-col  h-full bg-slate-100 shadow-xl w-1/4  ">
           <div className="flex items-center justify-center h-1/6">
             <div className="flex items-center gap-4">
               <img src={Email} alt="logo" className="h-16" />
-            
             </div>
           </div>
           <div className="overflow-auto rounded mx-1 h-5/6 ">
@@ -49,7 +48,7 @@ export default function ContactsUser({ contacts, changeChat }) {
                 </div>
                 <div className="ml-4 text-white">
                   <h3>{contact.username}</h3>
-                 {/* {contact.role ==='admin'?'':  <h3>({contact.apartment.name})</h3>}
+                  {/* {contact.role ==='admin'?'':  <h3>({contact.apartment.name})</h3>}
                   {contact.role ==='admin' ? <h3>Admin</h3> : ''} */}
                 </div>
               </div>

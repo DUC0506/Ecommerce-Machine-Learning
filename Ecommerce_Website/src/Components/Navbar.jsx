@@ -62,6 +62,9 @@ console.log(authInfo)
 const handleSellerForm=()=>{
   navigate(`/seller-form`)
 }
+const handleSendSearch=(text)=>{
+  navigate(`/product-page?key=${text}`)
+}
   return (
     <div className='nav-cover'>
         <div className='divide-y divide-gray-200  items-center'>
@@ -69,7 +72,7 @@ const handleSellerForm=()=>{
             <div className='w-14 h-14 py-1' onClick={()=>navigateHome()}>
                 <img src={Logo} alt='logo'/>
             </div>
-                <Search/>
+                <Search search={handleSendSearch}/>
                 <div className='hidden md:inline-block text-right '>
                     <div className='font-bold text-gray-800'>090-995-973-33</div>
                     <small className=''>Call Us on</small>
@@ -127,17 +130,21 @@ const handleSellerForm=()=>{
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
   <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
 </svg>
-<div className='pl-2'>SHOP BY CATEGORY</div>  
+<div className='pl-2 font-sans'>Danh mục sản phẩm </div>  
               {showCategories && (
               <div className='absolute top-full left-0  bg-white w-full rounded-md shadow-md'>
              
                 {/* Add your category links here */}
-                <div  className='block py-2 mt-1 pl-2 category-link hover:bg-yellow-400 font-sans' onClick={() => handleNavigate('Trai Cay')}>Trái cây</div>
-                <div className='block py-2 pl-2 category-link hover:bg-yellow-400 font-sans' onClick={() => handleNavigate('Thit')}>Thịt</div>
-                <div  className='block py-2 pl-2 hover:bg-yellow-400 font-sans' onClick={() => handleNavigate('Hai san')}>Hải sản</div>
-                <div  className='block py-2 pl-2 hover:bg-yellow-400 font-sans' onClick={() =>  handleNavigate('Do an nhanh')}>Đồ ăn nhanh</div>
-                <div className='block py-2 pl-2 hover:bg-yellow-400 font-sans' onClick={() => handleNavigate('Thuc pham nha lam')}>Thực phẩm nhà làm</div>
-                <div className='block py-2 pl-2 hover:bg-yellow-400 font-sans'>Second hand</div>
+                <div  className='block py-2 mt-1 pl-2 category-link hover:bg-yellow-400 font-sans  font-bold' onClick={() => handleNavigate('Trai Cay')}>Trái cây</div>
+                <div className='block py-2 pl-2 category-link hover:bg-yellow-400 font-sans font-bold' onClick={() => handleNavigate('Thit')}>Thịt</div>
+                <div  className='block py-2 pl-2 hover:bg-yellow-400 font-sans font-bold' onClick={() => handleNavigate('Hai san')}>Hải sản</div>
+                <div  className='block py-2 pl-2 hover:bg-yellow-400 font-sans font-bold' onClick={() =>  handleNavigate('Do an nhanh')}>Đồ ăn nhanh</div>
+                <div className='block py-2 pl-2 hover:bg-yellow-400 font-sans font-bold' onClick={() => handleNavigate('Thuc pham nha lam')}>Thực phẩm nhà làm</div>
+                <div className='block py-2 pl-2 hover:bg-yellow-400 font-sans font-bold'>Rượu và đồ uống</div>
+                <div className='block py-2 pl-2 hover:bg-yellow-400 font-sans font-bold'>Sản phẩm nông sản</div>
+                <div className='block py-2 pl-2 hover:bg-yellow-400 font-sans font-bold'>Gia vị và món chua</div>
+                <div className='block py-2 pl-2 hover:bg-yellow-400 font-sans font-bold'>Sản phẩm khác</div>
+                <div className='block py-2 pl-2 hover:bg-yellow-400 font-sans font-bold'>Second hand</div>
                 {/* <a href='/' className='block py-2 pl-2 hover:bg-yellow-400 font-sans'>Category 7</a>
                 <a href='/' className='block py-2 pl-2 hover:bg-yellow-400 font-sans'>Category 8</a>
                 <a href='/' className='block py-2 pl-2 hover:bg-yellow-400 font-sans'>Category 9</a> */}
@@ -158,36 +165,36 @@ const handleSellerForm=()=>{
   
         <div className='md:flex items-center transition ease-in duration-200 ml-3 sm:hidden hover:bg-gray-200 px-2 rounded-full cursor-pointer'>
         <IoPricetagsOutline className='mr-1' />
-                  <div>Special Prices</div>
+                  <div className='font-sans'>Giá đặc biệt</div>
         </div>
         <div className='md:flex items-center transition ease-in duration-200 ml-3 sm:hidden hover:bg-gray-200 px-2 rounded-full cursor-pointer'>
           <FaAngleDown className='mr-1' />
-                    <div>Coupons</div>
+                    <div className='font-sans'>Phiếu giảm giá</div>
         </div>
  
         <div className='md:flex items-center transition ease-in duration-200 ml-3 sm:hidden hover:bg-gray-200 px-2 rounded-full cursor-pointer'>
           <FaAngleDown className='mr-1' />
-                    <div>Cheap Offers</div>
+                    <div className='font-sans'>Ưu đãi giá rẻ</div>
         </div>
   
         <div className='md:flex items-center transition ease-in duration-200 ml-3 sm:hidden hover:bg-gray-200 px-2 rounded-full cursor-pointer'>
           <FaAngleDown className='mr-1'/>
-                    <div>Gift Cards</div>
+                    <div className='font-sans'>Thẻ quà tặng</div>
         </div>
 
         <div className='md:flex items-center transition ease-in duration-200 ml-3 sm:hidden hover:bg-gray-200 px-2 rounded-full cursor-pointer'>
           <FaAngleDown className='mr-1' />
-                    <div>Hot Deals</div>
+                    <div className='font-sans'>Ưu đãi lớn</div>
         </div>
+
+        {/* <div className='md:flex items-center transition ease-in duration-200 ml-3 sm:hidden hover:bg-gray-200 px-2 rounded-full cursor-pointer'>
+          <FaAngleDown className='mr-1' />
+                    <div className='font-sans'>Imported</div>
+        </div> */}
 
         <div className='md:flex items-center transition ease-in duration-200 ml-3 sm:hidden hover:bg-gray-200 px-2 rounded-full cursor-pointer'>
           <FaAngleDown className='mr-1' />
-                    <div>Imported</div>
-        </div>
-
-        <div className='md:flex items-center transition ease-in duration-200 ml-3 sm:hidden hover:bg-gray-200 px-2 rounded-full cursor-pointer'>
-          <FaAngleDown className='mr-1' />
-                    <div>Deals Today</div>
+                    <div className='font-sans'>Ưu đãi hôm nay</div>
         </div>
                    </div>
                    </div>

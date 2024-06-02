@@ -14,6 +14,9 @@ const sizeSchema = mongoose.Schema(
     ],
     size: {
       type: String
+    },
+    ratioPrice: {
+      type: Number
     }
   },
   {

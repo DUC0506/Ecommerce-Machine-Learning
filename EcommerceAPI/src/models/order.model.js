@@ -26,6 +26,9 @@ const orderSchema = mongoose.Schema(
       required: true,
       default: false
     },
+    timeDelivery: {
+      type: String
+    },
     deliveredAt: {
       type: Date
     },

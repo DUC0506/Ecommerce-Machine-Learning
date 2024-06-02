@@ -220,19 +220,19 @@ const Feed = () => {
       <div className='flex w-full top-28 mt-10 relative'>
         <div className='w-1/4 font-sans font-bold text-xl p-4 rounded  shadow-md bg-white '>
           <div className=' font-sans font-semibold text-xl flex items-center justify-center flex-wrap'>
-          <MdApartment className='mr-1 text-yellow-400' />Chợ chung cư {apartment.name}
+          <MdApartment className='mr-1 text-yellow-400' />Chợ  {apartment.name}
+          </div>
+          <div className=' font-sans mt-4    '>
+          <div className='flex items-center ont-sans font-medium text-base  border-b-2 border-zinc-300'><FaEarthAfrica className='mr-1 text-yellow-400 ' />Public</div>
+            <p className='flex-wrap flex font-sans font-normal text-base'>Anyone can see who's in the group and what they post.</p>
+          </div>
+          <div className=' font-sans mt-4    '>
+          <div className='flex items-center ont-sans font-medium text-base border-b-2 border-zinc-300'><MdOutlineDisabledVisible className='mr-1 text-yellow-400 ' />Visible</div>
+            <p className='flex-wrap flex font-sans font-normal text-base'>Only residents of this apartment can find this group.</p>
           </div>
           <div className=' font-sans mt-4   '>
-          <div className='flex items-center ont-sans font-medium text-base'><FaEarthAfrica className='mr-1 text-yellow-400 ' />Public</div>
-            <p className='flex-wrap flex font-sans font-medium text-base'>Anyone can see who's in the group and what they post.</p>
-          </div>
-          <div className=' font-sans mt-4   '>
-          <div className='flex items-center ont-sans font-medium text-base'><MdOutlineDisabledVisible className='mr-1 text-yellow-400 ' />Visible</div>
-            <p className='flex-wrap flex font-sans font-medium text-base'>Only residents of this apartment can find this group.</p>
-          </div>
-          <div className=' font-sans mt-4   '>
-          <div className='flex items-center ont-sans font-medium text-base'><IoLocationSharp className='mr-1 text-yellow-400 ' />Location</div>
-            <p className='flex-wrap flex font-sans font-medium text-base'>{apartment.address}</p>
+          <div className='flex items-center ont-sans font-medium text-base border-b-2 border-zinc-300 '><IoLocationSharp className='mr-1 text-yellow-400 ' />Location</div>
+            <p className='flex-wrap flex font-sans font-normal text-base'>{apartment.address}</p>
           </div>
         </div>
         {/* top-28 mt-10 */}
@@ -253,8 +253,8 @@ const Feed = () => {
             ))}
           
           </div>
-          <div className='w-1/4 rounded py-4  px-2 shadow-md bg-white h-fit mr-2'>
-           <div className='font-bold font-sans  '>About</div> 
+          <div className='w-1/4 rounded py-4  px-3 shadow-md bg-white h-fit mr-2 whitespace-pre-line'>
+           <div className='font-semibold font-sans flex justify-center b-yellow-400 border-b-2 border-zinc-300 '>Thông tin</div> 
            <div className='font-sans'>
            {apartment.description}
            </div>

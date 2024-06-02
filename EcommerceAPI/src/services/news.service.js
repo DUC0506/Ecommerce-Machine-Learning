@@ -36,13 +36,11 @@ export const createNews = catchAsync(async (body, files, userId) => {
       statusCode: 400
     };
   }
- 
 
   // 4) Specifiy folder name where the images are going to be uploaded in cloudinary
   const folderName = `News/${title.trim().split(' ').join('')}`;
   let videoResult; // Đảm bảo rằng biến videoResultUrl đã được khai báo
   let videoResultId;
- 
 
   if (mainVideo[0]) {
     const b64 = Buffer.from(mainVideo[0].buffer).toString('base64');
@@ -99,6 +97,35 @@ export const createNews = catchAsync(async (body, files, userId) => {
 });
 export const queryNewsByApartment = catchAsync(async (req) => {
   const populateQuery = [
+    {
+      path: 'author',
+      select: 'name username email address phone profileImage'
+    },
+    { path: 'apartment', select: 'name   address ' },
+    { path: 'products', select: 'name   mainImage ' }
+  ];
+
+  const news = await apiFeatures(req, News, populateQuery);
+
+  // 1) Check if porducts doesn't exist
+  if (!news) {
+    return {
+      type: 'Error',
+      message: 'noNewsFound',
+      statusCode: 404
+    };
+  }
+
+  // 3) If everything is OK, send data
+  return {
+    type: 'Success',
+    message: 'successfulNewsFound',
+    statusCode: 200,
+    news
+  };
+});
+export const queryNews = catchAsync(async (req) => {
+  const populateQuery = [
     { path: 'author' },
     { path: 'apartment' },
     { path: 'products' }
@@ -134,7 +161,7 @@ export const queryNewsByApartment = catchAsync(async (req) => {
 export const updateNewsDetails = catchAsync(async (newsId, userId, body) => {
   const news = await News.findById(newsId);
   const infoNews = body;
-  console.log('inras',infoNews);
+
   // 1) Check if product doesn't exist
   if (!news) {
     return {
@@ -152,6 +179,34 @@ export const updateNewsDetails = catchAsync(async (newsId, userId, body) => {
       statusCode: 403
     };
   }
+
+  // 3) Update product by it's ID
+  const result = await News.findByIdAndUpdate(newsId, infoNews, {
+    new: true
+  });
+  // 4) If everything is OK, send data
+  return {
+    type: 'Success',
+    message: 'successfulNewsDetails',
+    statusCode: 200,
+    result
+  };
+});
+
+export const updateNewsApproved = catchAsync(async (newsId, body) => {
+  const news = await News.findById(newsId);
+  const infoNews = body;
+
+  // 1) Check if product doesn't exist
+  if (!news) {
+    return {
+      type: 'Error',
+      message: 'noNewsFound',
+      statusCode: 404
+    };
+  }
+
+  // 2) Check if user isn't the owner of product
 
   // 3) Update product by it's ID
   const result = await News.findByIdAndUpdate(newsId, infoNews, {
@@ -293,7 +348,6 @@ export const updateNewsImages = catchAsync(async (newsId, userId, images) => {
     imagesId: imagesIDs
   };
 
-
   // 7) Update product using it's ID
   const result = await News.findByIdAndUpdate(newsId, productBody, {
     new: true,
@@ -377,4 +431,3 @@ export const addLikeNews = catchAsync(async (newsId, userId) => {
     statusCode: 200
   };
 });
-

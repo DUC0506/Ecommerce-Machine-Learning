@@ -18,6 +18,10 @@ const cartSchema = mongoose.Schema(
           ref: 'Product',
           required: true
         },
+        nameProduct: {
+          type: String,
+          required: true
+        },
         selectedColor: {
           type: mongoose.Types.ObjectId,
           ref: 'Color',
@@ -65,7 +69,7 @@ cartSchema.pre('save', function (next) {
     },
     {
       path: 'items.selectedSize',
-      select: 'size'
+      select: '-product'
     }
   ]);
 
@@ -80,7 +84,7 @@ cartSchema.pre(/^find/, function (next) {
     },
     {
       path: 'items.selectedSize',
-      select: 'size'
+      select: '-product'
     }
   ]);
 

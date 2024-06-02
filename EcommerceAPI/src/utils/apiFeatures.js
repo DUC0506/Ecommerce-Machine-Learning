@@ -63,7 +63,6 @@ const apiFeatures = catchAsync(async (req, model, populate, apartment) => {
   const limit = req.query.limit * 1 || 100;
   const skip = (page - 1) * limit;
 
-  console.log(skip,req.query.limit);
   query = query.skip(skip).limit(limit);
 
   if (populate) {

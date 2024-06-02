@@ -72,6 +72,34 @@ export const getAllNewsByApartment = catchAsync(async (req, res) => {
     news
   });
 });
+export const getAllNews = catchAsync(async (req, res) => {
+  let { page, sort, limit, select } = req.query;
+
+  // 1) Setting default params
+  if (!page) req.query.page = 1;
+  if (!sort) req.query.sort = '';
+  if (!limit) req.query.limit = 30;
+  if (!select) req.query.select = '';
+
+  // 1) Get all products
+  const { type, message, statusCode, news } =
+    await newsService.queryNewsByApartment(req);
+
+  // 2) Check if there is an error
+  if (type === 'Error') {
+    return res.status(statusCode).json({
+      type,
+      message: req.polyglot.t(message)
+    });
+  }
+
+  // 3) If everything is OK, send data
+  return res.status(statusCode).json({
+    type,
+    message: req.polyglot.t(message),
+    news
+  });
+});
 /**
  * @desc      Update Product Details Controller
  * @param     { Object } req - Request object
@@ -89,6 +117,27 @@ export const updateNewsDetails = catchAsync(async (req, res) => {
       req.user.id,
       req.body
     );
+
+  // 2) Check if there is an error
+  if (type === 'Error') {
+    return res.status(statusCode).json({
+      type,
+      message: req.polyglot.t(message)
+    });
+  }
+
+  // 3) If everything is OK, send product
+  return res.status(statusCode).json({
+    type,
+    message: req.polyglot.t(message),
+    result
+  });
+});
+
+export const updateNewsApproval = catchAsync(async (req, res) => {
+  // 1) Update product details using it's ID
+  const { type, message, statusCode, result } =
+    await newsService.updateNewsApproved(req.params.newsId, req.body);
 
   // 2) Check if there is an error
   if (type === 'Error') {

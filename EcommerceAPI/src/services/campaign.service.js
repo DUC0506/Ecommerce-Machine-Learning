@@ -31,14 +31,31 @@ const scheduleDiscount = async (
         );
       });
       setTimeout(async () => {
-        await Product.updateMany(
-          { _id: { $in: productArray } },
-          {
-            $set: {
-              priceDiscount: mongoose.Types.Decimal128.fromString('0'), // Đặt giá giảm giá thành 0
-              priceAfterDiscount: '$price' // Đặt giá sau giảm giá thành giá gốc của sản phẩm
-            }
-          }
+        //   await Product.updateMany(
+        //     { _id: { $in: productArray } },
+        //     {
+        //       $set: {
+        //         priceDiscount: mongoose.Types.Decimal128.fromString('0'), // Đặt giá giảm giá thành 0
+        //         priceAfterDiscount: '$price' // Đặt giá sau giảm giá thành giá gốc của sản phẩm
+        //       }
+        //     }
+        //   );
+        // }, campaignEndDate.getTime() - currentDate.getTime());
+        const products = await Product.find({ _id: { $in: productArray } });
+        await Promise.all(
+          products.map(async (product) => {
+            await Product.updateOne(
+              { _id: product._id },
+              {
+                $set: {
+                  priceDiscount: mongoose.Types.Decimal128.fromString('0'),
+                  priceAfterDiscount: mongoose.Types.Decimal128(
+                    product.price.toString()
+                  )
+                }
+              }
+            );
+          })
         );
       }, campaignEndDate.getTime() - currentDate.getTime());
     }, 0);
@@ -77,7 +94,7 @@ const scheduleDiscount = async (
           ]
         );
       }, campaignEndDate.getTime() - campaignStartDate.getTime()); //5000
-    }, campaignStartDate.getTime() - currentDate.getTime());//10000
+    }, campaignStartDate.getTime() - currentDate.getTime()); //10000
   }
   // campaignEndDate.getTime() - campaignStartDate.getTime()
   // campaignStartDate.getTime() - currentDate.getTime()

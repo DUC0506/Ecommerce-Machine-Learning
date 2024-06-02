@@ -3,11 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../hooks';
 import { getUser, updateUserToSeller } from '../api/user';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../assets/loading.gif'
 
 const SellerForm = () => {
   const navigate=useNavigate()
   const {authInfo,handleLogout}=useAuth()
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
   const [sellerInfo, setSellerInfo] = useState({
     name: '',
     email: ''
@@ -80,7 +81,18 @@ const SellerForm = () => {
  
 
   const renderForm = () => {
+    if(step ===0){
+      setTimeout(function() {
+        setStep(1)
+      }, 8000);
+    }
     switch (step) {
+      case 0 :
+        return (
+          <div className='w-full flex justify-center'>
+            <img src={Loading} alt="12" className='w-2/3' />
+          </div>
+        )
       case 1:
         return (
           <div className='w-full'>
@@ -225,7 +237,7 @@ const SellerForm = () => {
       <form className=''>
         {renderForm()}
         <div className="flex justify-between mt-4">
-          {step !== 1 && (
+          {step !== 1 && step!==0 && (
             <button
               type="button"
               className="bg-gray-300 hover:bg-gray-400 font-sans text-gray-800 font-bold py-2 px-4 rounded"
@@ -234,23 +246,24 @@ const SellerForm = () => {
               Quay lại
             </button>
           )}
-          {step !== 3 ? (
+          {step !== 3 && step !== 0 ? (
             <button
               type="button"
-              className="bg-yellow-400 hover:bg-yellow-500  ml-auto text-white font-bold py-2 px-4 rounded font-sans"
+              className="bg-yellow-400 hover:bg-yellow-500 ml-auto text-white font-bold py-2 px-4 rounded font-sans"
               onClick={nextStep}
             >
               Tiếp theo
             </button>
-          ) : (
+          ) : step !== 0 ? (
             <button
-             type="button"
-             onClick={()=>handleSaveSeller()}
-              className="bg-yellow-500 hover:bg-yellow-500 font-sans text-white font-bold py-2 px-4 rounded"
+              type="button"
+              onClick={() => handleSaveSeller()}
+              className="bg-yellow-500 hover:bg-yellow-600 font-sans text-white font-bold py-2 px-4 rounded"
             >
               Lưu
             </button>
-          )}
+          ) : ''}
+
         </div>
       </form>
     </div>

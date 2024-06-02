@@ -15,6 +15,9 @@ import commentRoute from './comment.route';
 import promotionRoute from './promotion.route';
 import campaignRoute from './campaign.route';
 import messageRoute from './message.route';
+import predictRoute from './predict.route';
+import expenseRoute from './expense.route';
+import statusRoute from './status.route';
 
 const router = express.Router();
 
@@ -33,5 +36,8 @@ router.use('/comment', commentRoute);
 router.use('/promotion', promotionRoute);
 router.use('/campaign', campaignRoute);
 router.use('/message', messageRoute);
+router.use('/predict', predictRoute);
+router.use('/expense', expenseRoute);
+router.use('/status', statusRoute);
 
 export default router;

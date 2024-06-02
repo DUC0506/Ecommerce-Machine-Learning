@@ -35,7 +35,7 @@ const commentSchema = mongoose.Schema(
 
 // add plugin that converts mongoose to json
 commentSchema.plugin(toJSON);
-commentSchema.index({ news: 1 })
+commentSchema.index({ news: 1 });
 // Không cần index unique cho cặp (news, user) nữa
 
 const Comment = mongoose.model('Comment', commentSchema);

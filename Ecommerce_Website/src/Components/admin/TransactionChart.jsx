@@ -2,6 +2,7 @@ import React, { useEffect,  useState } from 'react'
 import SalesChart from './shared/SaleChart';
 import { getSalePrediction } from '../../api/chart';
 import { useNotification } from '../../hooks';
+import { addPredict } from '../../api/predict';
 
 
 
@@ -49,6 +50,7 @@ export default function TransactionChart() {
 	const handleHolidays=()=>{
 		setHolidayData([...holidayData,formatDate(formData.holidays)])
 	}
+		let dataPredict={}
 	const handleSummit=async()=>{
 		const formattedFormData = {
             start_date: formatDate(formData.start_date),
@@ -73,7 +75,17 @@ export default function TransactionChart() {
 			updateNotification('success','Dự đoán thành công')
 			setDataPre(predictions)
 			setLoading(false);
-           
+			dataPredict={
+				startDate:formattedFormData.start_date,
+				endDate :formattedFormData.end_date,
+				holidays:holidayData,
+				dataPredict:predictions,
+				labels:generateLabels(predictions.length),
+				product:formData.productId
+
+			}
+			console.log(dataPredict);
+			const{predict}=await addPredict(dataPredict)
         },12000);
 	}
 	useEffect(()=>{
@@ -81,9 +93,9 @@ export default function TransactionChart() {
 	},[])
 
     return (
-		<div className='flex w-full '>
+		<div className='flex w-full shadow-md '>
         	<SalesChart labels={labels} data={data}/>
-			<div className='flex flex-col justify-center items-center ml-4 mt-4 bg-slate-50 p-4 rounded'>
+			<div className='flex flex-col justify-center items-center ml-4  bg-slate-50 p-4 rounded shadow-md'>
 				<div className='flex items-center'>
 					
 					<input type="date" className='mr-2 rounded px-3 py-2 appearance-none border border-yellow-300 focus:outline-none focus:border-yellow-500' name='start_date' onChange={handleChange} value={formData.startDay} />

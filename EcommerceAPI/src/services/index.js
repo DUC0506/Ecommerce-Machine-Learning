@@ -51,7 +51,10 @@ import {
   deleteProduct,
   getProductStats,
   queryProductsByApartment,
-  queryProductsBySeller
+  queryProductsBySeller,
+  queryProductsByKeyword,
+  queryProductsSoldBySeller,
+  updateProductApproved
 } from './product.service';
 
 import {
@@ -105,7 +108,9 @@ import {
   updateNewsDetails,
   updateNewsMainVideo,
   updateNewsImages,
-  deleteNews
+  deleteNews,
+  queryNews,
+  updateNewsApproved
 } from './news.service';
 import {
   createComment,
@@ -130,7 +135,31 @@ import {
   queryCampaignById
 } from './campaign.service';
 
-import { createMessage, queryMessages } from './message.service';
+import {
+  createMessage,
+  queryMessages,
+  queryGenerativeAI
+} from './message.service';
+import {
+  createPredict,
+  queryPredicts,
+  queryPredictById,
+  queryAnalysisAI
+} from './predict.service';
+import {
+  createExpense,
+  queryExpenses,
+  queryExpenseById,
+  deleteExpense,
+  queryTotalAmountExpenses
+} from './expense.service';
+import {
+  createStatus,
+  queryStatuses,
+  queryStatusById,
+  updateStatusDetails,
+  deleteStatus
+} from './status.service';
 
 const authService = {
   signin,
@@ -185,7 +214,10 @@ const productService = {
   deleteProduct,
   getProductStats,
   queryProductsByApartment,
-  queryProductsBySeller
+  queryProductsBySeller,
+  queryProductsByKeyword,
+  queryProductsSoldBySeller,
+  updateProductApproved
 };
 
 const cartService = {
@@ -238,7 +270,9 @@ const newsService = {
   updateNewsDetails,
   updateNewsMainVideo,
   updateNewsImages,
-  deleteNews
+  deleteNews,
+  queryNews,
+  updateNewsApproved
 };
 const commentService = {
   createComment,
@@ -262,7 +296,28 @@ const campaignService = {
 };
 const messageService = {
   createMessage,
-  queryMessages
+  queryMessages,
+  queryGenerativeAI
+};
+const predictService = {
+  createPredict,
+  queryPredicts,
+  queryPredictById,
+  queryAnalysisAI
+};
+const expenseService = {
+  createExpense,
+  queryExpenses,
+  queryExpenseById,
+  deleteExpense,
+  queryTotalAmountExpenses
+};
+const statusService = {
+  createStatus,
+  queryStatuses,
+  queryStatusById,
+  updateStatusDetails,
+  deleteStatus
 };
 export {
   authService,
@@ -279,5 +334,8 @@ export {
   commentService,
   promotionService,
   campaignService,
-  messageService
+  messageService,
+  predictService,
+  expenseService,
+  statusService
 };

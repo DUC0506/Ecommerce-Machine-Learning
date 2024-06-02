@@ -15,6 +15,9 @@ import Comment from './comment.model';
 import Promotion from './promotion.model';
 import Campaign from './campaign.model';
 import Message from './message.model';
+import Predict from './predict.model';
+import Expense from './expense.model';
+import Status from './status.model';
 
 export {
   User,
@@ -33,5 +36,8 @@ export {
   Comment,
   Promotion,
   Campaign,
-  Message
+  Message,
+  Predict,
+  Expense,
+  Status
 };

@@ -12,7 +12,12 @@ import { anyMulter } from '../utils/multer';
 
 // Routes
 import reviewRoute from './review.route';
-import { getAllProductsBySeller } from '../controllers/product.controller';
+import {
+  getAllProductsBySearch,
+  getAllProductsBySeller,
+  getAllProductsSoldBySeller,
+  updateProductApproved
+} from '../controllers/product.controller';
 
 const {
   getAllProducts,
@@ -43,7 +48,9 @@ router.use(protect);
 router.get('/', getAllProducts);
 
 router.get('/products-apartment', getAllProductsByApartment);
+router.get('/products-search', getAllProductsBySearch);
 router.get('/products-seller', getAllProductsBySeller);
+router.get('/products-seller-sold', getAllProductsSoldBySeller);
 
 router.get('/:productId', getProduct);
 
@@ -55,7 +62,7 @@ router
 router.route('/size/:productId').post(addProductSize).delete(deleteProductSize);
 
 router.post('/', anyMulter(), addProduct);
-
+router.patch('/:productId/approved', updateProductApproved);
 router.patch('/:productId/details', updateProductDetails);
 
 router.patch('/:productId/main-image', anyMulter(), updateProductMainImage);

@@ -2,7 +2,7 @@
 import catchAsync from '../utils/catchAsync';
 
 // Models
-import { Cart, Product } from '../models/index';
+import { Cart, Product, Size } from '../models/index';
 
 /**
  * @desc    Add Product To Cart
@@ -23,6 +23,14 @@ export const addProductToCart = catchAsync(
       return {
         type: 'Error',
         message: 'noProductFound',
+        statusCode: 404
+      };
+    }
+    const sizePrice = await Size.findById(selectedSize);
+    if (!sizePrice) {
+      return {
+        type: 'Error',
+        message: 'noSizeFound',
         statusCode: 404
       };
     }
@@ -56,27 +64,31 @@ export const addProductToCart = catchAsync(
           selectedSize.toString()
       ) {
         // In case product exist in the cart and have the same color and size.
-    
         cart.items[indexFound].totalProductQuantity += quantity;
         cart.items[indexFound].totalProductPrice +=
           priceAfterDiscount * quantity;
         cart.totalQuantity += quantity;
-        cart.totalPrice += priceAfterDiscount * quantity;
+        cart.totalPrice += priceAfterDiscount * quantity * sizePrice.ratioPrice;
       } else if (quantity > 0) {
         // In case product doesn't exist & there is other products in the cart
         // then push the new product to the items array in the cart
         // Update totalQuantity & totalPrice
         cart.items.push({
           product: productId,
+          nameProduct: product.name,
           selectedColor: selectedColor,
           selectedSize: selectedSize,
           totalProductQuantity: quantity,
-          totalProductPrice: priceAfterDiscount * quantity,
+          totalProductPrice:
+            priceAfterDiscount * quantity * sizePrice.ratioPrice,
           seller: seller
         });
-
+        console.log(cart.totalPrice);
+        console.log(cart.items[0].totalProductPrice);
+        console.log(priceAfterDiscount, quantity, sizePrice.ratioPrice);
         cart.totalQuantity += quantity;
-        cart.totalPrice += priceAfterDiscount * quantity;
+        cart.totalPrice += priceAfterDiscount * quantity * sizePrice.ratioPrice;
+        console.log(cart.totalPrice);
       } else {
         return {
           type: 'Error',
@@ -103,19 +115,21 @@ export const addProductToCart = catchAsync(
       items: [
         {
           product: productId,
+          nameProduct: product.name,
           selectedColor: selectedColor,
           selectedSize: selectedSize,
           totalProductQuantity: quantity,
-          totalProductPrice: priceAfterDiscount * quantity,
+          totalProductPrice:
+            priceAfterDiscount * quantity * sizePrice.ratioPrice,
           seller: product.seller
         }
       ],
       totalQuantity: quantity,
-      totalPrice: priceAfterDiscount * quantity
+      totalPrice: priceAfterDiscount * quantity * sizePrice.ratioPrice
     };
+    console.log(cartData);
     // 4) Create new cart
     const createdCart = await Cart.create(cartData);
-
     // 5) If everything is OK, send cart
     return {
       type: 'Success',
@@ -148,6 +162,14 @@ export const reduceByOne = catchAsync(
         statusCode: 404
       };
     }
+    const sizePrice = await Size.findById(selectedSize);
+    if (!sizePrice) {
+      return {
+        type: 'Error',
+        message: 'noSizeFound',
+        statusCode: 404
+      };
+    }
 
     // 2) Find product index inside cart
     const indexesFound = cart.items.reduce((a, e, i) => {
@@ -175,7 +197,7 @@ export const reduceByOne = catchAsync(
       ) {
         cart.items.splice(indexFound, 1);
         cart.totalQuantity -= 1;
-        cart.totalPrice -= priceAfterDiscount;
+        cart.totalPrice -= priceAfterDiscount * sizePrice.ratioPrice;
       } else if (
         cart.items[indexFound].selectedColor._id.toString() ===
           selectedColor.toString() &&
@@ -185,9 +207,11 @@ export const reduceByOne = catchAsync(
         const updatedProductTotalQuantity =
           cart.items[indexFound].totalProductQuantity - 1;
         const updatedProductTotalPrice =
-          cart.items[indexFound].totalProductPrice - priceAfterDiscount;
+          cart.items[indexFound].totalProductPrice -
+          priceAfterDiscount * sizePrice.ratioPrice;
         const updatedCartTotalQuantity = cart.totalQuantity - 1;
-        const updatedCartTotalPrice = cart.totalPrice - priceAfterDiscount;
+        const updatedCartTotalPrice =
+          cart.totalPrice - priceAfterDiscount * sizePrice.ratioPrice;
 
         cart.items[indexFound].totalProductQuantity =
           updatedProductTotalQuantity;
@@ -245,6 +269,14 @@ export const increaseByOne = catchAsync(
         statusCode: 404
       };
     }
+    const sizePrice = await Size.findById(selectedSize);
+    if (!sizePrice) {
+      return {
+        type: 'Error',
+        message: 'noSizeFound',
+        statusCode: 404
+      };
+    }
 
     // 3) Find products indexes inside cart
     const indexesFound = cart.items.reduce((a, e, i) => {
@@ -272,9 +304,11 @@ export const increaseByOne = catchAsync(
         const updatedProductTotalQuantity =
           cart.items[indexFound].totalProductQuantity + 1;
         const updatedProductTotalPrice =
-          cart.items[indexFound].totalProductPrice + priceAfterDiscount;
+          cart.items[indexFound].totalProductPrice +
+          priceAfterDiscount * sizePrice.ratioPrice;
         const updatedCartTotalQuantity = cart.totalQuantity + 1;
-        const updatedCartTotalPrice = cart.totalPrice + priceAfterDiscount;
+        const updatedCartTotalPrice =
+          cart.totalPrice + priceAfterDiscount * sizePrice.ratioPrice;
 
         if (updatedProductTotalQuantity <= 0 && updatedProductTotalPrice <= 0) {
           cart.items.splice(indexFound, 1);
@@ -310,11 +344,14 @@ export const increaseByOne = catchAsync(
  * @returns { Object<type|message|statusCode|cart> }
  */
 export const queryCart = catchAsync(async (email) => {
-  const cart = await Cart.findOne({ email }).populate({
-    path: 'items.product',
-    select: '-reviews' // Bỏ qua reviews nếu bạn không muốn lấy thông tin này
-  });
-
+  const cart = await Cart.findOne({ email }).populate([
+    {
+      path: 'items.product',
+      select: '-reviews' // Bỏ qua reviews nếu bạn không muốn lấy thông tin này
+    },
+    { path: 'items.selectedSize' }
+  ]);
+  console.log(cart.items[0].selectedSize);
   // 1) Check if cart doesn't exist
   if (!cart) {
     return {
