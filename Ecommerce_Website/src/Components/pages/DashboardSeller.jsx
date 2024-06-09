@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from "react";
 
 import RecentOrders from "../admin/RecentOrders";
-
+import chartGif from "../../assets/chart2.gif";
 import PopularProducts from "../admin/PopularProducts";
 import { useAuth } from "../../hooks";
-import TransactionChartSeller from "../admin/TransactionChartSeller";
+// import TransactionChartSeller from "../admin/TransactionChartSeller";
 import DashboardStatsGridSeller from "../admin/DashboardStatsGridSeller";
 import SalesChart from "../admin/shared/SaleChart";
-import { getPredict } from "../../api/predict";
+// import { getPredict } from "../../api/predict";
 import { getTotalSalesBySeller } from "../../api/order";
 
 export default function DashboardSeller() {
   const { authInfo } = useAuth();
   const [orders, setOrders] = useState([]);
-  const [totalSale, setTotalSale] = useState(0);
+  // const [totalSale, setTotalSale] = useState(0);
 
   const fetchOrders = async () => {
-    const { type, message, deliveredOrders, totalRevenue } =
-      await getTotalSalesBySeller(authInfo.profile._id);
+    const { type, deliveredOrders } = await getTotalSalesBySeller(
+      authInfo.profile._id
+    );
     if (type === "Success") {
-      setTotalSale(totalRevenue);
+      // setTotalSale(totalRevenue);
       setOrders(deliveredOrders);
     }
   };
@@ -54,12 +55,18 @@ export default function DashboardSeller() {
         {/* <TransactionChartSeller /> */}
         {/* <div className=" mr-2 bg-slate-50 p-4 rounded shadow-md cursor-pointer mt-4"> */}
         <div className="w-4/6">
-          <SalesChart
-            labels={labels2}
-            data={data2}
-            label="Revenue by product"
-            type="bar"
-          />
+          {(data2.length > 0) & data2 ? (
+            <SalesChart
+              labels={labels2}
+              data={data2}
+              label="Revenue by product"
+              type="bar"
+            />
+          ) : (
+            <div className="bg-white flex items-center justify-center">
+              <img src={chartGif} alt="chart" className="" />
+            </div>
+          )}
         </div>
         <div className="w-2/6">
           <PopularProducts />

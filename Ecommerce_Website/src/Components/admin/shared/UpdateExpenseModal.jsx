@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { MdExplicit, MdOutlineDescription } from "react-icons/md";
 
 export default function UpdateExpenseModal({ expense, onClose }) {

@@ -1,10 +1,10 @@
 import { getToken } from "../utils/hepler";
 import client from "./client";
 
-export const getExpenses = async () => {
+export const getExpenses = async ({ pagination }) => {
   const token = getToken();
   try {
-    const { data } = await client.get(`/expense/`, {
+    const { data } = await client.get(`/expense?page=${pagination}&limit=10`, {
       headers: {
         Authorization: "Bearer " + token,
       },

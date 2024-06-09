@@ -12,7 +12,8 @@ import {
   getAllOrdersBySeller,
   totalAllOrder,
   totalAllOrderBySeller,
-  totalOrderAll
+  totalOrderAll,
+  totalOrderAllNotification
 } from '../controllers/order.controller';
 
 const { createOrder, orderStatus, getAllOrders, getOrder, cancelOrder } =
@@ -34,6 +35,8 @@ router
 router.route('/totalSales').get(totalAllOrder);
 router.route('/totalOrders').get(totalOrderAll);
 router.route('/totalSalesBySeller/:id').get(totalAllOrderBySeller);
+
+router.route('/notifications').get(totalOrderAllNotification);
 
 // Get Order Route
 // Cancel Order Route

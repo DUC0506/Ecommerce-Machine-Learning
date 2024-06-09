@@ -49,10 +49,10 @@ export const getAllExpenses = catchAsync(async (req, res) => {
   let { page, sort, limit, select } = req.query;
 
   // 1) Setting default params
-  if (!page) page = 1;
-  if (!sort) sort = '';
-  if (!limit) limit = 10;
-  if (!select) select = '';
+  if (!page) req.query.page = 1;
+  if (!sort) req.query.sort = '';
+  if (!limit) req.query.limit = 10;
+  if (!select) req.query.select = '';
 
   // 1) Get all reviews
   const { type, message, statusCode, expenses } =
@@ -394,7 +394,6 @@ export const getDistance = catchAsync(async (req, res) => {
         price += additionalCharges;
       }
     } else {
-      console.log(1);
       return 0;
     }
     // if (weight > 3) {

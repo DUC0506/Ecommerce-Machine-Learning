@@ -77,7 +77,8 @@ import {
   cancelOrder,
   createOrderEachSeller,
   getAllOrdersBySeller,
-  totalAllOrderBySeller
+  totalAllOrderBySeller,
+  totalOrderAllNotification
 } from './order.controller';
 
 import {
@@ -236,7 +237,8 @@ const orderController = {
   cancelOrder,
   createOrderEachSeller,
   getAllOrdersBySeller,
-  totalAllOrderBySeller
+  totalAllOrderBySeller,
+  totalOrderAllNotification
 };
 
 const discountController = {

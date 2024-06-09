@@ -34,22 +34,47 @@ export const getTotalSales = async () => {
     return error;
   }
 };
-export const getTotalOrders = async (number = null, sellerId = null) => {
+export const getTotalOrders = async (
+  number = null,
+  sellerId = null,
+  pagination
+) => {
   const token = getToken();
-  console.log(number);
+
   try {
     let url = "/order/totalOrders";
     if (sellerId) {
-      url = `/order/orderBySeller?seller=${sellerId}&limit=${number}`;
+      url = `/order/orderBySeller?seller=${sellerId}&limit=${number}&page=${pagination}`;
     } else if (number) {
-      url = `/order/totalOrders?limits=${number}`;
+      url = `/order/totalOrders?limits=${number}&page=${pagination}`;
     }
-    console.log(url);
     const { data } = await client.get(url, {
       headers: {
         Authorization: "Bearer " + token,
       },
     });
+
+    return data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+export const getTotalOrdersNotification = async (
+  number = null,
+  sellerId = null
+) => {
+  const token = getToken();
+
+  try {
+    const { data } = await client.get(
+      `order/notifications?seller=${sellerId}&limit=${number}&status=Not Processed`,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
 
     return data;
   } catch (error) {
@@ -115,15 +140,18 @@ export const getAllOrdersByUser = async (id) => {
   }
 };
 
-export const getTotalSalesBySeller = async (id) => {
+export const getTotalSalesBySeller = async (id, pagination) => {
   const token = getToken();
 
   try {
-    const { data } = await client.get(`/order/totalSalesBySeller/${id}`, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    });
+    const { data } = await client.get(
+      `/order/totalSalesBySeller/${id}/?limit=10&page=${pagination}`,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
 
     return data;
   } catch (error) {

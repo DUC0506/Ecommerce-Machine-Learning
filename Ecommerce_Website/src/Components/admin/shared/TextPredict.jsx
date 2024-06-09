@@ -19,6 +19,7 @@ export default function TextPredict({ startDate, endDate, dataPredict }) {
   };
   useEffect(() => {
     fetchAnalysis();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startDate, endDate, dataPredict]);
   return (
     <div className="bg-white rounded p-8 mt-2">

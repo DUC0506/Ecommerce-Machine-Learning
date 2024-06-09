@@ -1,26 +1,34 @@
-import React from "react";
-import classNames from "classnames";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+// import classNames from "classnames";
+import { Link, useLocation } from "react-router-dom";
 // import { FcBullish } from "react-icons/fc";
 // import { HiOutlineLogout } from "react-icons/hi";
 // import {
 //   DASHBOARD_SIDEBAR_LINKS,
 //   DASHBOARD_SIDEBAR_BOTTOM_LINKS,
 // } from "../../lib/constants";
-import { useAuth } from "../../../hooks";
-import { FcBullish } from "react-icons/fc";
+// import { useAuth } from "../../../hooks";
 
-const linkClass =
-  "flex items-center gap-2 font-light px-3 py-2 hover:bg-yellow-400 hover:no-underline  rounded-sm text-base";
+import logo from "../../../assets/condoseller.png";
+
+// const linkClass =
+//   "flex items-center gap-2 font-light px-3 py-2 hover:bg-yellow-400 hover:no-underline  rounded-sm text-base";
 
 export default function Sidebar() {
-  const navigate = useNavigate();
-  const { handleLogout } = useAuth();
-  const handleLogoutDB = () => {
-    handleLogout();
-    navigate(`/signIn`);
-  };
-  console.log(123);
+  // const navigate = useNavigate();
+  // const { handleLogout } = useAuth();
+  // const handleLogoutDB = () => {
+  //   handleLogout();
+  //   navigate(`/signIn`);
+  // };
+
+  const [selectedLink, setSelectedLink] = useState("/");
+  const location = useLocation();
+
+  // Cập nhật selectedLink khi đường dẫn thay đổi
+  useEffect(() => {
+    setSelectedLink(location.pathname);
+  }, [location.pathname]);
   return (
     <div className="bg-white w-60 p-3 flex flex-col">
       {/* <div className="flex items-center gap-2 px-1 py-3">
@@ -72,19 +80,24 @@ export default function Sidebar() {
         class="fixed top-0 left-0 z-40 w-60 h-screen transition-transform -translate-x-full sm:translate-x-0"
         aria-label="Sidebar"
       >
-        <div class="h-full w-full px-3 py-4 overflow-y-auto bg-white dark:bg-gray-800">
-          <div className="flex items-center gap-2 px-1 py-3">
-            <FcBullish fontSize={24} />
-            <span className="text-yellow-400 text-lg">OpenShop</span>
+        <div class="h-full w-full px-3 py-4 overflow-y-auto bg-white ">
+          <div className="flex items-center gap-2 justify-center ">
+            <img src={logo} alt="logo" className=" h-14" />
+            {/* <span className="text-yellow-400 text-lg font-semibold">
+              Condo Seller
+            </span> */}
           </div>
-          <ul class="space-y-2 font-medium">
+          <ul class="space-y-2 font-medium border-t mt-4">
             <li>
               <Link
                 to="/"
-                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                className={`flex items-center p-2 text-gray-900 rounded-lg group ${
+                  selectedLink === "/" ? "bg-yellow-400" : "hover:bg-gray-100"
+                }`}
+                onClick={() => setSelectedLink("/")}
               >
                 <svg
-                  class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  class="w-5 h-5 text-gray-500 transition duration-75  group-hover:text-gray-900 "
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
@@ -93,13 +106,18 @@ export default function Sidebar() {
                   <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
                   <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
                 </svg>
-                <span class="ml-3">Dashboard</span>
+                <span class="ml-3 ">Dashboard</span>
               </Link>
             </li>
             <li>
               <Link
                 to="/dashboard/products"
-                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                className={`flex items-center p-2 text-gray-900 rounded-lg group ${
+                  selectedLink === "/dashboard/products"
+                    ? "bg-yellow-400"
+                    : "hover:bg-gray-100"
+                }`}
+                onClick={() => setSelectedLink("/dashboard/products")}
               >
                 <svg
                   class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -119,10 +137,15 @@ export default function Sidebar() {
             <li>
               <Link
                 to="/dashboard/orders"
-                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                className={`flex items-center p-2 text-gray-900 rounded-lg group ${
+                  selectedLink === "/dashboard/orders"
+                    ? "bg-yellow-400"
+                    : "hover:bg-gray-100"
+                }`}
+                onClick={() => setSelectedLink("/dashboard/orders")}
               >
                 <svg
-                  class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75  group-hover:text-gray-900 "
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
@@ -131,7 +154,7 @@ export default function Sidebar() {
                   <path d="m17.418 3.623-.018-.008a6.713 6.713 0 0 0-2.4-.569V2h1a1 1 0 1 0 0-2h-2a1 1 0 0 0-1 1v2H9.89A6.977 6.977 0 0 1 12 8v5h-2V8A5 5 0 1 0 0 8v6a1 1 0 0 0 1 1h8v4a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-4h6a1 1 0 0 0 1-1V8a5 5 0 0 0-2.582-4.377ZM6 12H4a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Z" />
                 </svg>
                 <span class="flex-1 ml-3 whitespace-nowrap">Orders</span>
-                <span class="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
+                <span class="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full">
                   3
                 </span>
               </Link>
@@ -139,10 +162,15 @@ export default function Sidebar() {
             <li>
               <Link
                 to="/dashboard/promotions"
-                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                className={`flex items-center p-2 text-gray-900 rounded-lg group ${
+                  selectedLink === "/dashboard/promotions"
+                    ? "bg-yellow-400"
+                    : "hover:bg-gray-100"
+                }`}
+                onClick={() => setSelectedLink("/dashboard/promotions")}
               >
                 <svg
-                  class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75  group-hover:text-gray-900 "
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
@@ -156,10 +184,15 @@ export default function Sidebar() {
             <li>
               <Link
                 to="/dashboard/finance"
-                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                className={`flex items-center p-2 text-gray-900 rounded-lg group ${
+                  selectedLink === "/dashboard/finance"
+                    ? "bg-yellow-400"
+                    : "hover:bg-gray-100"
+                }`}
+                onClick={() => setSelectedLink("/dashboard/finance")}
               >
                 <svg
-                  class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75  group-hover:text-gray-900 "
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
@@ -173,10 +206,15 @@ export default function Sidebar() {
             <li>
               <Link
                 to="/dashboard/expense"
-                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                className={`flex items-center p-2 text-gray-900 rounded-lg group ${
+                  selectedLink === "/dashboard/expense"
+                    ? "bg-yellow-400"
+                    : "hover:bg-gray-100"
+                }`}
+                onClick={() => setSelectedLink("/dashboard/expense")}
               >
                 <svg
-                  class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75  group-hover:text-gray-900 "
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -196,10 +234,15 @@ export default function Sidebar() {
             <li>
               <Link
                 to="/dashboard/report"
-                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                className={`flex items-center p-2 text-gray-900 rounded-lg group ${
+                  selectedLink === "/dashboard/report"
+                    ? "bg-yellow-400"
+                    : "hover:bg-gray-100"
+                }`}
+                onClick={() => setSelectedLink("/dashboard/report")}
               >
                 <svg
-                  class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75  group-hover:text-gray-900 "
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
@@ -215,10 +258,15 @@ export default function Sidebar() {
             <li>
               <Link
                 to="/dashboard/predict"
-                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                className={`flex items-center p-2 text-gray-900 rounded-lg group ${
+                  selectedLink === "/dashboard/predict"
+                    ? "bg-yellow-400"
+                    : "hover:bg-gray-100"
+                }`}
+                onClick={() => setSelectedLink("/dashboard/predict")}
               >
                 <svg
-                  class="w-6 h-6 text-gray-800 dark:text-white"
+                  class="w-6 h-6 text-gray-800 "
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -238,14 +286,19 @@ export default function Sidebar() {
               </Link>
             </li>
           </ul>
-          <ul class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
+          <ul class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 ">
             <li>
               <Link
                 to="/dashboard/feed-seller"
-                class="flex items-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
+                className={`flex items-center p-2 text-gray-900 rounded-lg group ${
+                  selectedLink === "/dashboard/feed-seller"
+                    ? "bg-yellow-400"
+                    : "hover:bg-gray-100"
+                }`}
+                onClick={() => setSelectedLink("/dashboard/feed-seller")}
               >
                 <svg
-                  class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75  group-hover:text-gray-900 "
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
@@ -259,10 +312,15 @@ export default function Sidebar() {
             <li>
               <Link
                 to="/dashboard/status"
-                class="flex items-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
+                className={`flex items-center p-2 text-gray-900 rounded-lg group ${
+                  selectedLink === "/dashboard/status"
+                    ? "bg-yellow-400"
+                    : "hover:bg-gray-100"
+                }`}
+                onClick={() => setSelectedLink("/dashboard/status")}
               >
                 <svg
-                  class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75  group-hover:text-gray-900 "
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
@@ -276,10 +334,15 @@ export default function Sidebar() {
             <li>
               <Link
                 to="/dashboard/policy-seller"
-                class="flex items-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
+                className={`flex items-center p-2 text-gray-900 rounded-lg group ${
+                  selectedLink === "/dashboard/policy-seller"
+                    ? "bg-yellow-400"
+                    : "hover:bg-gray-100"
+                }`}
+                onClick={() => setSelectedLink("/dashboard/policy-seller")}
               >
                 <svg
-                  class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75  group-hover:text-gray-900 "
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
@@ -294,10 +357,15 @@ export default function Sidebar() {
             <li>
               <Link
                 to="/dashboard/messages"
-                class="flex items-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
+                className={`flex items-center p-2 text-gray-900 rounded-lg group ${
+                  selectedLink === "/dashboard/messages"
+                    ? "bg-yellow-400"
+                    : "hover:bg-gray-100"
+                }`}
+                onClick={() => setSelectedLink("/dashboard/messages")}
               >
                 <svg
-                  class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75  group-hover:text-gray-900 "
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
@@ -315,19 +383,19 @@ export default function Sidebar() {
   );
 }
 
-function SidebarLink({ link }) {
-  const { pathname } = useLocation();
+// function SidebarLink({ link }) {
+//   const { pathname } = useLocation();
 
-  return (
-    <Link
-      to={link.path}
-      className={classNames(
-        pathname === link.path ? "bg-yellow-400 text-white" : "text-black",
-        linkClass
-      )}
-    >
-      <span className="text-xl">{link.icon}</span>
-      {link.label}
-    </Link>
-  );
-}
+//   return (
+//     <Link
+//       to={link.path}
+//       className={classNames(
+//         pathname === link.path ? "bg-yellow-400 text-white" : "text-black",
+//         linkClass
+//       )}
+//     >
+//       <span className="text-xl">{link.icon}</span>
+//       {link.label}
+//     </Link>
+//   );
+// }

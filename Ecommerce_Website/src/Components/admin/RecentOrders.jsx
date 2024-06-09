@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { format } from "date-fns";
-import { Link } from "react-router-dom";
-import { getOrderStatus } from "../lib/helpers";
+// import { format } from "date-fns";
+// import { Link } from "react-router-dom";
+// import { getOrderStatus } from "../lib/helpers";
 import { getTotalOrders, orderStatus } from "../../api/order";
 import { TbCurrencyDong } from "react-icons/tb";
 
@@ -74,69 +74,90 @@ export default function RecentOrders({ number, sellerId }) {
             </th>
           </tr>
         </thead>
-        <tbody>
-          {recentOrders.map((order, index) => (
-            <tr
-              key={index}
-              class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
-            >
-              <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                {order.products.map((product) => (
-                  <div
-                    key={product.id}
-                    className=" flex items-center font-sans justify-between"
-                  >
-                    <div>
-                      <div className="font-sans">{product.nameProduct}</div>
-                      <div className="font-sans text-sm font-thin text-slate-400">
-                        {product.selectedSize?.size}
+
+        {recentOrders.length > 0 && recentOrders ? (
+          <tbody>
+            {recentOrders.map((order, index) => (
+              <tr
+                key={index}
+                class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
+              >
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  {order.products.map((product) => (
+                    <div
+                      key={product.id}
+                      className=" flex items-center font-sans justify-between"
+                    >
+                      <div>
+                        <div className="font-sans">{product.nameProduct}</div>
+                        <div className="font-sans text-sm font-thin text-slate-400">
+                          {product.selectedSize?.size}
+                        </div>
+                      </div>
+
+                      <div className="text-sm font-sans text-slate-400">
+                        x {product.totalProductQuantity}
                       </div>
                     </div>
-
-                    <div className="text-sm font-sans text-slate-400">
-                      x {product.totalProductQuantity}
-                    </div>
+                  ))}
+                </td>
+                <td class="px-6 py-4 font-sans">{order.timeDelivery}</td>
+                <td class="px-6 py-4 font-sans">{order.user?.username}</td>
+                <td class="px-6 py-4 font-sans">
+                  {convertISOToDateFormat(order.createdAt)}
+                </td>
+                <td class="px-6 py-4 font-sans ">
+                  <div className="flex items-center font-sans">
+                    {order.totalPrice}
+                    <TbCurrencyDong className="text-yellow-400" />
                   </div>
-                ))}
-              </td>
-              <td class="px-6 py-4 font-sans">{order.timeDelivery}</td>
-              <td class="px-6 py-4 font-sans">{order.user?.username}</td>
-              <td class="px-6 py-4 font-sans">
-                {convertISOToDateFormat(order.createdAt)}
-              </td>
-              <td class="px-6 py-4 font-sans ">
-                <div className="flex items-center font-sans">
-                  {order.totalPrice}
-                  <TbCurrencyDong className="text-yellow-400" />
-                </div>
-              </td>
-              <td class="px-6 py-4 font-sans">
-                {order.shippingAddress?.address}
-              </td>
-              <td class="px-6 py-4 font-sans">
-                <select
-                  value={order.status}
-                  onChange={(e) =>
-                    handleStatusChange(order._id, e.target.value)
-                  }
-                  className=" py-2  bg-yellow-500 rounded cursor-pointer"
-                >
-                  <option
-                    value="Not Processed"
-                    className="py-2 hover:bg-red-500"
+                </td>
+                <td class="px-6 py-4 font-sans">
+                  {order.shippingAddress?.address}
+                </td>
+                <td class="px-6 py-4 font-sans">
+                  <select
+                    value={order.status}
+                    onChange={(e) =>
+                      handleStatusChange(order._id, e.target.value)
+                    }
+                    className=" py-2  bg-yellow-500 rounded cursor-pointer"
                   >
-                    Not Processed
-                  </option>
-                  <option value="Processing">Processing</option>
-                  <option value="Shipped">Shipped</option>
-                  <option value="Delivered">Delivered</option>
-                  <option value="Cancelled">Cancelled</option>
-                </select>
-              </td>
-            </tr>
-          ))}
-        </tbody>
+                    <option
+                      value="Not Processed"
+                      className="py-2 hover:bg-red-500"
+                    >
+                      Not Processed
+                    </option>
+                    <option value="Processing">Processing</option>
+                    <option value="Shipped">Shipped</option>
+                    <option value="Delivered">Delivered</option>
+                    <option value="Cancelled">Cancelled</option>
+                  </select>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        ) : (
+          ""
+        )}
       </table>
+      {recentOrders.length > 0 && recentOrders ? (
+        ""
+      ) : (
+        <section class="bg-white w-full">
+          <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+            <div class="mx-auto max-w-screen-sm text-center">
+              <p class="mb-4 text-2xl tracking-tight font-bold text-gray-900 md:text-3xl  ">
+                Hello 🖐️,
+              </p>
+              <p class="mb-4 text-lg font-light text-gray-500 font-sans">
+                No orders have been created yet.{" "}
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   );
 }

@@ -32,8 +32,8 @@ export const getProductsNotApproved = async () => {
 export const getProductsByApartment = async (IdCategory, numberPage) => {
   console.log(numberPage);
   let url = IdCategory
-    ? `products-apartment?category=${IdCategory}&page=${numberPage}&limit=10`
-    : `/products-apartment?page=${numberPage}&limit=10`;
+    ? `products-apartment?category=${IdCategory}&page=${numberPage}&limit=15`
+    : `products-apartment?page=${numberPage}&limit=15`;
   console.log(url);
   const token = getToken();
   try {
@@ -174,11 +174,11 @@ export const getSellerProducts = async (id) => {
     }
   }
 };
-export const getSellerSoldProducts = async (id) => {
+export const getSellerSoldProducts = async (id, pagination) => {
   const token = getToken();
   try {
     const { data } = await client.get(
-      `/product/products-seller-sold?filter=${id}`,
+      `/product/products-seller-sold?filter=${id}&limit=10&page=${pagination}`,
       {
         headers: {
           Authorization: "Bearer " + token,
@@ -219,12 +219,12 @@ export const getTop5Cheap = async () => {
     }
   }
 };
-export const getProductsBySeller = async (idSeller) => {
+export const getProductsBySeller = async (idSeller, pagination) => {
   console.log(idSeller);
   const token = getToken();
   try {
     const { data } = await client.get(
-      `/product/products-seller?seller=${idSeller}`,
+      `/product/products-seller?seller=${idSeller}&limit=10&page=${pagination}`,
       {
         headers: {
           Authorization: "Bearer " + token,

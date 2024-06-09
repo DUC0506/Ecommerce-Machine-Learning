@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { getSalePredictionItem } from "../../api/chart";
 import SalesChart from "./shared/SaleChart";
-import { useAuth, useNotification } from "../../hooks";
+import { useNotification } from "../../hooks";
 import { addPredict } from "../../api/predict";
-import { getSellerProducts } from "../../api/products";
+
 import TextPredict from "./shared/TextPredict";
 import ProductDrawer from "./ProductDrawer";
 import SkeletonLoading from "./shared/SkeletonLoading";
@@ -60,7 +60,7 @@ export default function TransactionChartSeller() {
       formattedFormData.start_date === "NaN-NaN-NaN" ||
       formattedFormData.end_date === "NaN-NaN-NaN"
     ) {
-      return updateNotification("error", "	Thiếu ngày dự đoán !");
+      return updateNotification("error", "	Missing predicted date!");
     }
     console.log(formattedFormData);
     setLoading(true);
@@ -71,9 +71,9 @@ export default function TransactionChartSeller() {
       );
       console.log(predictions);
       if (!predictions) {
-        return updateNotification("error", "Dự đoán thất bại");
+        return updateNotification("error", "Predict failure");
       }
-      updateNotification("success", "Dự đoán thành công");
+      updateNotification("success", "Predict success");
       setLoading(false);
       setDataPre(predictions);
       setDate({
@@ -88,8 +88,8 @@ export default function TransactionChartSeller() {
         labels: generateLabels(predictions.length),
         product: formData.productId,
       };
-      console.log(dataPredict);
-      const { predict } = await addPredict(dataPredict);
+
+      await addPredict(dataPredict);
     }, 12000);
   };
   // const fetchProducts = async () => {

@@ -23,10 +23,11 @@ import { Input } from "../../ui/input";
 import { Label } from "../../ui/label";
 import { Textarea } from "../../ui/textarea";
 import { Button } from "../../ui/button";
-import { ChevronLeft, PlusCircle, Upload } from "lucide-react";
+import { ChevronLeft, PlusCircle } from "lucide-react";
 import { IoMdImages } from "react-icons/io";
+import useValidation from "../../../utils/validator";
 const AddProductModal = ({ isOpen, onRequestClose, onAddProduct }) => {
-  console.log(12);
+  const { validateProduct } = useValidation();
   const [categories, setCategories] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
@@ -45,24 +46,24 @@ const AddProductModal = ({ isOpen, onRequestClose, onAddProduct }) => {
   });
   const [mainImageUrl, setMainImageUrl] = useState("");
   const [imageUrls, setImageUrls] = useState([]);
-  const [errors, setErrors] = useState({}); // State để lưu trữ các lỗi
+  // const [errors, setErrors] = useState({});
 
   const fetchCategory = async () => {
     const { type, categories } = await getCategory();
     if (type === "error") return type;
     setCategories(categories);
   };
-  const validateForm = () => {
-    const newErrors = {};
-    Object.keys(formData).forEach((key) => {
-      if (formData[key] === "" && key !== "isOutOfStock") {
-        // Kiểm tra nếu trường rỗng và không phải là trường isOutOfStock (checkbox)
-        newErrors[key] = `${key} is required`;
-      }
-    });
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0; // Trả về true nếu không có lỗi
-  };
+  // const validateForm = () => {
+  //   const newErrors = {};
+  //   Object.keys(formData).forEach((key) => {
+  //     if (formData[key] === "" && key !== "isOutOfStock") {
+  //       // Kiểm tra nếu trường rỗng và không phải là trường isOutOfStock (checkbox)
+  //       newErrors[key] = `${key} is required`;
+  //     }
+  //   });
+  //   setErrors(newErrors);
+  //   return Object.keys(newErrors).length === 0; // Trả về true nếu không có lỗi
+  // };
   console.log(formData);
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -100,7 +101,10 @@ const AddProductModal = ({ isOpen, onRequestClose, onAddProduct }) => {
     e.preventDefault();
 
     const formData1 = new FormData();
-
+    const bool = validateProduct(formData);
+    if (!bool) {
+      return;
+    }
     for (const key in formData) {
       if (key === "images") {
         formData[key].forEach((image) => {
@@ -110,7 +114,6 @@ const AddProductModal = ({ isOpen, onRequestClose, onAddProduct }) => {
         formData1.append(key, formData[key]);
       }
     }
-    console.log(formData1);
 
     onAddProduct(formData1);
 
@@ -140,7 +143,7 @@ const AddProductModal = ({ isOpen, onRequestClose, onAddProduct }) => {
 
   return (
     <div
-      class={`absolute z-50 w-full top-1/2 left-1/2  md:top-1/2 h-full transform -translate-x-1/2 -translate-y-1/2 bg-slate-100 p-8 rounded shadow-md overflow-y-auto max-h-full ${
+      class={`absolute z-10 w-full top-1/2 left-1/2  md:top-1/2 h-full transform -translate-x-1/2 -translate-y-1/2 bg-slate-100 p-8 rounded shadow-md overflow-y-auto max-h-full ${
         isOpen ? "block" : "hidden"
       }`}
     >
@@ -470,7 +473,7 @@ const AddProductModal = ({ isOpen, onRequestClose, onAddProduct }) => {
                             <img
                               key={index}
                               src={imageUrl}
-                              alt={`Image ${index + 1}`}
+                              alt={`Image${index + 1}`}
                               className="w-20 h-20 rounded mt-4 ml-2 object-cover"
                             />
                           ))}

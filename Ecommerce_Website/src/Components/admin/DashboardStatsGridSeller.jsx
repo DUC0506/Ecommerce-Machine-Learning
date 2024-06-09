@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { IoBagHandle, IoPieChart, IoPeople, IoCart } from "react-icons/io5";
+// import { IoBagHandle, IoPieChart, IoPeople, IoCart } from "react-icons/io5";
 import {
   getTotalOrders,
-  getTotalSales,
+  // getTotalSales,
   getTotalSalesBySeller,
 } from "../../api/order";
 import { getSellers } from "../../api/user";
@@ -11,7 +11,7 @@ import { useAuth } from "../../hooks";
 import {
   Card,
   CardContent,
-  CardDescription,
+  // CardDescription,
   CardHeader,
   CardTitle,
 } from "../ui/card";
@@ -94,7 +94,7 @@ export default function DashboardStatsGridSeller() {
             <TbCurrencyDong className="text-yellow-400" />
           </div>
           <p className="text-xs text-muted-foreground font-sans">
-            +20.1% from last month
+            {totalOrderPriceAll > 0 ? " +20.1% from last month" : ""}
           </p>
         </CardContent>
       </Card>
@@ -110,7 +110,7 @@ export default function DashboardStatsGridSeller() {
             {totalExpense} <TbCurrencyDong className="text-yellow-400" />
           </div>
           <p className="text-xs text-muted-foreground font-sans">
-            +20.1% from last month
+            {totalExpense > 0 ? " +20.1% from last month" : ""}
           </p>
         </CardContent>
       </Card>
@@ -128,7 +128,7 @@ export default function DashboardStatsGridSeller() {
             {totalUsers?.length}
           </div>
           <p className="text-xs text-muted-foreground font-sans">
-            +20.1% from last month
+            {totalUsers?.length > 0 ? " +20.1% from last month" : ""}
           </p>
         </CardContent>
       </Card>
@@ -145,7 +145,7 @@ export default function DashboardStatsGridSeller() {
             {totalOrders?.length}
           </div>
           <p className="text-xs text-muted-foreground font-sans">
-            +20.1% from last month
+            {totalOrders?.length > 0 ? " +20.1% from last month" : ""}
           </p>
         </CardContent>
       </Card>
@@ -201,10 +201,10 @@ export default function DashboardStatsGridSeller() {
   );
 }
 
-function BoxWrapper({ children }) {
-  return (
-    <div className="bg-white rounded-sm p-4 flex-1 border border-gray-200 flex items-center">
-      {children}
-    </div>
-  );
-}
+// function BoxWrapper({ children }) {
+//   return (
+//     <div className="bg-white rounded-sm p-4 flex-1 border border-gray-200 flex items-center">
+//       {children}
+//     </div>
+//   );
+// }

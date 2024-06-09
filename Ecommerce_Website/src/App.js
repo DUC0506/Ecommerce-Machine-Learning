@@ -1,11 +1,11 @@
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import HomePage from "./PageSections/HomePage";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 // import Product from './Components/Product';
 // import Comingsoon from './PageSections/Comingsoon'
-import Addtocart from "./PageSections/Addtocart";
-import Comingsoon from "./PageSections/Comingsoon";
-import Added from "./Components/Added";
+// import Addtocart from "./PageSections/Addtocart";
+// import Comingsoon from "./PageSections/Comingsoon";
+// import Added from "./Components/Added";
 import Category from "./PageSections/Category";
 import DetailProduct from "./PageSections/DetailProduct";
 import Cart from "./PageSections/Cart";
@@ -17,7 +17,7 @@ import Dashboard from "../src/Components/pages/Dashboard";
 import Products from "../src/Components/pages/Products";
 
 import Order from "./Components/pages/Order";
-import Product from "./Components/Product";
+// import Product from "./Components/Product";
 import { useAuth } from "./hooks";
 import LayoutAdmin from "../src/Components/admin/shared/LayoutAdmin";
 import ApartmentDashboard from "./Components/pages/Apartment";
@@ -31,8 +31,8 @@ import Promotions from "./Components/pages/Promotions";
 import Finance from "./Components/pages/Finance";
 import Status from "./Components/pages/Status";
 import SignUp from "./Components/SignUp";
-import { Navigate } from "react-router-dom";
-import { useEffect } from "react";
+// import { Navigate } from "react-router-dom";
+// import { useEffect } from "react";
 import UserInfo from "./PageSections/UserInfo";
 import MyOrder from "./PageSections/MyOrder";
 import Productpage from "./PageSections/Productpage";
@@ -51,17 +51,16 @@ import ManagerProduct from "./Components/pages/ManagerProduct";
 import NewsManagement from "./Components/pages/NewsManagement";
 
 function App() {
-  const { soon, product, products, addedsuccessfully } = useSelector(
-    (state) => state.changestate
-  );
+  // const { soon, product, products, addedsuccessfully } = useSelector(
+  //   (state) => state.changestate
+  // );
 
   const { authInfo } = useAuth();
   console.log(authInfo.isLoggedIn);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   if (!authInfo.isLoggedIn && window.location.pathname !== "/signIn") {
     // navigate('/signIn');
 
-    console.log(123);
     return (
       <>
         {/* <Navigate to="/signIn" /> */}
@@ -150,9 +149,9 @@ function App() {
   return (
     <div className="App">
       {}
-      {products && <Addtocart />}
+      {/* {products && <Addtocart />}
       {soon && <Comingsoon />}
-      {addedsuccessfully && <Added />}
+      {addedsuccessfully && <Added />} */}
       <Routes>
         <Route index path="/" element={<HomePage />} />
         <Route index path="/categorys" element={<Category />} />

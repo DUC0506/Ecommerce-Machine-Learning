@@ -9,6 +9,7 @@ import React, { useState } from "react";
 import AddStatusModal from "./shared/AddStatusModal";
 import UpdateStatusModal from "./shared/UpdateStatusModal";
 import { BsPencilSquare } from "react-icons/bs";
+import NoItem from "./shared/NoItem";
 
 export default function StatusAdmin({ isSeller }) {
   const [status, setStatus] = useState([]);
@@ -92,61 +93,85 @@ export default function StatusAdmin({ isSeller }) {
             </div>
           )}
         </div>
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-              <th scope="col" class="px-6 py-3">
-                Name
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Position
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Status
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Action
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {status.map((s, index) => (
-              <tr
-                key={index}
-                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-              >
-                <th
-                  scope="row"
-                  class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
-                >
-                  <div class="ps-3">
-                    <div class="text-base font-semibold">
-                      {s.seller.username}
-                    </div>
-                    <div class="font-normal text-gray-500">
-                      {s.seller.email}
-                    </div>
-                  </div>
-                </th>
-                <td class="px-6 py-4">{s.seller.apartment.name}</td>
-                <td class="px-6 py-4">
-                  <div class="flex items-center">
-                    <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>{" "}
-                    {s.typeOfViolation}
-                  </div>
-                </td>
-                <td class="px-6 py-4">
-                  <span
-                    onClick={() => handleGetStatus(s._id)}
-                    class="font-medium text-yellow-600  hover:underline cursor-pointer"
+
+        {status.length > 0 && status ? (
+          <div>
+            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+              <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                  <th scope="col" class="px-6 py-3">
+                    Name
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                    Position
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                    Status
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {status.map((s, index) => (
+                  <tr
+                    key={index}
+                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                   >
-                    {isSeller ? "View" : " Edit status"}
-                  </span>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                    <th
+                      scope="row"
+                      class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
+                    >
+                      <div class="ps-3">
+                        <div class="text-base font-semibold">
+                          {s.seller.username}
+                        </div>
+                        <div class="font-normal text-gray-500">
+                          {s.seller.email}
+                        </div>
+                      </div>
+                    </th>
+                    <td class="px-6 py-4">{s.seller.apartment.name}</td>
+                    <td class="px-6 py-4">
+                      <div class="flex items-center">
+                        <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>{" "}
+                        {s.typeOfViolation}
+                      </div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <span
+                        onClick={() => handleGetStatus(s._id)}
+                        class="font-medium text-yellow-600  hover:underline cursor-pointer"
+                      >
+                        {isSeller ? "View" : " Edit status"}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div className="text-xs px-4 py-2">
+              Page <strong>1</strong>
+              <div class="flex mt-2">
+                <div class="flex mr-2 cursor-pointer items-center justify-center px-3 h-8 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                  Previous
+                </div>
+
+                <div class="flex cursor-pointer  items-center justify-center px-3 h-8 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                  Next
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <NoItem
+            title={"Welcome sellers to your store status tracking page"}
+            body={
+              "You will be able to monitor the seller status if there are complaints or reports from customers or platform managers."
+            }
+          />
+        )}
       </div>
     </div>
   );

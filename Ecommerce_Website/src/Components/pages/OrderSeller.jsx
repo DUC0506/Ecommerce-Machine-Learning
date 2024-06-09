@@ -1,23 +1,20 @@
 import React from "react";
-import RecentOrders from "../admin/RecentOrders";
-import { IoSearchOutline } from "react-icons/io5";
-import NavbarAdmin from "../admin/shared/NavbarAdmin";
 import { useAuth } from "../../hooks";
 import MainOrder from "../admin/MainOrder";
 
 export default function OrderSeller() {
   const { authInfo } = useAuth();
-  console.log(authInfo.profile);
-  const option1 = [
-    { value: "Số lượng thấp đến cao" },
-    { value: "Số lượng  cao đến thấp" },
-  ];
-  const option2 = [{ value: "Danh mục" }, { value: "Thịt" }, { value: "Cá" }];
-  const option3 = [
-    { value: "Số lượng bán" },
-    { value: "Từ thấp đến cao" },
-    { value: "Từ cao đến thấp" },
-  ];
+  // console.log(authInfo.profile);
+  // const option1 = [
+  //   { value: "Số lượng thấp đến cao" },
+  //   { value: "Số lượng  cao đến thấp" },
+  // ];
+  // const option2 = [{ value: "Danh mục" }, { value: "Thịt" }, { value: "Cá" }];
+  // const option3 = [
+  //   { value: "Số lượng bán" },
+  //   { value: "Từ thấp đến cao" },
+  //   { value: "Từ cao đến thấp" },
+  // ];
   return (
     // <div className='h-full'>
     //     <div className='p-4 bg-slate-50 rounded mb-4 mt-2 cursor-pointer'>
@@ -47,6 +44,6 @@ export default function OrderSeller() {
     //     <NavbarAdmin option1={option1} option2={option2} option3={option3}/>
     //     <RecentOrders sellerId={authInfo.profile._id} />
     // </div>
-    <MainOrder sellerId={authInfo.profile._id} />
+    <MainOrder number={10} sellerId={authInfo.profile._id} />
   );
 }

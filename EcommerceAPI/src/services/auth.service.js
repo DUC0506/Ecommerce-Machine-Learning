@@ -156,6 +156,7 @@ export const signin = catchAsync(async (email, password) => {
   // 1) Check if email and password exist
   if (!email || !password) {
     return {
+      type: 'Error',
       statusCode: 400,
       message: 'emailPasswordRequired'
     };
@@ -167,6 +168,7 @@ export const signin = catchAsync(async (email, password) => {
   // 3) Check if user does not exist
   if (!user) {
     return {
+      type: 'Error',
       statusCode: 401,
       message: 'incorrectEmailOrPassword'
     };
@@ -177,6 +179,7 @@ export const signin = catchAsync(async (email, password) => {
   // 4) Check if passwords match
   if (!isMatch) {
     return {
+      type: 'Error',
       statusCode: 401,
       message: 'incorrectEmailOrPassword'
     };

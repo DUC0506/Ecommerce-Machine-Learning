@@ -1,7 +1,9 @@
 import { getToken } from "../utils/hepler";
 import client from "./client";
-export const getNewsByApartment = async (idApartment, idAuthor) => {
-  let url = idAuthor ? `?author=${idAuthor}` : `?apartment=${idApartment}`;
+export const getNewsByApartment = async (idApartment, idAuthor, pagination) => {
+  let url = idAuthor
+    ? `?author=${idAuthor}&limit=10&page=${pagination}`
+    : `?apartment=${idApartment}&limit=10&page=${pagination}`;
   console.log(url);
   const token = getToken();
   try {

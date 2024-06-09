@@ -39,7 +39,7 @@ export const queryExpenses = catchAsync(async (req) => {
   let expenses = await APIFeatures(req, Expense, populateQuery);
 
   // 2) Check if reviews doesn't exist
-  if (expenses.length === 0) {
+  if (!expenses) {
     return {
       type: 'Error',
       message: 'noExpensesFound',

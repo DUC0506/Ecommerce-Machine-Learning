@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Landing from "./Landing";
 import Links from "./Links";
 import "../Styles/PageStyles/Homepage.css";
@@ -10,6 +10,7 @@ import { CiSquareChevDown } from "react-icons/ci";
 import Chat from "../Components/pages/Chat";
 import { useAuth } from "../hooks";
 import ChatGemini from "../Components/pages/ChatGemini";
+import GeminiIcon from "../assets/unnamed.jpg";
 
 const HomePage = () => {
   const [showChat, setShowChat] = useState(false);
@@ -33,16 +34,16 @@ const HomePage = () => {
       {console.log("Ahome page")}
       <ToastContainer />
       <Landing />
-      <Links categorys={"Tất cả sản phẩm "} />
+      <Links categorys={"All products "} />
 
       {/* Chat gemini */}
-      <div className={`${showGemini ? "fixed" : "hidden"} z-50 `}>
+      <div className={`${showGemini ? "fixed" : "hidden"} z-30 `}>
         <ChatGemini showGemini={handleShowGemini} />
       </div>
 
       {/* Chat Seller , Admin */}
       <div
-        className={`w-1/2   bottom-1 z-50 right-0 h-2/3  overflow-auto ${
+        className={`w-1/2   bottom-1 z-40 right-0 h-2/3  overflow-auto ${
           showChat ? "fixed" : "hidden"
         }`}
       >
@@ -60,37 +61,20 @@ const HomePage = () => {
         onClick={() => handleShowGemini(true)}
       >
         <button
-          class="fixed z-50 bottom-12 right-4 inline-flex items-center justify-center text-sm font-medium disabled:pointer-events-none disabled:opacity-50 border rounded-full w-16 h-16 bg-yellow-400 hover:bg-yellow-500 m-0 cursor-pointer border-gray-200 p-0 normal-case leading-5 hover:text-gray-900"
+          class="fixed z-20 bottom-14 right-4 inline-flex items-center justify-center text-sm font-medium disabled:pointer-events-none disabled:opacity-50 border rounded-full w-18 h-18  bg-yellow-400 hover:bg-yellow-500 m-0 cursor-pointer border-gray-200 p-0 normal-case leading-5 hover:text-gray-900"
           type="button"
           aria-haspopup="dialog"
           aria-expanded="false"
           data-state="closed"
         >
-          {" "}
-          Hôm nay ăn gì ?
-          {/* <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="30"
-          height="40"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="text-white block border-gray-200 align-middle"
-        >
-          <path
-            d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"
-            class="border-gray-200"
-          ></path>
-        </svg> */}
+          <img src={GeminiIcon} alt="123" className="rounded w-16 h-16 z-10" />
+          {/* Today what do eat ? */}
         </button>
       </div>
       <div
         className={`${
           showChat ? "hidden" : "fixed"
-        }  items-center justify-center mr-2  flex z-50 bg-yellow-400 right-0 bottom-0 py-2 px-6 rounded cursor-pointer`}
+        }  items-center justify-center mr-2  flex z-30 bg-yellow-400 right-0 bottom-0 py-2 px-6 rounded cursor-pointer`}
         onClick={() => handleShowChat(true)}
       >
         <BiMessageRoundedDots className="text-2xl text-white " />

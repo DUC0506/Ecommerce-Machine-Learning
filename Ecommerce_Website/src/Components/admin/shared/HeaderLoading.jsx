@@ -35,7 +35,7 @@ export default function HeaderLoading() {
           </svg>
         </span> */}
       </div>
-      <div className=" flex items-center">
+      <div className=" flex items-center justify-center">
         <img src={chartGif} alt="chart-gif" />
       </div>
     </div>

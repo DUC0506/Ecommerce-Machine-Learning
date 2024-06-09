@@ -178,7 +178,7 @@ const ProductDrawer = ({ onSubmit, holidays }) => {
                 htmlFor="price"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
-                End Date
+                Holidays Date
               </label>
               <div className="flex items-center">
                 <input
@@ -204,7 +204,7 @@ const ProductDrawer = ({ onSubmit, holidays }) => {
                 htmlFor="description"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Description
+                Holiday dates
               </label>
               <textarea
                 name="arrayHoliday"

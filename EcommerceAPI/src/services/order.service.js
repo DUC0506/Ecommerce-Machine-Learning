@@ -12,6 +12,7 @@ import config from '../config/config';
 
 // Models
 import { Order, Cart, Product, User } from '../models/index';
+import { sendEmailSeller, textNewOrder } from '../utils/sendEmail';
 
 const stripe = STRIPE_SDK(config.stripe.secret_key);
 
@@ -247,6 +248,7 @@ export const createOrderBySeller = catchAsync(async (body, user) => {
       timeDelivery,
       seller
     });
+
     return order;
   }
   /////////////
@@ -302,7 +304,13 @@ export const createOrderBySeller = catchAsync(async (body, user) => {
         timeDelivery,
         sellerId
       );
+
       createdOrders.push(order);
+      const text = textNewOrder(user, order);
+      const sellerMail = await User.findOne(mongoose.Types.ObjectId(sellerId));
+      let subject = `New order from user `;
+
+      await sendEmailSeller(sellerMail.email, subject, text);
     }
     // 2) Update product sold and quantity fields
     for (const item of cart.items) {
@@ -375,6 +383,11 @@ export const createOrderBySeller = catchAsync(async (body, user) => {
       charge.id
     );
     createdOrders.push(order);
+    const text = textNewOrder(user, order);
+    const sellerMail = await User.findOne(mongoose.Types.ObjectId(sellerId));
+    let subject = `New order from user `;
+
+    await sendEmailSeller(sellerMail.email, subject, text);
   }
 
   // 10) Update product sold and quantity fields
@@ -531,7 +544,6 @@ export const queryOrders = catchAsync(async (req) => {
  */
 export const queryOrdersBySeller = catchAsync(async (req) => {
   // 1) Get all orders
-  console.log(req.query);
   const populateQuery = [{ path: 'user', select: 'username phone email' }];
   const orders = await APIFeatures(req, Order, populateQuery);
 
@@ -550,6 +562,33 @@ export const queryOrdersBySeller = catchAsync(async (req) => {
     message: 'successfulOrdersFound',
     statusCode: 200,
     orders
+  };
+});
+export const queryOrdersBySellerNotification = catchAsync(async (req) => {
+  // 1) Get all orders
+
+  const populateQuery = [{ path: 'user', select: 'username phone email' }];
+  const orders = await APIFeatures(req, Order, populateQuery);
+
+  const lengthOrders = orders.length;
+
+  console.log(lengthOrders);
+
+  // 2) Check of orders doesn't exist
+  if (!orders) {
+    return {
+      type: 'Error',
+      message: 'noOrders',
+      statusCode: 404
+    };
+  }
+
+  // 3) If everything is OK, send data
+  return {
+    type: 'Success',
+    message: 'successfulOrdersFound',
+    statusCode: 200,
+    orders: lengthOrders
   };
 });
 

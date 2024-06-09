@@ -40,8 +40,11 @@ export const addProductToCart = catchAsync(
     if (cart) {
       // Find product index in the cart
       const indexFound = cart.items.findIndex(
-        (item) => item.product.toString() === productId.toString()
+        (item) =>
+          item.product.toString() === productId.toString() &&
+          item.selectedSize._id.toString() === selectedSize.toString()
       );
+
       // console.log(indexFound);
       // // eslint-disable-next-line no-console
       // console.log(
@@ -54,6 +57,7 @@ export const addProductToCart = catchAsync(
       //   selectedSize.toString()
       // );
       // Check product index
+
       if (indexFound !== -1 && quantity <= 0) {
         cart.items.splice(indexFound, 1);
       } else if (
@@ -83,12 +87,12 @@ export const addProductToCart = catchAsync(
             priceAfterDiscount * quantity * sizePrice.ratioPrice,
           seller: seller
         });
-        console.log(cart.totalPrice);
-        console.log(cart.items[0].totalProductPrice);
-        console.log(priceAfterDiscount, quantity, sizePrice.ratioPrice);
+        // console.log(cart.totalPrice);
+        // console.log(cart.items[0].totalProductPrice);
+        // console.log(priceAfterDiscount, quantity, sizePrice.ratioPrice);
         cart.totalQuantity += quantity;
         cart.totalPrice += priceAfterDiscount * quantity * sizePrice.ratioPrice;
-        console.log(cart.totalPrice);
+        // console.log(cart.totalPrice);
       } else {
         return {
           type: 'Error',
@@ -127,7 +131,7 @@ export const addProductToCart = catchAsync(
       totalQuantity: quantity,
       totalPrice: priceAfterDiscount * quantity * sizePrice.ratioPrice
     };
-    console.log(cartData);
+    // console.log(cartData);
     // 4) Create new cart
     const createdCart = await Cart.create(cartData);
     // 5) If everything is OK, send cart
@@ -351,7 +355,7 @@ export const queryCart = catchAsync(async (email) => {
     },
     { path: 'items.selectedSize' }
   ]);
-  console.log(cart.items[0].selectedSize);
+  // console.log(cart.items[0].selectedSize);
   // 1) Check if cart doesn't exist
   if (!cart) {
     return {

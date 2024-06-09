@@ -1,17 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ToastContainer } from "react-toastify";
-
-import { GrLike } from "react-icons/gr";
 
 import { useNavigate } from "react-router-dom";
-import { FaRegComment } from "react-icons/fa";
-import { CiCircleRemove } from "react-icons/ci";
-import { HiOutlineDotsHorizontal } from "react-icons/hi";
+
 import { MdOutlinePostAdd } from "react-icons/md";
-import { useAuth } from "../../../hooks";
+// import { useAuth } from "../../../hooks";
 import { MdCancel } from "react-icons/md";
 import ReactPlayer from "react-player";
-import { updateNewsDetails } from "../../../api/news";
+// import { updateNewsDetails } from "../../../api/news";
 
 export default function UpdateNewsModal({
   name,
@@ -29,10 +24,9 @@ export default function UpdateNewsModal({
   const videoRef = useRef(null);
   const [shouldPlay, setShouldPlay] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [showOptions, setShowOptions] = useState(false);
+  // const [showOptions, setShowOptions] = useState(false);
   const [contentNews, setContentNews] = useState();
 
-  const { authInfo } = useAuth();
   const navigate = useNavigate();
   useEffect(() => {
     const handleScroll = () => {
@@ -132,7 +126,7 @@ export default function UpdateNewsModal({
                 >
                   <img
                     src={image}
-                    alt={`Post Image ${index + 1}`}
+                    alt={`PostImage${index + 1}`}
                     className="object-cover w-full h-full"
                   />
                 </div>

@@ -1,14 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import { GrLike } from "react-icons/gr";
 import { MdOutlinePostAdd } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
-import { MdSaveAlt } from "react-icons/md";
 import { useAuth } from "../../../hooks";
 import { MdCancel } from "react-icons/md";
 import ReactPlayer from "react-player";
 import { getSellerProducts } from "../../../api/products";
+import useValidation from "../../../utils/validator";
 
 export default function AddNewsModal({
   isOpen,
@@ -17,10 +16,11 @@ export default function AddNewsModal({
   avatar,
   name,
 }) {
-  const videoRef = useRef(null);
-  const [shouldPlay, setShouldPlay] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [showOptions, setShowOptions] = useState(false);
+  // const videoRef = useRef(null);
+  // const [shouldPlay, setShouldPlay] = useState(false);
+  // const [showDropdown, setShowDropdown] = useState(false);
+  // const [showOptions, setShowOptions] = useState(false);
+  const { validateNews } = useValidation();
   const [products, setProducts] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [videoPreview, setVideoPreview] = useState(null);
@@ -34,15 +34,13 @@ export default function AddNewsModal({
   });
 
   const { authInfo } = useAuth();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   useEffect(() => {
     fetchProducts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const fetchProducts = async () => {
-    const { type, message, products } = await getSellerProducts(
-      authInfo.profile._id
-    );
+    const { type, products } = await getSellerProducts(authInfo.profile._id);
     if (type === "Success") {
       setProducts(products);
     }
@@ -51,7 +49,7 @@ export default function AddNewsModal({
     const files = event.target.files;
     if (files) {
       const imageFiles = [...imagePreviews];
-      let videoFile = null;
+      // let videoFile = null;
       for (const file of files) {
         if (file.type.startsWith("image")) {
           setFormData((prevData) => ({
@@ -73,10 +71,10 @@ export default function AddNewsModal({
     }
   };
 
-  const handleSavePost = () => {
-    //   onSavePost(id,contentNews)
-    onRequestClose();
-  };
+  // const handleSavePost = () => {
+  //   //   onSavePost(id,contentNews)
+  //   onRequestClose();
+  // };
 
   console.log(formData);
   const handleChange = (e) => {
@@ -102,6 +100,10 @@ export default function AddNewsModal({
   };
   const formData1 = new FormData();
   const handleCreatePost = () => {
+    const bool = validateNews(formData);
+    if (!bool) {
+      return;
+    }
     for (const key in formData) {
       if (key === "images") {
         formData[key].forEach((image) => {

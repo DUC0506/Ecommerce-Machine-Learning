@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // Packages
 import { createTransport } from 'nodemailer';
 import { google } from 'googleapis';
@@ -101,3 +102,44 @@ If you did not create an account, then ignore this email.`;
 
   await sendEmail(to, subject, text);
 });
+
+export const sendEmailSeller = async (to, subject, text) => {
+  let transporter = createTransport({
+    host: 'smtp.mailtrap.io',
+    port: process.env.SMTP_PORT,
+    auth: {
+      user: process.env.SMTP_USERNAME,
+      pass: process.env.SMTP_PASSWORD
+    }
+  });
+  let mailOptions = {
+    from: process.env.EMAIL_FROM,
+    to: to,
+    subject: subject,
+    html: text
+  };
+  try {
+    // Gửi email
+    let info = await transporter.sendMail(mailOptions);
+    console.log(`Email sent: ${info.response}`);
+  } catch (error) {
+    console.log('Error sending email: ', error);
+  }
+};
+export const textNewOrder = (user, order) => `
+  <h2>Đơn hàng mới từ ${user.name}</h2>
+  <p>Bạn có một đơn hàng mới từ người dùng trên nền tảng của chúng tôi. Dưới đây là chi tiết đơn hàng:</p>
+  <ul>
+      <li><strong>Mã đơn hàng:</strong> ${order._id}</li>
+      <li><strong>Tên người mua:</strong> ${user.name}</li>
+      <li><strong>Email người mua:</strong> ${user.email}</li>
+      <li><strong>Số nhà người mua:</strong> ${order.shippingAddress.address}</li>
+      <li><strong>Ngày đặt hàng:</strong> ${order.createdAt}</li>
+      <li><strong>Tổng số tiền:</strong> ${order.totalPrice}đ</li>
+  </ul>
+  <h3>Số lượng sản phẩm đặt mua: ${order?.products?.length}</h3>
+
+  <p>Vui lòng chuẩn bị hàng và liên hệ với người mua để giao hàng.</p>
+  <p>Trân trọng,</p>
+  <p>Nền tảng chợ chung cư của chúng tôi</p>
+`;

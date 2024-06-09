@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+
 import { io } from "socket.io-client";
 
 // import Welcome from "../components/Welcome";
@@ -11,34 +11,31 @@ import { getUsers } from "../../api/user";
 import Welcome from "./Welcome";
 import ContactsUser from "./ContactsUser";
 
-export default function Chat({role,apartment}) {
-  const navigate = useNavigate();
+export default function Chat({ role, apartment }) {
   const socket = useRef();
   const [contacts, setContacts] = useState([]);
   const [currentChat, setCurrentChat] = useState(undefined);
-  const [currentUser, setCurrentUser] = useState(undefined);
 
   console.log(apartment);
-  const {authInfo} = useAuth()
+  const { authInfo } = useAuth();
   const host = "http://localhost:3000";
 
+  const fetchUsers = async () => {
+    // const data = await axios.get(`${process.env.REACT_APP_ALL_USERS_ROUTE}/${currentUser._id}`);
+    let { type, users } = await getUsers(role, apartment);
+    if (type === "Error") {
+      users = [];
+    }
+    const data = await getUsers("admin");
 
-  const fetchUsers= async()=>{
-    
-        // const data = await axios.get(`${process.env.REACT_APP_ALL_USERS_ROUTE}/${currentUser._id}`);
-        const {type, message , users}= await getUsers(role,apartment)
-        console.log(users);
-        const data= await getUsers('admin')
-        let mergedContacts = [...users, ...data.users];
-        setContacts(mergedContacts);
-    
-  
-  }
+    let mergedContacts = [...users, ...data.users];
+    setContacts(mergedContacts);
+  };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-      socket.current = io(host);
-      socket.current.emit("add-user", authInfo.profile._id);
-     fetchUsers()
+    socket.current = io(host);
+    socket.current.emit("add-user", authInfo.profile._id);
+    fetchUsers();
   }, [authInfo.profile]);
 
   const handleChatChange = (chat) => {
@@ -49,10 +46,13 @@ export default function Chat({role,apartment}) {
   return (
     <div className="w-full h-full flex flex-col justify-center items-center gap-4 bg-gray-900">
       <div className="container h-full w-full bg-yellow-400 bg-opacity-80 flex overflow-auto">
-        {role==='seller'&&apartment ? <ContactsUser contacts={contacts} changeChat={handleChatChange} />:
-        <Contacts contacts={contacts} changeChat={handleChatChange} />}
+        {role === "seller" && apartment ? (
+          <ContactsUser contacts={contacts} changeChat={handleChatChange} />
+        ) : (
+          <Contacts contacts={contacts} changeChat={handleChatChange} />
+        )}
         {currentChat === undefined ? (
-          <Welcome/>
+          <Welcome />
         ) : (
           <ChatContainer currentChat={currentChat} socket={socket} />
         )}

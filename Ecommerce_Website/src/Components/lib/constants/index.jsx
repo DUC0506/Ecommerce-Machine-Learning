@@ -11,8 +11,14 @@ import {
 import { AiOutlineNotification } from "react-icons/ai";
 import { MdPolicy } from "react-icons/md";
 import { SiInstatus, SiExpensify } from "react-icons/si";
-import { FaRegNewspaper } from "react-icons/fa";
-import { IoBarChartOutline } from "react-icons/io5";
+import { FaRegNewspaper, FaFacebookMessenger } from "react-icons/fa";
+import { FaProductHunt } from "react-icons/fa6";
+import {
+  IoBarChartOutline,
+  IoStorefrontSharp,
+  IoShareSocialSharp,
+} from "react-icons/io5";
+import { TbStatusChange } from "react-icons/tb";
 
 export const DASHBOARD_SIDEBAR_LINKS = [
   {
@@ -111,18 +117,18 @@ export const DASHBOARD_SIDEBAR_LINKS_ADMIN = [
     key: "sellers",
     label: "Sellers",
     path: "/dashboard/sellers",
-    icon: <HiOutlineDocumentText />,
+    icon: <IoStorefrontSharp />,
   },
 
   {
     key: "managerProduct",
-    label: "Product Management ",
+    label: "Product  ",
     path: "/dashboard/product-management",
-    icon: <HiOutlineDocumentText />,
+    icon: <FaProductHunt />,
   },
   {
     key: "managerNews",
-    label: "News Management",
+    label: "News ",
     path: "/dashboard/news-management",
     icon: <HiOutlineDocumentText />,
   },
@@ -130,19 +136,19 @@ export const DASHBOARD_SIDEBAR_LINKS_ADMIN = [
     key: "promotion",
     label: "Promotion",
     path: "/dashboard/promotion",
-    icon: <HiOutlineDocumentText />,
+    icon: <IoShareSocialSharp />,
   },
   {
     key: "status",
     label: "Status",
     path: "/dashboard/status",
-    icon: <HiOutlineShoppingCart />,
+    icon: <TbStatusChange />,
   },
   {
     key: "messages",
     label: "Messages",
     path: "/dashboard/chat",
-    icon: <HiOutlineAnnotation />,
+    icon: <FaFacebookMessenger />,
   },
 ];
 

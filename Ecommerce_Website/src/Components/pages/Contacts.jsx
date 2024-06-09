@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../hooks";
 import Email from "../../assets/mail.webp";
-import { FcHome } from "react-icons/fc";
+// import { FcHome } from "react-icons/fc";
+import apartment from "../../assets/apartments.png";
 
 export default function Contacts({ contacts, changeChat }) {
-  const [currentUserName, setCurrentUserName] = useState(undefined);
+  // const [currentUserName, setCurrentUserName] = useState(undefined);
   const [currentUserImage, setCurrentUserImage] = useState(undefined);
   const [currentSelected, setCurrentSelected] = useState(undefined);
 
-  console.log(contacts);
   const { authInfo } = useAuth();
   useEffect(() => {
-    setCurrentUserName(authInfo.profile.username);
+    // setCurrentUserName(authInfo.profile.username);
     setCurrentUserImage(authInfo.profile.profileImage);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -59,7 +59,12 @@ export default function Contacts({ contacts, changeChat }) {
                     ""
                   ) : (
                     <h3 className="font-sans font-semibold flex items-center">
-                      <FcHome className="text-xl mr-1" />{" "}
+                      {/* <FcHome className="text-xl mr-1" />{" "} */}
+                      <img
+                        src={apartment}
+                        alt="apartment"
+                        className="w-5 h-5 mr-1"
+                      />
                       {contact.apartment.name}
                     </h3>
                   )}

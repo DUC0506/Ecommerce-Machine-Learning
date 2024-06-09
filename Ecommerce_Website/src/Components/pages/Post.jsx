@@ -16,7 +16,7 @@ import { CiCircleRemove } from "react-icons/ci";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import UpdateNewsModal from "../admin/shared/UpdateNewsModal";
 import { SiGooglenews } from "react-icons/si";
-import { data } from "autoprefixer";
+
 import { MdDelete } from "react-icons/md";
 import { MdOutlineEditCalendar } from "react-icons/md";
 
@@ -37,7 +37,7 @@ const Post = ({
   const videoRef = useRef(null);
   const [shouldPlay, setShouldPlay] = useState(false);
   const [likes, setLikes] = useState(0);
-  const [comments, setComments] = useState([]);
+  // const [comments, setComments] = useState([]);
   const [showCommentForm, setShowCommentForm] = useState(false);
   const [commentsPost, setCommentsPost] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -76,7 +76,7 @@ const Post = ({
 
   const fetchCommentByNews = async () => {
     const { type, message, comments } = await getCommentByNews(id);
-    console.log(comments);
+    if (type === "Error") return message;
     setCommentsPost(comments);
   };
 
@@ -89,7 +89,7 @@ const Post = ({
     const formData = new FormData();
     formData.append("comments", comment);
     const { type, message } = await addComment(id, formData);
-    console.log(message);
+    if (type === "Error") return message;
     fetchCommentByNews();
     // Gửi request lên server để lưu trữ bình luận vào cơ sở dữ liệu
   };
@@ -116,18 +116,21 @@ const Post = ({
   };
   const handleRemoveComment = async (idComment) => {
     const { type, message } = await removeComment(id, idComment);
+    if (type === "Error") return message;
     fetchCommentByNews();
   };
   const formData = new FormData();
   const onSavePost = async (id, contentNews) => {
     formData.append("content", contentNews);
     const { type, message, result } = await updateNewsDetails(id, formData);
-    if (type === "Success") updateNotification("success", message);
+    if (type === "Success")
+      updateNotification("success", "Updated News successfully");
     onFetchNews(result);
   };
   const handleRemovePost = async (id) => {
     const { type, message } = await removeNews(id);
-    if (type === "Success") updateNotification("success", message);
+    if (type === "Success")
+      updateNotification("success", "Delete News successfully");
     onFetchNews(1);
   };
   const handleUpdateApproval = (id, data) => {
@@ -254,7 +257,7 @@ const Post = ({
                 >
                   <img
                     src={image}
-                    alt={`Post Image ${index + 1}`}
+                    alt={`PostImage${index + 1}`}
                     className="object-cover w-full h-full"
                   />
                 </div>

@@ -1,35 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import DashboardStatsGrid from "../admin/DashboardStatsGrid";
 import TransactionChart from "../admin/TransactionChart";
 import RecentOrders from "../admin/RecentOrders";
-import BuyerProfilePieChart from "../admin/BuyerProfilePieChart";
+
 import PopularProducts from "../admin/PopularProducts";
-import { useAuth } from "../../hooks";
-import { getPredict, getPredicts } from "../../api/predict";
-import SalesChart from "../admin/shared/SaleChart";
+
+// import { getPredicts } from "../../api/predict";
 
 export default function Dashboard() {
-  const { authInfo } = useAuth();
-  const [predicts, setPredicts] = useState([]);
-  const [historyPredict, setHistoryPredict] = useState({});
+  // const [predicts, setPredicts] = useState([]);
+  // const [historyPredict, setHistoryPredict] = useState({});
 
-  const handleChangePredict = async (event) => {
-    const selectedValue = event.target.value;
-    const { type, predict } = await getPredict(selectedValue);
-    if (type === "Success") {
-      setHistoryPredict(predict);
-    }
-  };
-  const fetchPredict = async () => {
-    const { type, predicts } = await getPredicts();
-    if (type === "Success") {
-      setPredicts(predicts);
-    }
-  };
-  useEffect(() => {
-    fetchPredict();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // const handleChangePredict = async (event) => {
+  //   const selectedValue = event.target.value;
+  //   const { type, predict } = await getPredict(selectedValue);
+  //   if (type === "Success") {
+  //     setHistoryPredict(predict);
+  //   }
+  // };
+  // const fetchPredict = async () => {
+  //   const { type, predicts } = await getPredicts();
+  //   if (type === "Success") {
+  //     setPredicts(predicts);
+  //   }
+  // };
+  // useEffect(() => {
+  //   fetchPredict();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
   return (
     <div className="flex flex-col gap-4">
       <DashboardStatsGrid />

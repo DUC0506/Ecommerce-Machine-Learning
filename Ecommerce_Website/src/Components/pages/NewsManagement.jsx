@@ -27,8 +27,8 @@ export default function NewsManagement() {
     }
   };
   const handleAddPost = async (data) => {
-    const { type, message, news } = await addNews(data);
-    console.log(news);
+    const { type, message } = await addNews(data);
+    if (type === "Error") return message;
   };
   const handleSelectFilter = (selectBtn) => {
     setSelect(selectBtn);

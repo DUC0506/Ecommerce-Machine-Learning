@@ -113,7 +113,7 @@ export const queryProductsByKeyword = catchAsync(async (req) => {
   }
 
   // Kiểm tra nếu không có sản phẩm được tìm thấy
-  if (!products || products.length === 0) {
+  if (!products) {
     return {
       type: 'Error',
       message: 'noProductsFound',
@@ -148,7 +148,8 @@ export const queryProductsBySeller = catchAsync(async (req) => {
   // }
   const products = await APIFeatures(req, Product, populateQuery, null);
   // 1) Kiểm tra nếu không có sản phẩm
-  if (!products || products.length === 0) {
+
+  if (!products) {
     return {
       type: 'Error',
       message: 'noProductsFound',

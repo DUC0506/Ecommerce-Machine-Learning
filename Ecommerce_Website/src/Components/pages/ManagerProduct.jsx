@@ -31,7 +31,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Copy,
-  CreditCard,
   File,
   ListFilter,
   MoreVertical,
@@ -43,10 +42,8 @@ import {
   PaginationContent,
   PaginationItem,
 } from "../ui/pagination";
-import { getTotalOrders, orderStatus } from "../../api/order";
 import {
   getProductsNotApproved,
-  updateProduct,
   updateProductApproved,
 } from "../..//api/products";
 export default function ManagerProduct({ number, sellerId }) {
@@ -73,13 +70,13 @@ export default function ManagerProduct({ number, sellerId }) {
 
     setProductInfo(updatedOrders[indexOrder]);
   };
-  const convertISOToDateFormat = (isoDateString) => {
-    const date = new Date(isoDateString);
-    const formattedDate = `${date.getDate()}-${
-      date.getMonth() + 1
-    }-${date.getFullYear()}`;
-    return formattedDate;
-  };
+  // const convertISOToDateFormat = (isoDateString) => {
+  //   const date = new Date(isoDateString);
+  //   const formattedDate = `${date.getDate()}-${
+  //     date.getMonth() + 1
+  //   }-${date.getFullYear()}`;
+  //   return formattedDate;
+  // };
   const handleInfoOrder = (index) => {
     console.log(index);
 

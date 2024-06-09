@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { getCart, increaseOneProduct, reduceOneProduct } from "../api/cart";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  getCart,
+  increaseOneProduct,
+  reduceOneProduct,
+  removeItem,
+} from "../api/cart";
+import { Link } from "react-router-dom";
 import NotFound from "./admin/shared/NotFound";
 import { TbCurrencyDong } from "react-icons/tb";
 const CartItem = ({
@@ -12,8 +17,10 @@ const CartItem = ({
   image,
   onIncrease,
   onDecrease,
+
   color,
   size,
+  removeItemCart,
 }) => {
   const discountedPrice = price - (price * discount) / 100;
 
@@ -123,51 +130,15 @@ const CartItem = ({
             </Link>
 
             <div class="flex items-center gap-4 font-sans">
-              <button
-                type="button"
-                class="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-white"
-              >
-                <svg
-                  class="me-1.5 h-5 w-5"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"
-                  />
-                </svg>
-                Add to Favorites
-              </button>
+              <span class="inline-flex items-center font-sans  text-sm font-medium text-gray-500 hover:text-gray-900 ">
+                {size.size}
+              </span>
 
               <button
                 type="button"
+                onClick={() => removeItemCart(id, color, size._id)}
                 class="inline-flex font-sans items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500"
               >
-                <svg
-                  class="me-1.5 h-5 w-5"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M6 18 17.94 6M18 18 6.06 6"
-                  />
-                </svg>
                 Remove
               </button>
             </div>
@@ -181,10 +152,9 @@ const CartItem = ({
 const ShoppingCart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [cart, setCart] = useState({});
-  console.log(1);
   const fetchCart = async () => {
     const { error, cart } = await getCart();
-    console.log(error);
+
     if (error) return error;
     if (cart) {
       console.log(cart);
@@ -192,18 +162,18 @@ const ShoppingCart = () => {
       setCartItems(cart.items);
     }
   };
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const discountCode = "DISCOUNT123";
-  const [appliedDiscount, setAppliedDiscount] = useState(null);
+  // const discountCode = "DISCOUNT123";
+  // const [appliedDiscount, setAppliedDiscount] = useState(null);
 
-  const handleApplyDiscount = (code) => {
-    if (code === discountCode) {
-      setAppliedDiscount(discountCode);
-    } else {
-      alert("Invalid discount code");
-    }
-  };
+  // const handleApplyDiscount = (code) => {
+  //   if (code === discountCode) {
+  //     setAppliedDiscount(discountCode);
+  //   } else {
+  //     alert("Invalid discount code");
+  //   }
+  // };
 
   const handleIncreaseQuantity = async (itemId, color, size) => {
     const dataProduct = {
@@ -223,13 +193,22 @@ const ShoppingCart = () => {
       selectedColor: color,
       selectedSize: size,
     };
-    const { error, cart } = await reduceOneProduct(dataProduct);
+    const { error } = await reduceOneProduct(dataProduct);
     if (error) return error.message;
     fetchCart();
   };
 
-  const handlePlaceOrder = () => {
-    navigate(`/checkout?cartId=${cart._id}`);
+  // const handlePlaceOrder = () => {
+  //   navigate(`/checkout?cartId=${cart._id}`);
+  // };
+  const handleRemoveItemCart = async (itemId, color, size) => {
+    const dataProduct = {
+      selectedColor: color,
+      selectedSize: size,
+    };
+    const { error } = await removeItem(itemId, dataProduct);
+    if (error) return error.message;
+    fetchCart();
   };
 
   useEffect(() => {
@@ -238,7 +217,7 @@ const ShoppingCart = () => {
 
   return (
     <div className="container flex mx-auto my-8 p-4 h-screen bg-slate-50">
-      <div className="h-3/4 w-2/3">
+      <div className="h-3/4 w-2/3 overflow-y-auto ">
         {/* <h2 className="text-2xl font-bold mb-4">Shopping Cart</h2> */}
         {cartItems.length > 0 ? (
           cartItems.map((item, index) => (
@@ -256,6 +235,7 @@ const ShoppingCart = () => {
               image={item.product.mainImage}
               onIncrease={handleIncreaseQuantity}
               onDecrease={handleDecreaseQuantity}
+              removeItemCart={handleRemoveItemCart}
             />
           ))
         ) : (

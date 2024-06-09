@@ -1,7 +1,13 @@
 import React from "react";
-import { FaHeadphonesAlt } from "react-icons/fa";
-import { AiOutlineMessage } from "react-icons/ai";
+// import { FaHeadphonesAlt } from "react-icons/fa";
+// import { AiOutlineMessage } from "react-icons/ai";
+import support from "../../assets/support.jpg";
+import { useNavigate } from "react-router-dom";
 export default function SellerPolicy() {
+  const navigate = useNavigate();
+  const handleSupport = () => {
+    navigate(`dashboard/messages`);
+  };
   return (
     <div className="container mx-auto p-4  w-full  ">
       <div className="ml-2">
@@ -17,19 +23,23 @@ export default function SellerPolicy() {
         </h1>
       </div>
       <div className="mx-auto w-full ">
-        <div className="mb-8 fixed bottom-4   right-2 bg-slate-100 cursor-pointer p-4 rounded">
-          <h2 className="text-xl font-semibold mb-2 font-sans">
-            Bạn cần hỗ trợ gì thêm?
-          </h2>
+        <div
+          onClick={handleSupport}
+          className="mb-8 fixed bottom-4   right-2 bg-yellow-300 hover:bg-yellow-200 cursor-pointer px-2  rounded"
+        >
           <div className="flex justify-between w-full py-2 px-4 mr-2">
-            <div className="py-2 px-4 bg-white rounded flex items-center font-sans mr-2   ">
-              <FaHeadphonesAlt className="text-xl text-yellow-400 mr-1" /> Hỗ
-              trợ trực tuyến ?
+            {/* <div className="py-2 px-4 bg-white rounded flex items-center font-sans mr-2   ">
+              <FaHeadphonesAlt className="text-xl text-yellow-400 mr-1" />{" "}
+              Online support ?
             </div>
             <div className="flex items-center">
               <AiOutlineMessage className="text-yellow-400 text-3xl bg-yellow-200 rounded-2xl" />
-            </div>
+            </div> */}
+            <img src={support} alt="support" className="w-12 h-12" />
           </div>
+          <h2 className="text-xl font-semibold mb-2 font-sans text-white">
+            Support ?
+          </h2>
         </div>
       </div>
 
@@ -38,7 +48,7 @@ export default function SellerPolicy() {
       </h1> */}
       <div className="bg-white shadow-md p-6 rounded-md">
         <div className="mb-8">
-          <span class="text-blue-600 dark:text-blue-500">
+          <span class="text-yellow-600 font-semibold font-sans">
             {" "}
             #1. Chính sách về sản phẩm
           </span>
@@ -51,9 +61,9 @@ export default function SellerPolicy() {
           </p>
         </div>
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-2 font-sans">
-            2. Chính sách giao hàng
-          </h2>
+          <span class="text-yellow-600 font-semibold font-sans">
+            #2. Chính sách giao hàng
+          </span>
           <p class="text-lg font-semibold text-gray-900 font-sans">
             Chúng tôi cam kết giao hàng đúng hẹn và đảm bảo sản phẩm được bảo
             quản tốt trong quá trình vận chuyển. Thời gian giao hàng có thể thay
@@ -62,9 +72,9 @@ export default function SellerPolicy() {
           </p>
         </div>
         <div className="mb-8 font-sans">
-          <h2 className="text-xl font-semibold mb-2 font-sans">
-            3. Chính sách đổi trả và hoàn tiền
-          </h2>
+          <span class="text-yellow-600 font-semibold font-sans">
+            #3. Chính sách đổi trả và hoàn tiền
+          </span>
           <p class="text-lg font-semibold text-gray-900 font-sans">
             Nhà bán hàng chấp nhận đổi trả và hoàn tiền trong vòng 30 ngày kể từ
             ngày mua hàng, đảm bảo rằng sản phẩm không bị hỏng và vẫn ở trong
@@ -74,9 +84,9 @@ export default function SellerPolicy() {
           </p>
         </div>
         <div className="mb-8 font-sans">
-          <h2 className="text-xl font-semibold mb-2 font-sans">
-            4. Chính sách thanh toán
-          </h2>
+          <span class="text-yellow-600 font-semibold font-sans">
+            #4. Chính sách thanh toán
+          </span>
           <p class="text-lg font-semibold text-gray-900 font-sans">
             Chúng tôi chấp nhận thanh toán bằng nhiều phương thức khác nhau, bao
             gồm tiền mặt, thẻ tín dụng/debit và chuyển khoản ngân hàng. Thanh
@@ -85,9 +95,9 @@ export default function SellerPolicy() {
           </p>
         </div>
         <div>
-          <h2 className="text-xl font-semibold mb-2 font-sans">
-            5. Chính sách bảo mật thông tin
-          </h2>
+          <span class="text-yellow-600 font-semibold font-sans">
+            #5. Chính sách bảo mật thông tin
+          </span>
           <p class="text-lg font-semibold text-gray-900 font-sans">
             Nhà bán hàng cam kết bảo vệ thông tin cá nhân của khách hàng và
             không chia sẻ thông tin này với bất kỳ bên thứ ba nào mà không có sự

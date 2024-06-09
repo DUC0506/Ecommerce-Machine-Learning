@@ -3,20 +3,19 @@ import {
   createProduct,
   deleteProduct,
   getProduct,
-  getProducts,
-  getProductsByApartment,
+  // getProducts,
+  // getProductsByApartment,
   getProductsBySeller,
   updateProduct,
 } from "../../api/products";
 import AddProductModal from "../admin/shared/AddProductModal ";
 import UpdateProductModal from "../admin/shared/UpdateProductModal";
-import { IoSearchOutline } from "react-icons/io5";
-import { FaStar, FaPlus, FaCheckCircle } from "react-icons/fa";
+
 import { TbCurrencyDong } from "react-icons/tb";
-import { MdDeleteForever, MdEdit } from "react-icons/md";
-import { useAuth } from "../../hooks";
-import productGif from "../../assets/product.gif.gif";
-import { VscDebugContinue } from "react-icons/vsc";
+
+import { useAuth, useNotification } from "../../hooks";
+// import productGif from "../../assets/product.gif.gif";
+// import { VscDebugContinue } from "react-icons/vsc";
 import {
   Table,
   TableBody,
@@ -32,7 +31,6 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "../ui/card";
 import {
   DropdownMenu,
@@ -44,55 +42,46 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Badge } from "../ui/badge";
-import {
-  File,
-  Home,
-  LineChart,
-  ListFilter,
-  MoreHorizontal,
-  Package,
-  Package2,
-  PanelLeft,
-  PlusCircle,
-  Search,
-  Settings,
-  ShoppingCart,
-  Users2,
-} from "lucide-react";
+import { File, ListFilter, MoreHorizontal, PlusCircle } from "lucide-react";
 import { Button } from "../ui/button";
+import NoItem from "../admin/shared/NoItem";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [isAddProductModalOpen, setAddProductModalOpen] = useState(false);
   const [isUpdateProductModalOpen, setUpdateProductModalOpen] = useState(false);
+  const [pagination, setPagination] = useState(1);
   const [product, setProduct] = useState(null);
-  const [showGif, setShowGif] = useState(false);
+  // const [showGif, setShowGif] = useState(false);
   const { authInfo } = useAuth();
-  console.log(authInfo.profile._id);
+  const { updateNotification } = useNotification();
   const fetchProducts = async () => {
-    const { type, products } = await getProductsBySeller(authInfo.profile._id);
+    const { type, products } = await getProductsBySeller(
+      authInfo.profile._id,
+      pagination
+    );
 
     if (type === "Success") {
+      console.log(products);
       setProducts(products);
     }
   };
 
   const handleDeleteProduct = async (productId) => {
-    console.log(productId);
     const { type, message } = await deleteProduct(productId);
     if (type === "Error") return message;
-
+    updateNotification("success", "Product successfully deleted");
     fetchProducts();
   };
 
   const handleAddProduct = async (newProduct) => {
-    console.log(newProduct);
     const { message, product } = await createProduct(newProduct);
     console.log(message);
     if (message === "error") return message;
 
     if (product) {
       setAddProductModalOpen(false);
+      updateNotification("success", "Product successfully added");
       return fetchProducts();
     }
   };
@@ -122,22 +111,30 @@ export default function Products() {
     console.log(infoProduct);
     const { type, message } = await updateProduct(id, infoProduct);
     if (type === "Error") return message;
-
+    updateNotification("success", "Product successfully updated");
     fetchProducts();
   };
-  const handleShowGif = () => {
-    setShowGif(false);
-  };
+  // const handleShowGif = () => {
+  //   setShowGif(false);
+  // };
   const handleModalOpen = () => {
-    setShowGif(false);
+    // setShowGif(false);
     setAddProductModalOpen(true);
+  };
+  const handlePre = () => {
+    if (pagination > 1) {
+      setPagination(pagination - 1);
+    }
+  };
+  const handleNext = () => {
+    setPagination(pagination + 1);
   };
 
   useEffect(() => {
-    setShowGif(true);
+    // setShowGif(true);
     fetchProducts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [pagination]);
 
   // return (
   //     <div className="container mx-auto p-8 relative w-full" id='productDashboard'>
@@ -285,15 +282,16 @@ export default function Products() {
           onUpdateProduct={handleUpdateProduct}
         />
       )}
+
       <Tabs defaultValue="all">
         <div className="flex items-center">
           <TabsList>
             <TabsTrigger value="all">All</TabsTrigger>
-            <TabsTrigger value="active">Active</TabsTrigger>
+            {/* <TabsTrigger value="active">Active</TabsTrigger>
             <TabsTrigger value="draft">Draft</TabsTrigger>
             <TabsTrigger value="archived" className="hidden sm:flex">
               Archived
-            </TabsTrigger>
+            </TabsTrigger> */}
           </TabsList>
           <div className="ml-auto flex items-center gap-2">
             <DropdownMenu>
@@ -335,126 +333,158 @@ export default function Products() {
             </Button>
           </div>
         </div>
-        <TabsContent value="all">
-          <Card x-chunk="dashboard-06-chunk-0">
-            <CardHeader>
-              <h1 class=" text-xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-3xl">
-                <span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
-                  Products
-                </span>{" "}
-                management list
-              </h1>
-              {/* <CardTitle className="text-yellow-400">Products</CardTitle> */}
-              <CardDescription>
-                <h1 class="mb-4 text-xl font-extrabold leading-none tracking-tight text-gray-900 md:text-2xl lg:text-3xl dark:text-white">
-                  <mark class="px-2 text-white bg-yellow-400 rounded ">
-                    Manage
-                  </mark>{" "}
-                  your products and view their sales performance
+        {products.length > 0 && products ? (
+          <TabsContent value="all">
+            <Card x-chunk="dashboard-06-chunk-0">
+              <CardHeader>
+                <h1 class=" text-xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-3xl">
+                  <span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
+                    Products
+                  </span>{" "}
+                  management list
                 </h1>
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="hidden w-[100px] sm:table-cell">
-                      <span className="sr-only">Image</span>
-                    </TableHead>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead className="hidden md:table-cell">
-                      Price
-                    </TableHead>
-                    <TableHead className="hidden md:table-cell">
-                      Quality
-                    </TableHead>
-                    <TableHead className="hidden md:table-cell">
-                      Total Sales
-                    </TableHead>
-                    <TableHead>
-                      <span className="sr-only">Actions</span>
-                    </TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {products.map((product, index) => (
-                    <TableRow key={product.id}>
-                      <TableCell className="hidden sm:table-cell">
-                        {/* <Image
+                {/* <CardTitle className="text-yellow-400">Products</CardTitle> */}
+                <CardDescription>
+                  <h1 class="mb-4 text-xl font-extrabold leading-none tracking-tight text-gray-900 md:text-2xl lg:text-3xl dark:text-white">
+                    <mark class="px-2 text-white bg-yellow-400 rounded ">
+                      Manage
+                    </mark>{" "}
+                    your products and view their sales performance
+                  </h1>
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="hidden w-[100px] sm:table-cell">
+                        <span className="sr-only">Image</span>
+                      </TableHead>
+                      <TableHead>Name</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead className="hidden md:table-cell">
+                        Price
+                      </TableHead>
+                      <TableHead className="hidden md:table-cell">
+                        Quality
+                      </TableHead>
+                      <TableHead className="hidden md:table-cell">
+                        Total Sales
+                      </TableHead>
+                      <TableHead>
+                        <span className="sr-only">Actions</span>
+                      </TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {products.map((product, index) => (
+                      <TableRow key={product.id}>
+                        <TableCell className="hidden sm:table-cell">
+                          {/* <Image
                         alt="Product image"
                         className="aspect-square rounded-md object-cover"
                         height="64"
                         src="/placeholder.svg"
                         width="64"
                     /> */}
-                        <img
-                          src={product.mainImage}
-                          alt=""
-                          className="w-16 h-16 object-cover rounded-md aspect-square"
-                        />
-                      </TableCell>
-                      <TableCell className="font-medium font-sans">
-                        {product.name}
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant="outline">Draft</Badge>
-                      </TableCell>
-                      <TableCell className="hidden md:table-cell font-sans ">
-                        <div className="flex items-center">
-                          {product.price}
-                          <TbCurrencyDong />
-                        </div>
-                      </TableCell>
-                      <TableCell className="hidden md:table-cell font-sans">
-                        {" "}
-                        {product.quantity}
-                      </TableCell>
-                      <TableCell className="hidden md:table-cell font-sans">
-                        {product.sold}
-                      </TableCell>
-                      <TableCell>
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button
-                              aria-haspopup="true"
-                              size="icon"
-                              variant="ghost"
-                            >
-                              <MoreHorizontal className="h-4 w-4" />
-                              <span className="sr-only">Toggle menu</span>
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuLabel className="text-yellow-400">
-                              Actions
-                            </DropdownMenuLabel>
-                            <DropdownMenuItem
-                              onClick={() => handleInfo(product._id)}
-                            >
-                              Edit
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                              onClick={() => handleDeleteProduct(product._id)}
-                            >
-                              Delete
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-            <CardFooter>
-              <div className="text-xs text-muted-foreground">
-                Showing <strong>1-10</strong> of <strong>32</strong> products
-              </div>
-            </CardFooter>
-          </Card>
-        </TabsContent>
+                          <img
+                            src={product.mainImage}
+                            alt=""
+                            className="w-16 h-16 object-cover rounded-md aspect-square"
+                          />
+                        </TableCell>
+                        <TableCell className="font-medium font-sans">
+                          {product.name}
+                        </TableCell>
+                        <TableCell>
+                          <Badge
+                            variant="outline"
+                            className="bg-yellow-500 cursor-pointer"
+                          >
+                            {product.isApproved
+                              ? "Approved"
+                              : "Pending Approval"}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="hidden md:table-cell font-sans ">
+                          <div className="flex items-center">
+                            {product.price}
+                            <TbCurrencyDong />
+                          </div>
+                        </TableCell>
+                        <TableCell className="hidden md:table-cell font-sans">
+                          {" "}
+                          {product.quantity}
+                        </TableCell>
+                        <TableCell className="hidden md:table-cell font-sans">
+                          {product.sold}
+                        </TableCell>
+                        <TableCell>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button
+                                aria-haspopup="true"
+                                size="icon"
+                                variant="ghost"
+                              >
+                                <MoreHorizontal className="h-4 w-4" />
+                                <span className="sr-only">Toggle menu</span>
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuLabel className="text-yellow-400">
+                                Actions
+                              </DropdownMenuLabel>
+                              <DropdownMenuItem
+                                onClick={() => handleInfo(product._id)}
+                              >
+                                Edit
+                              </DropdownMenuItem>
+                              <DropdownMenuItem
+                                onClick={() => handleDeleteProduct(product._id)}
+                              >
+                                Delete
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+              <CardFooter>
+                <div className="text-xs text-muted-foreground">
+                  Page <strong>{pagination}</strong>
+                  <div class="flex mt-2">
+                    <div
+                      onClick={handlePre}
+                      class="flex mr-2 cursor-pointer items-center justify-center px-3 h-8 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                    >
+                      Previous
+                    </div>
+
+                    <div
+                      onClick={handleNext}
+                      class="flex cursor-pointer  items-center justify-center px-3 h-8 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                    >
+                      Next
+                    </div>
+                  </div>
+                </div>
+              </CardFooter>
+            </Card>
+          </TabsContent>
+        ) : (
+          <NoItem
+            title={"Welcome sellers to the product management page"}
+            body={
+              "Please add your first product to your sales. If you encounter problems during product management, please contact us to have your questions resolved."
+            }
+          />
+        )}
       </Tabs>
+
       <AddProductModal
         isOpen={isAddProductModalOpen}
         onRequestClose={() => setAddProductModalOpen(false)}

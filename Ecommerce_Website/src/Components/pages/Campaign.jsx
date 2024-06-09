@@ -24,17 +24,17 @@ export default function Campaign() {
 
     fetchProductBySeller();
     fetchPromotionById();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const fetchProductBySeller = async () => {
-    const { type, message, products } = await getProductsBySeller(
-      authInfo.profile._id
-    );
+    const { type, products } = await getProductsBySeller(authInfo.profile._id);
+
     if (type === "Success") {
       setProducts(products);
     }
   };
   const fetchPromotionById = async () => {
-    const { type, message, promotion } = await getPromotion(idPromotion);
+    const { type, promotion } = await getPromotion(idPromotion);
     if (type === "Success") {
       setPromotion(promotion);
     }
@@ -59,13 +59,12 @@ export default function Campaign() {
     formData.append("discountRate", discountRate);
     formData.append("products", selectedProducts);
     // Reset form
-    const { type, message, campaign } = await addCampaign(formData);
-    console.log(type);
+    const { type, message } = await addCampaign(formData);
     if (type === "Error") {
       return updateNotification("error", message);
     }
 
-    updateNotification("success", message);
+    updateNotification("success", "Sign up campaign successfully");
     setSelectedProducts([]);
     setDiscountRate(0);
     navigate(`/dashboard/promotions`);

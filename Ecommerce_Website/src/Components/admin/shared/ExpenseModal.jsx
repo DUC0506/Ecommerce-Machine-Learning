@@ -1,3 +1,4 @@
+import useValidation from "../../../utils/validator";
 import React, { useState } from "react";
 import { MdExplicit, MdOutlineDescription } from "react-icons/md";
 
@@ -8,11 +9,16 @@ export default function ExpenseModal({ expense, onClose }) {
     amount: "",
     description: "",
   });
+  const { validateExpense } = useValidation();
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewExpense({ ...newExpense, [name]: value });
   };
   const handleAddExpense = async () => {
+    const bool = validateExpense(newExpense);
+    if (!bool) {
+      return;
+    }
     expense(newExpense);
 
     setNewExpense({

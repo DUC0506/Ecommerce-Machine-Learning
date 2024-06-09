@@ -23,9 +23,6 @@ export default function Promotions() {
   return (
     <div>
       <div className="h-full py-6 px-10 ">
-        <div className="text-2xl font-sans font-semibold mb-4">
-          Marketing campaign
-        </div>
         <div className="p-4 bg-slate-50 rounded mb-4 mt-2 cursor-pointer">
           <div className="text-xl font-medium font-sans mb-2">Campaign</div>
           <div className="flex w-full text-xs font-sans font-medium items-center  ">

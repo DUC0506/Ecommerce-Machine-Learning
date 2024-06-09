@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Footer from "../Components/Footer";
 import { getCart } from "../api/cart";
 import { createOrder } from "../api/order";
-import { FaCreditCard } from "react-icons/fa";
+
 import { useNotification } from "../hooks";
 import { TbCurrencyDong } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";

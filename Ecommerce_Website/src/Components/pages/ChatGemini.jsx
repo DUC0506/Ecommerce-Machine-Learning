@@ -51,21 +51,26 @@ export default function ChatGemini({ showGemini }) {
 
   return (
     <div className="z-50">
-      <div class="fixed z-50 bottom-[calc(2rem+1.5rem)] right-0 mr-4 bg-white p-6 rounded-lg border border-gray-200 w-[440px] h-[634px] shadow-sm">
-        <div class="flex flex-col space-y-1.5 pb-6">
-          <div className="flex items-center justify-between">
-            <h2 class="font-semibold text-lg tracking-tight">Chatbot</h2>
+      <div class="fixed z-50 bottom-[calc(2rem+1.5rem)] right-0 mr-4 bg-white pt-2 px-2 pb-8 rounded-lg border border-gray-200 w-[440px] h-[634px] shadow-sm">
+        <div class="flex flex-col space-y-1.5 pb-2 bg-yellow-400 rounded px-2 py-2">
+          <div className="flex items-center justify-between ml-2">
+            <h2 class="font-semibold text-lg tracking-tight text-white">
+              Chatbot
+            </h2>
             <CiSquareChevDown
-              className="text-xl cursor-pointer"
+              className="text-xl cursor-pointer text-white"
               onClick={() => showGemini(false)}
             />
           </div>
-          <p class="text-sm text-gray-500 leading-3 font-sans font-bold">
-            Hôm nay ăn gì ?
+          <p class="text-sm text-white font-sans font-bold ml-2">
+            Today what do eat ?
           </p>
         </div>
 
-        <div class="pr-4 h-5/6 min-w-full  overflow-y-auto" ref={scrollRef}>
+        <div
+          class="pr-4 h-5/6 min-w-full  overflow-y-auto border-x border-gray-200"
+          ref={scrollRef}
+        >
           <div class="flex gap-3 my-4 text-gray-600 text-sm flex-1">
             <span class="relative flex shrink-0 overflow-hidden rounded-full w-8 h-8">
               <div class="rounded-full bg-gray-100 border p-1">
@@ -89,7 +94,8 @@ export default function ChatGemini({ showGemini }) {
             </span>
             <p class="leading-relaxed">
               <span class="block font-bold text-gray-700 font-sans">AI </span>
-              Hi, how can I help you today?
+              Hi, how can I help you today? I can suggest recipes for the foods
+              you have purchased 😍😍😍😍
             </p>
           </div>
           {messages.map((message) => (
@@ -180,11 +186,11 @@ export default function ChatGemini({ showGemini }) {
           )}
         </div>
 
-        <div class="flex items-center pt-0 z-50">
+        <div class="flex items-center pt-0 z-50 mt-2">
           <div class="flex items-center justify-center w-full space-x-2">
             <input
               class="flex h-10 w-full font-sans rounded-md border border-gray-200 px-3 py-2 text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 disabled:cursor-not-allowed disabled:opacity-50 text-black focus-visible:ring-offset-2"
-              placeholder="Bạn muốn hỏi gì về thực phẩm ?"
+              placeholder="What do you want to ask about food?"
               type="text"
               name="message"
               value={message}

@@ -35,6 +35,6 @@ router.patch('/reduce-one', reduceByOne);
 router.patch('/increase-one', increaseByOne);
 
 // Delete Product Route
-router.delete('/:productId', deleteItem);
+router.delete('/remove-items/:productId', deleteItem);
 
 export default router;

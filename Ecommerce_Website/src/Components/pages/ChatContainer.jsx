@@ -14,9 +14,7 @@ export default function ChatContainer({ currentChat, socket }) {
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const { authInfo } = useAuth();
   const fetchMessages = async () => {
-    const { projectedMessages, type, message } = await getMessages(
-      currentChat._id
-    );
+    const { projectedMessages, type } = await getMessages(currentChat._id);
     if (type === "Error") {
       setMessages([]);
     } else {

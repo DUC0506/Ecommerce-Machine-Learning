@@ -17,7 +17,7 @@ function PopularProducts() {
 
   const fetchPopularProducts = async () => {
     const { type, message, products } = await getTop5Cheap();
-    console.log(products);
+    if (type === "Error") return message;
     setProducts(products);
   };
   useEffect(() => {

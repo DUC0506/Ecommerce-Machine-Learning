@@ -1,5 +1,5 @@
-import { getUsers } from "../../../api/user";
-import { getAllApartments } from "../../../api/apartment";
+// import { getUsers } from "../../../api/user";
+// import { getAllApartments } from "../../../api/apartment";
 import React, { useEffect, useState } from "react";
 import { formatDate } from "../../../utils/hepler";
 const formatISODate = (isoString) => {
@@ -26,10 +26,9 @@ export default function UpdateStatusModal({
     seller: "",
   });
 
-  const handleApartmentChange = (event) => {
-    const selectedValue = event.target.value;
-  };
-  console.log(formData);
+  // const handleApartmentChange = (event) => {
+  //   const selectedValue = event.target.value;
+  // };
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     console.log(name, value);

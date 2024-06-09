@@ -76,7 +76,8 @@ import {
   totalOrders,
   createOrderBySeller,
   queryOrdersBySeller,
-  totalSalesBySeller
+  totalSalesBySeller,
+  queryOrdersBySellerNotification
 } from './order.service';
 
 import {
@@ -239,7 +240,8 @@ const orderService = {
   totalOrders,
   createOrderBySeller,
   queryOrdersBySeller,
-  totalSalesBySeller
+  totalSalesBySeller,
+  queryOrdersBySellerNotification
 };
 
 const discountService = {

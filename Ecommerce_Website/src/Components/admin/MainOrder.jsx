@@ -44,12 +44,16 @@ import {
   PaginationItem,
 } from "../ui/pagination";
 import { getTotalOrders, orderStatus } from "../../api/order";
-export default function MainOrder({ number, sellerId }) {
+import { useNotification } from "../../hooks";
+import NoItem from "./shared/NoItem";
+export default function MainOrder({ sellerId }) {
   const [recentOrders, setRecentOrders] = useState([]);
   const [orderInfo, setOrderInfo] = useState(null);
   const [indexOrder, setIndexOrder] = useState(null);
+  const { updateNotification } = useNotification();
+  const [pagination, setPagination] = useState(1);
   const fecthRecentOrders = async () => {
-    const { type, orders } = await getTotalOrders(number, sellerId);
+    const { type, orders } = await getTotalOrders(10, sellerId, pagination);
     if (type === "Success") {
       console.log(orders);
       setRecentOrders(orders);
@@ -66,7 +70,7 @@ export default function MainOrder({ number, sellerId }) {
     console.log(newStatus);
     const { type, message } = await orderStatus(id, newStatus);
     if (type === "error") return message;
-    console.log(message);
+    updateNotification("success", "Status updated successfully");
     const updatedOrders = await fecthRecentOrders();
 
     setOrderInfo(updatedOrders[indexOrder]);
@@ -84,10 +88,18 @@ export default function MainOrder({ number, sellerId }) {
     setOrderInfo(recentOrders[index]);
     setIndexOrder(index);
   };
+  const handlePre = () => {
+    if (pagination > 1) {
+      setPagination(pagination - 1);
+    }
+  };
+  const handleNext = () => {
+    setPagination(pagination + 1);
+  };
   useEffect(() => {
     fecthRecentOrders();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [pagination]);
   return (
     <div className="flex relative  h-full w-full flex-col bg-muted/40">
       <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
@@ -123,7 +135,7 @@ export default function MainOrder({ number, sellerId }) {
               </CardHeader>
               <CardContent>
                 <div className="text-xs text-muted-foreground">
-                  +25% from last week
+                  {recentOrders.length > 0 ? "+25% from last week" : ""}
                 </div>
               </CardContent>
               <CardFooter></CardFooter>
@@ -132,12 +144,12 @@ export default function MainOrder({ number, sellerId }) {
               <CardHeader className="pb-1 ">
                 <CardDescription>Amount</CardDescription>
                 <CardTitle className="text-2xl text-yellow-500 text-wrap">
-                  {totalPrice}đ
+                  {totalPrice} đ
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-xs text-muted-foreground">
-                  +10% from last month
+                  {recentOrders.length > 0 ? " +10% from last month" : ""}
                 </div>
               </CardContent>
               <CardFooter></CardFooter>
@@ -186,71 +198,99 @@ export default function MainOrder({ number, sellerId }) {
                 </Button>
               </div>
             </div>
-            <TabsContent value="week">
-              <Card x-chunk="dashboard-05-chunk-3">
-                <CardHeader className="px-7">
-                  <CardTitle>Orders</CardTitle>
-                  <CardDescription>
-                    Recent orders from your store.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Customer</TableHead>
-                        <TableHead className="hidden sm:table-cell">
-                          Type
-                        </TableHead>
-                        <TableHead className="hidden sm:table-cell">
-                          Status
-                        </TableHead>
-                        <TableHead className="hidden md:table-cell">
-                          Date
-                        </TableHead>
-                        <TableHead className="text-right">Amount</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {recentOrders.map((order, index) => (
-                        <TableRow
-                          key={index}
-                          className="bg-accent"
-                          onClick={() => handleInfoOrder(index)}
-                        >
-                          <TableCell>
-                            <div className="font-medium">
-                              {order.user?.username}
-                            </div>
-                            <div className="hidden text-sm text-muted-foreground md:inline">
-                              {order.user?.email}
-                            </div>
-                          </TableCell>
-                          <TableCell className="hidden sm:table-cell">
-                            Sale
-                          </TableCell>
-                          <TableCell className="hidden sm:table-cell">
-                            <Badge
-                              className="text-xs bg-yellow-500"
-                              variant="secondary"
-                            >
-                              {order.status}
-                            </Badge>
-                          </TableCell>
-                          <TableCell className="hidden md:table-cell">
-                            {convertISOToDateFormat(order.createdAt)}
-                          </TableCell>
-                          <TableCell className="text-right">
-                            {" "}
-                            {order.totalPrice}
-                          </TableCell>
+
+            {recentOrders.length > 0 && recentOrders ? (
+              <TabsContent value="week">
+                <Card x-chunk="dashboard-05-chunk-3">
+                  <CardHeader className="px-7">
+                    <CardTitle>Orders</CardTitle>
+                    <CardDescription>
+                      Recent orders from your store.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Customer</TableHead>
+                          <TableHead className="hidden sm:table-cell">
+                            Type
+                          </TableHead>
+                          <TableHead className="hidden sm:table-cell">
+                            Status
+                          </TableHead>
+                          <TableHead className="hidden md:table-cell">
+                            Date
+                          </TableHead>
+                          <TableHead className="text-right">Amount</TableHead>
                         </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </CardContent>
-              </Card>
-            </TabsContent>
+                      </TableHeader>
+                      <TableBody>
+                        {recentOrders.map((order, index) => (
+                          <TableRow
+                            key={index}
+                            className="bg-accent"
+                            onClick={() => handleInfoOrder(index)}
+                          >
+                            <TableCell>
+                              <div className="font-medium">
+                                {order.user?.username}
+                              </div>
+                              <div className="hidden text-sm text-muted-foreground md:inline">
+                                {order.user?.email}
+                              </div>
+                            </TableCell>
+                            <TableCell className="hidden sm:table-cell">
+                              Sale
+                            </TableCell>
+                            <TableCell className="hidden sm:table-cell">
+                              <Badge
+                                className="text-xs bg-yellow-500"
+                                variant="secondary"
+                              >
+                                {order.status}
+                              </Badge>
+                            </TableCell>
+                            <TableCell className="hidden md:table-cell">
+                              {convertISOToDateFormat(order.createdAt)}
+                            </TableCell>
+                            <TableCell className="text-right">
+                              {" "}
+                              {order.totalPrice}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                    <div className="text-xs text-muted-foreground">
+                      Page <strong>{pagination}</strong>
+                      <div class="flex mt-2">
+                        <div
+                          onClick={handlePre}
+                          class="flex mr-2 cursor-pointer items-center justify-center px-3 h-8 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                        >
+                          Previous
+                        </div>
+
+                        <div
+                          onClick={handleNext}
+                          class="flex cursor-pointer  items-center justify-center px-3 h-8 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                        >
+                          Next
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            ) : (
+              <NoItem
+                title={"Welcome sellers to the order management page"}
+                body={
+                  "You can track and manage orders on this page.If you have difficulty managing your order, please contact us to resolve your query."
+                }
+              />
+            )}
           </Tabs>
         </div>
         <div>

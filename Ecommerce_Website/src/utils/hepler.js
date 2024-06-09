@@ -1,4 +1,4 @@
-export const getToken = () => localStorage.getItem("auth-token");
+export const getToken = () => sessionStorage.getItem("auth-token");
 
 export function formatDate(isoString) {
   const date = new Date(isoString);

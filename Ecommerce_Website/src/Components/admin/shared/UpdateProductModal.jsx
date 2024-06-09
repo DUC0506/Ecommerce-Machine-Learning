@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { getCategory } from "../../../api/category";
 import { Button } from "../../ui/button";
-import { ChevronLeft, PlusCircle, Upload } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { Badge } from "../../ui/badge";
 import {
   Card,
@@ -12,19 +12,19 @@ import {
   CardHeader,
   CardTitle,
 } from "../../ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "../../ui/table";
+// import {
+//   Table,
+//   TableBody,
+//   TableCell,
+//   TableHead,
+//   TableHeader,
+//   TableRow,
+// } from "../../ui/table";
 import { Input } from "../../ui/input";
 import { Label } from "../../ui/label";
 import { Textarea } from "../../ui/textarea";
 import { FaImage } from "react-icons/fa6";
-import { ToggleGroup, ToggleGroupItem } from "../../ui/toggle-group";
+// import { ToggleGroup, ToggleGroupItem } from "../../ui/toggle-group";
 import {
   Select,
   SelectContent,

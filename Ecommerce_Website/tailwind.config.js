@@ -12,5 +12,22 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addComponents }) {
+      addComponents({
+        ".no-spinner": {
+          "-moz-appearance": "textfield",
+          appearance: "textfield",
+          "&::-webkit-inner-spin-button": {
+            "-webkit-appearance": "none",
+            margin: "0",
+          },
+          "&::-webkit-outer-spin-button": {
+            "-webkit-appearance": "none",
+            margin: "0",
+          },
+        },
+      });
+    },
+  ],
 };

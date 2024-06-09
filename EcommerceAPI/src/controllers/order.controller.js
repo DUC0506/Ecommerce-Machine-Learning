@@ -295,3 +295,32 @@ export const totalOrderAll = catchAsync(async (req, res) => {
     orders
   });
 });
+
+export const totalOrderAllNotification = catchAsync(async (req, res) => {
+  let { page, sort, limit, select } = req.query;
+
+  // 1) Setting default params
+  if (!page) page = 1;
+  if (!sort) sort = '';
+  if (!limit) limit = 20;
+  if (!select) select = '';
+  // 1) Update order status
+  const { type, message, statusCode, orders } =
+    await orderService.queryOrdersBySellerNotification(req);
+
+  // 2) Check if there is an error
+  if (type === 'Error') {
+    return res.status(statusCode).json({
+      type,
+      message: req.polyglot.t(message)
+    });
+  }
+
+  // 3) If everything is OK, send data
+  return res.status(statusCode).json({
+    type,
+    message: req.polyglot.t(message),
+    statusCode: 200,
+    orders
+  });
+});

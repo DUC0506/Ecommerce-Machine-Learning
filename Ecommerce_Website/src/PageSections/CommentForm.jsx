@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaStar, FaRegStar} from "react-icons/fa";
+import { FaStar, FaRegStar } from "react-icons/fa";
 import { addReviews } from "../api/reviews";
 
 const StarRating = ({ rating, onRatingChange }) => {
@@ -29,7 +29,11 @@ const StarRating = ({ rating, onRatingChange }) => {
             onMouseLeave={handleMouseLeave}
             onClick={() => handleClick(starValue)}
           >
-            {starValue <= (hoverRating || rating) ? <FaStar className="text-yellow-500 flex" /> : <FaRegStar className="text-yellow-500" />}
+            {starValue <= (hoverRating || rating) ? (
+              <FaStar className="text-yellow-500 flex" />
+            ) : (
+              <FaRegStar className="text-yellow-500" />
+            )}
           </span>
         );
       })}
@@ -37,8 +41,7 @@ const StarRating = ({ rating, onRatingChange }) => {
   );
 };
 
-const CommentForm = ({productId,reloadCmt}) => {
-   
+const CommentForm = ({ productId, reloadCmt }) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
 
@@ -50,23 +53,21 @@ const CommentForm = ({productId,reloadCmt}) => {
     setComment(event.target.value);
   };
 
-  const handleCommentSubmit = async() => {
-    const review1={review : comment, rating}
-    const {type,message,newReview} = await addReviews(productId,review1)
-    if(type === "Error"){
-        console.log(message);
-        return;
-    } 
-  
+  const handleCommentSubmit = async () => {
+    const review1 = { review: comment, rating };
+    const { type, message, newReview } = await addReviews(productId, review1);
+    if (type === "Error") {
+      console.log(message);
+      return;
+    }
 
     reloadCmt(newReview);
     setRating(0);
-    setComment('')
+    setComment("");
   };
 
   return (
     <div className="mt-4">
-   
       <div className="flex items-center mb-2">
         {/* <label className="mr-2">Rating:</label> */}
         <StarRating rating={rating} onRatingChange={handleRatingChange} />
@@ -75,13 +76,13 @@ const CommentForm = ({productId,reloadCmt}) => {
         value={comment}
         onChange={handleCommentChange}
         className="w-full font-sans h-24 border-gray-300 border rounded-md p-2 focus:outline-none focus:border-yellow-500"
-        placeholder="Viết bình luận ..."
+        placeholder="comment ..."
       />
       <button
         onClick={handleCommentSubmit}
         className="bg-yellow-400 font-sans text-white px-4 py-2 rounded-md mt-2 hover:bg-yellow-600 focus:outline-none"
       >
-        Bình luận
+        Post{" "}
       </button>
     </div>
   );
