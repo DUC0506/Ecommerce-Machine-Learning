@@ -44,7 +44,8 @@ export const queryProducts = catchAsync(async (req) => {
 export const queryProductsByApartment = catchAsync(async (req) => {
   const populateQuery = [
     { path: 'colors', select: 'color' },
-    { path: 'sizes', select: 'size' }
+    { path: 'sizes', select: 'size' },
+    { path: 'category' }
   ];
   const { user } = req;
   // Thêm thông tin về apartment vào query
@@ -419,6 +420,7 @@ export const updateProductDetails = catchAsync(
   async (productId, sellerId, body) => {
     const product = await Product.findById(productId);
     const infoProduct = body;
+
     // 1) Check if product doesn't exist
     if (!product) {
       return {
@@ -558,53 +560,55 @@ export const addProductColor = catchAsync(
  * @param   { String } size - Product size
  * @returns { Object<type|message|statusCode|size> }
  */
-export const addProductSize = catchAsync(async (productId, sellerId, size) => {
-  const product = await Product.findById(productId);
+export const addProductSize = catchAsync(
+  async (productId, sellerId, size, ratioPrice) => {
+    const product = await Product.findById(productId);
 
-  // 1) Check if product doesn't exist
-  if (!product) {
+    // 1) Check if product doesn't exist
+    if (!product) {
+      return {
+        type: 'Error',
+        message: 'noProductFound',
+        statusCode: 404
+      };
+    }
+
+    // 2) Check if user isn't the owner of the product
+    if (sellerId.toString() !== product.seller.toString()) {
+      return {
+        type: 'Error',
+        message: 'notSeller',
+        statusCode: 403
+      };
+    }
+
+    let sizeDocument = await Size.findOne({ product: productId, size });
+
+    // 3) Check if size already exist
+    if (sizeDocument) {
+      return {
+        type: 'Error',
+        message: 'sizeExists',
+        statusCode: 401
+      };
+    }
+
+    // 4) Create new size
+    sizeDocument = await Size.create({ product: productId, size, ratioPrice });
+
+    product.sizes.push(sizeDocument.id);
+
+    await product.save();
+
+    // 5) If everything is OK, send data
     return {
-      type: 'Error',
-      message: 'noProductFound',
-      statusCode: 404
+      type: 'Success',
+      message: 'successfulAddProductSize',
+      statusCode: 200,
+      size: sizeDocument
     };
   }
-
-  // 2) Check if user isn't the owner of the product
-  if (sellerId.toString() !== product.seller.toString()) {
-    return {
-      type: 'Error',
-      message: 'notSeller',
-      statusCode: 403
-    };
-  }
-
-  let sizeDocument = await Size.findOne({ product: productId, size });
-
-  // 3) Check if size already exist
-  if (sizeDocument) {
-    return {
-      type: 'Error',
-      message: 'sizeExists',
-      statusCode: 401
-    };
-  }
-
-  // 4) Create new size
-  sizeDocument = await Size.create({ product: productId, size });
-
-  product.sizes.push(sizeDocument.id);
-
-  await product.save();
-
-  // 5) If everything is OK, send data
-  return {
-    type: 'Success',
-    message: 'successfulAddProductSize',
-    statusCode: 200,
-    size: sizeDocument
-  };
-});
+);
 
 /**
  * @desc    Delete Product Color

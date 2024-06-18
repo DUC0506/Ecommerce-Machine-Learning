@@ -199,7 +199,14 @@ export default function MainOrder({ sellerId }) {
               </div>
             </div>
 
-            {recentOrders.length > 0 && recentOrders ? (
+            {recentOrders.length === 0 && recentOrders && pagination === 1 ? (
+              <NoItem
+                title={"Welcome sellers to the order management page"}
+                body={
+                  "You can track and manage orders on this page.If you have difficulty managing your order, please contact us to resolve your query."
+                }
+              />
+            ) : (
               <TabsContent value="week">
                 <Card x-chunk="dashboard-05-chunk-3">
                   <CardHeader className="px-7">
@@ -283,13 +290,6 @@ export default function MainOrder({ sellerId }) {
                   </CardContent>
                 </Card>
               </TabsContent>
-            ) : (
-              <NoItem
-                title={"Welcome sellers to the order management page"}
-                body={
-                  "You can track and manage orders on this page.If you have difficulty managing your order, please contact us to resolve your query."
-                }
-              />
             )}
           </Tabs>
         </div>

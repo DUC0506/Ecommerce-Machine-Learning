@@ -12,6 +12,7 @@ const Product = ({ name, price, images, option, id, item }) => {
   //   dispatch(updateadded());
   //   toast.success('Added To Cart Successfully')
   // }
+  console.log(id, item);
   const navigate = useNavigate();
   const { updateNotification } = useNotification();
   const addItemCart = async (id) => {
@@ -31,7 +32,7 @@ const Product = ({ name, price, images, option, id, item }) => {
   };
   return (
     <div>
-      <div className="inline-block   items-center align-middle bg-gray-100 p-2 rounded-lg mb-2 border-2 hover:border-yellow-400">
+      <div className="inline-block mx-2   items-center align-middle bg-yellow-50 p-2 rounded-lg mb-2 border-2 hover:border-yellow-400">
         <div
           className="imagecont"
           onClick={() => getDetailProduct(id)}

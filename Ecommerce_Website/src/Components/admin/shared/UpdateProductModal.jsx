@@ -12,6 +12,8 @@ import {
   CardHeader,
   CardTitle,
 } from "../../ui/card";
+import { MdAddToPhotos } from "react-icons/md";
+import { CiCircleRemove } from "react-icons/ci";
 // import {
 //   Table,
 //   TableBody,
@@ -32,6 +34,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../ui/select";
+import {
+  addProductColor,
+  addProductSize,
+  deleteProductColor,
+  deleteProductSize,
+} from "../../../api/products";
+import { useNotification } from "../../../hooks";
 const UpdateProductModal = ({
   isOpen,
   onRequestClose,
@@ -39,25 +48,43 @@ const UpdateProductModal = ({
   onUpdateProduct,
 }) => {
   console.log(product);
+  const { updateNotification } = useNotification();
   const [editedProduct, setEditedProduct] = useState({ ...product });
+
   const [categories, setCategories] = useState([]);
   const [mainImageUrl, setMainImageUrl] = useState("");
   const [imageUrls, setImageUrls] = useState([]);
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
 
-    const updatedValue =
-      type === "checkbox"
-        ? checked
-        : name === "priceDiscount"
-        ? parseFloat(value)
-        : value;
-    setEditedProduct((prevProduct) => ({
-      ...prevProduct,
-      [name]: updatedValue,
-    }));
+    if (name === "colors") {
+      // Chuyển đổi chuỗi thành mảng đối tượng
+      const colorsArray = value
+        .split(",")
+        .map((color) => ({ color: color.trim() }));
+      setEditedProduct((prevProduct) => ({
+        ...prevProduct,
+        colors: colorsArray,
+      }));
+    } else if (name === "sizes") {
+      // Chuyển đổi chuỗi thành mảng đối tượng
+      const sizesArray = value
+        .split(",")
+        .map((size) => ({ size: size.trim() }));
+      setEditedProduct((prevProduct) => ({
+        ...prevProduct,
+        sizes: sizesArray,
+      }));
+    } else {
+      const updatedValue = name === "priceDiscount" ? parseFloat(value) : value;
+      setEditedProduct((prevProduct) => ({
+        ...prevProduct,
+        [name]: updatedValue,
+      }));
+    }
   };
+
   const handleSelectChange = (name) => (value) => {
     setEditedProduct((prevData) => ({ ...prevData, [name]: value }));
   };
@@ -108,14 +135,119 @@ const UpdateProductModal = ({
       reader.readAsDataURL(file);
     });
   };
+  const addColor = () => {
+    setEditedProduct((prevProduct) => ({
+      ...prevProduct,
+      colors: [...prevProduct.colors, { color: "" }],
+    }));
+  };
 
-  useEffect(() => {
-    if (!isOpen) {
-      setEditedProduct({ ...product });
+  const removeColor = async (index) => {
+    const deleteColors = editedProduct.colors.filter((_, i) => i === index);
+    if (deleteColors === "") {
+      return;
     }
+
+    const newColors = editedProduct.colors.filter((_, i) => i !== index);
+
+    const { type } = await deleteProductColor(product._id, {
+      color: deleteColors[0].color,
+    });
+    if (type === "Success") {
+      setEditedProduct((prevProduct) => ({
+        ...prevProduct,
+        colors: newColors,
+      }));
+      updateNotification("success", "Region successfully deleted");
+    }
+  };
+  const handleColorChange = (e, index) => {
+    const newColors = [...editedProduct.colors];
+    newColors[index].color = e.target.value;
+    setEditedProduct((prevProduct) => ({
+      ...prevProduct,
+      colors: newColors,
+    }));
+  };
+
+  const handleSizeChange = (e, index) => {
+    const { name, value } = e.target;
+    const newSizes = [...editedProduct.sizes];
+
+    if (name.startsWith("size-")) {
+      newSizes[index].size = value;
+    } else if (name.startsWith("ratio-")) {
+      newSizes[index].ratioPrice = value;
+    }
+    console.log(newSizes[index]);
+    setEditedProduct((prevProduct) => ({
+      ...prevProduct,
+      sizes: newSizes,
+    }));
+  };
+  const addSize = () => {
+    setEditedProduct((prevProduct) => ({
+      ...prevProduct,
+      sizes: [...prevProduct.sizes, { size: "" }],
+    }));
+  };
+
+  const removeSize = async (index) => {
+    const deleteSizes = editedProduct.sizes.filter((_, i) => i === index);
+    if (deleteSizes === "") {
+      return;
+    }
+
+    const newSizes = editedProduct.sizes.filter((_, i) => i !== index);
+    const { type } = await deleteProductSize(product._id, {
+      size: deleteSizes[0].size,
+    });
+    if (type === "Success") {
+      setEditedProduct((prevProduct) => ({
+        ...prevProduct,
+        sizes: newSizes,
+      }));
+      updateNotification("success", "Size successfully deleted");
+    }
+  };
+  const handleKeyPress = async (e, index) => {
+    if (e.key === "Enter") {
+      const newColor =
+        editedProduct.colors[editedProduct.colors.length - 1].color;
+      if (newColor !== "") {
+        const { type } = await addProductColor(product._id, {
+          color: newColor,
+        });
+        if (type === "Success") {
+          updateNotification("success", "Region successfully deleted");
+        }
+      }
+    }
+  };
+  const handleKeyPressSize = async (e, index) => {
+    if (e.key === "Enter") {
+      const newSize = editedProduct.sizes[editedProduct.sizes.length - 1].size;
+      const newRatioPrice =
+        editedProduct.sizes[editedProduct.sizes.length - 1].ratioPrice;
+      console.log(newSize, newRatioPrice);
+      if (newSize.size !== "" && newSize.ratioPrice !== "") {
+        const { type } = await addProductSize(product._id, {
+          size: newSize,
+          ratioPrice: newRatioPrice,
+        });
+        if (type === "Success") {
+          updateNotification("success", "Size successfully deleted");
+        }
+      }
+    }
+  };
+  useEffect(() => {
+    // if (!isOpen) {
+    //   setEditedProduct({ ...product });
+    // }
     setEditedProduct({ ...product });
     fetchCategory();
-  }, [isOpen, product]);
+  }, [isOpen]);
 
   // return (
   //   <div class={`absolute w-full top-1/2 left-1/2 md:top-1/2 h-full transform -translate-x-1/2 -translate-y-1/2 bg-slate-100 p-8 rounded shadow-md overflow-y-auto max-h-full ${
@@ -353,42 +485,89 @@ const UpdateProductModal = ({
                         />
                       </div>
                     </div>
-                    <div className="flex ">
-                      <div className="grid gap-3 mr-4">
-                        <Label htmlFor="name">Color</Label>
-                        <Input
-                          id="colors"
-                          name="colors"
-                          value={editedProduct.colors[0].color}
-                          onChange={handleChange}
-                          type="text"
-                          className="w-full font-sans"
-                        />
-                      </div>
-                      <div className="grid gap-3">
-                        <Label htmlFor="name">Sizes</Label>
-                        <Input
-                          id="sizes"
-                          name="sizes"
-                          value={editedProduct.sizes
-                            .map((size) => size.size)
-                            .join(", ")}
-                          onChange={handleChange}
-                          type="text"
-                          className="w-full font-sans"
-                        />
+                    {/* <div className="flex "> */}
+                    <div className="grid gap-3 mr-4">
+                      <Label htmlFor="colors">Colors</Label>
+                      {editedProduct.colors.map((color, index) => (
+                        <div key={index} className="flex items-center">
+                          <Input
+                            name={`color-${index}`}
+                            value={color.color}
+                            onChange={(e) => handleColorChange(e, index)}
+                            onKeyPress={(e) => handleKeyPress(e, index)}
+                            type="text"
+                            className="w-full font-sans"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => removeColor(index)}
+                            className="ml-2 hover:text-red-500"
+                          >
+                            <CiCircleRemove className="text-xl" />
+                          </button>
+                        </div>
+                      ))}
+                      <div className="w-full justify-center flex">
+                        <button
+                          type="button"
+                          onClick={addColor}
+                          className="mt-2  hover:bg-yellow-400 font-sans p-2 bg-yellow-500 rounded text-white w-fit flex items-center justify-center "
+                        >
+                          <MdAddToPhotos /> Add Color
+                        </button>
                       </div>
                     </div>
-                    <div className="grid gap-3">
-                      <Label htmlFor="name">Price corresponds to size</Label>
+                    {/* <div className="grid gap-3">
+                      <Label htmlFor="name">Sizes</Label>
                       <Input
-                        id="priceSizes"
-                        name="priceSizes"
-                        value={editedProduct.priceSizes}
+                        id="sizes"
+                        name="sizes"
+                        value={editedProduct.sizes
+                          .map((size) => size.size)
+                          .join(", ")}
                         onChange={handleChange}
                         type="text"
                         className="w-full font-sans"
                       />
+                    </div> */}
+                    {/* </div> */}
+                    <div className="grid gap-3">
+                      <Label htmlFor="sizes">Sizes</Label>
+                      {editedProduct.sizes.map((size, index) => (
+                        <div key={index} className="flex items-center">
+                          <Input
+                            name={`size-${index}`}
+                            value={size.size}
+                            onChange={(e) => handleSizeChange(e, index)}
+                            type="text"
+                            className="w-full font-sans"
+                          />
+                          <Input
+                            name={`ratio-${index}`}
+                            value={size.ratioPrice}
+                            onChange={(e) => handleSizeChange(e, index)}
+                            onKeyPress={(e) => handleKeyPressSize(e, index)}
+                            type="text"
+                            className="w-full font-sans ml-2"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => removeSize(index)}
+                            className="ml-2 hover:text-red-500"
+                          >
+                            <CiCircleRemove className="text-xl" />
+                          </button>
+                        </div>
+                      ))}
+                      <div className="w-full justify-center flex">
+                        <button
+                          type="button"
+                          onClick={addSize}
+                          className="mt-2 hover:bg-yellow-400 font-sans p-2 bg-yellow-500 rounded text-white w-fit flex items-center justify-center "
+                        >
+                          <MdAddToPhotos /> Add Size
+                        </button>
+                      </div>
                     </div>
                     <div className="flex ">
                       <div className="grid gap-3 mr-4">

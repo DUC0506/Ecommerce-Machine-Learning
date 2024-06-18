@@ -24,7 +24,25 @@ import { TiChevronLeftOutline, TiChevronRightOutline } from "react-icons/ti";
 
 import { useNotification } from "../hooks";
 // import lens from '../assets/images/img-5.png'
-const Links = ({ categorys, idCategory, searchText }) => {
+const Links = () => {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  let queryParamValue = urlParams.get("category");
+  let queryParamSearchValue = urlParams.get("key"); // Thay 'queryParamName' bằng tên của query parameter bạn muốn lấy
+
+  console.log(queryParamValue, queryParamSearchValue);
+  let idCategory;
+  if (queryParamValue === "Trai Cay") {
+    idCategory = "6613e85ddf25192bb94fc43d";
+  } else if (queryParamValue === "Thit") {
+    idCategory = "65af1d4b4620fa8010cff722";
+  } else if (queryParamValue === "Hai san") {
+    idCategory = "6613e8abdf25192bb94fc440";
+  } else if (queryParamValue === "Đồ ăn nhanh") {
+    idCategory = "6613e877df25192bb94fc43e";
+  } else if (queryParamValue === "Thực phẩm") {
+    idCategory = "6613e8a0df25192bb94fc43f";
+  }
   const dispatch = useDispatch();
   const { updateNotification } = useNotification();
   // const { items } = useSelector((state) => state.add);
@@ -47,9 +65,10 @@ const Links = ({ categorys, idCategory, searchText }) => {
       setItems([...products]);
     }
   };
+
   const fetchSearchItems = async () => {
     const { type, message, products } = await getProductsSearchByApartment(
-      searchText,
+      queryParamSearchValue,
       numberPage
     );
     if (type === "Error") {
@@ -89,7 +108,7 @@ const Links = ({ categorys, idCategory, searchText }) => {
     setNumberPage(numberPage + 1);
   };
   useEffect(() => {
-    if (searchText !== "") {
+    if (queryParamSearchValue !== null) {
       fetchSearchItems();
     } else {
       fetchItems();
@@ -97,7 +116,7 @@ const Links = ({ categorys, idCategory, searchText }) => {
 
     // fetchItems();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [idCategory, numberPage, searchText]);
+  }, [idCategory, numberPage, queryParamSearchValue]);
   return (
     <div className="m-auto max-w-6xl mt-16">
       <div className="flex items-center">
@@ -108,6 +127,7 @@ const Links = ({ categorys, idCategory, searchText }) => {
           {/* <div className=' text-gray-500 text-center text-xs ml-4 font-sans'>Tất cả danh mục</div> */}
         </div>
       </div>
+
       <div className="flex m-auto max-w-4xl mt-4 flex-wrap align-middle items-center justify-center w-full">
         <div
           onClick={() => handleNavigate("Trai Cay")}
@@ -180,25 +200,16 @@ const Links = ({ categorys, idCategory, searchText }) => {
             Second hand
           </div>
         </div>
-        {/* 
-            <div onClick={() => dispatch(comingsoon())} className='mx-2 my-2 inline-block p-4 w-24 h-32 rounded-md items-center hover:shadow-blue-500 text-center hover:shadow-2xl hover:bg-slate-50 cursor-pointer transition duration-300 ease-in-out align-middle bg-gray-400 bg-opacity-20'>
-                    <div className='items-center m-auto w-10 h-14 mb-1'><img src={svgimg} alt='svg' className=""/></div>
-                    <div className='text-gray-700 text-xs text-center'>Fashion</div>
-            </div>
-
-            <div onClick={() => dispatch(comingsoon())} className='mx-2 my-2 inline-block p-4 w-24 h-32 rounded-md items-center text-center hover:shadow-2xl hover:bg-slate-50 cursor-pointer transition duration-300 ease-in-out align-middle bg-gray-400 bg-opacity-20'>
-                    <div className='items-center m-auto w-10 h-14 mb-1'><img src={svgimg8} alt='svg' className=""/></div>
-                    <div className='text-gray-700 text-xs text-center'>Appliances</div>
-            </div> */}
       </div>
       <div className="flex align-bottom items-center mb-4">
         <div className="font-semibold text-xl text-gray-800 mr-4 font-sans">
-          {categorys}
+          {queryParamValue}
         </div>
         {/* <div className='text-xs text-gray-500 font-sans'>All product </div> */}
       </div>
 
       {/* product section */}
+
       <div className="">
         <div className="flex justify-around mb-5 flex-wrap w-full">
           {items.length > 0 ? (

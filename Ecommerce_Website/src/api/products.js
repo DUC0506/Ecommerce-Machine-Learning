@@ -49,11 +49,29 @@ export const getProductsByApartment = async (IdCategory, numberPage) => {
     return error;
   }
 };
+export const getProductsByHome = async (IdCategory) => {
+  const token = getToken();
+  try {
+    const { data } = await client.get(
+      `/product/products-apartment?category=${IdCategory}&limit=5`,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+
+    return data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
 export const getProductsSearchByApartment = async (key, numberPage) => {
   console.log(numberPage);
   let url = key
     ? `products-search?keyword=${key}`
-    : `/products-apartment?page=${numberPage}&limit=10`;
+    : `/products-apartment?page=${numberPage}&limit=20`;
   console.log(url);
   const token = getToken();
   try {
@@ -87,7 +105,68 @@ export const createProduct = async (product) => {
     return error;
   }
 };
+export const addProductColor = async (productId, color) => {
+  const token = getToken();
+  try {
+    const { data } = await client.post(`/product/color/${productId}`, color, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
 
+    return data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+export const deleteProductColor = async (productId, color) => {
+  const token = getToken();
+  try {
+    const { data } = await client.delete(`/product/color/${productId}`, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+      data: color,
+    });
+
+    return data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+export const addProductSize = async (productId, size) => {
+  const token = getToken();
+  try {
+    const { data } = await client.post(`/product/size/${productId}`, size, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+
+    return data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+export const deleteProductSize = async (productId, size) => {
+  const token = getToken();
+  try {
+    const { data } = await client.delete(`/product/size/${productId}`, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+      data: size,
+    });
+
+    return data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
 export const getProduct = async (productId) => {
   const token = getToken();
   try {

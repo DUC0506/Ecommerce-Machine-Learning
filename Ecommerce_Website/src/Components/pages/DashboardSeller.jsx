@@ -41,7 +41,7 @@ export default function DashboardSeller() {
   });
   const labels2 = Object.keys(totalPriceByProduct);
   const data2 = Object.values(totalPriceByProduct);
-
+  console.log(data2.length);
   useEffect(() => {
     fetchOrders();
 
@@ -55,7 +55,7 @@ export default function DashboardSeller() {
         {/* <TransactionChartSeller /> */}
         {/* <div className=" mr-2 bg-slate-50 p-4 rounded shadow-md cursor-pointer mt-4"> */}
         <div className="w-4/6">
-          {(data2.length > 0) & data2 ? (
+          {data2.length > 0 && data2 ? (
             <SalesChart
               labels={labels2}
               data={data2}

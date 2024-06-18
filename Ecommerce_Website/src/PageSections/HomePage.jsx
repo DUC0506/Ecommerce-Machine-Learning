@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Landing from "./Landing";
 import Links from "./Links";
 import "../Styles/PageStyles/Homepage.css";
@@ -11,12 +11,26 @@ import Chat from "../Components/pages/Chat";
 import { useAuth } from "../hooks";
 import ChatGemini from "../Components/pages/ChatGemini";
 import GeminiIcon from "../assets/unnamed.jpg";
+import { getCategory } from "../api/category";
+import HomeProduct from "./HomeProduct";
+import svgimg2 from "../assets/svgs/svg-3.svg";
+import svgimg3 from "../assets/svgs/sbg-003-b.svg";
+import svgimg5 from "../assets/svgs/svg-002-f.svg";
+
+import svgcos from "../assets/svgs/svg-cos.svg";
+import svgimg10 from "../assets/svgs/svg-006-d.svg";
+import svgimg9 from "../assets/svgs/svg-004-g.svg";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   const [showChat, setShowChat] = useState(false);
   const [showGemini, setShowGemini] = useState(false);
+  const [categories, setCategories] = useState([]);
   const { authInfo } = useAuth();
-  console.log(authInfo);
+  const navigate = useNavigate();
+  const handleNavigate = (name) => {
+    navigate(`/product-page?category=${name}`);
+  };
   const handleShowChat = (bool) => {
     if (bool) {
       setShowGemini(false);
@@ -29,12 +43,91 @@ const HomePage = () => {
     }
     setShowGemini(bool);
   };
+  const fetchCategories = async () => {
+    const { type, message, categories } = await getCategory();
+    setCategories(categories);
+  };
+  useEffect(() => {
+    fetchCategories();
+  }, []);
   return (
     <div className="relative">
-      {console.log("Ahome page")}
       <ToastContainer />
       <Landing />
-      <Links categorys={"All products "} />
+      {/* <Links categorys={"All products "} /> */}
+      <div className="flex m-auto max-w-4xl my-16 flex-wrap align-middle items-center justify-center w-full">
+        <div
+          onClick={() => handleNavigate("Trai Cay")}
+          className="mx-2 my-2 inline-block p-4 w-24 h-32 rounded-md items-center hover:shadow-pink-500 hover:shadow-2xl hover:bg-slate-50 cursor-pointer transition duration-300 ease-in-out  text-center align-middle bg-gray-400 bg-opacity-20"
+        >
+          <div className="items-center m-auto w-10 h-14 mb-1">
+            <img src={svgimg5} alt="svg" className="" />
+          </div>
+          <div className="text-gray-700 text-xs text-center font-sans">
+            Fruit{" "}
+          </div>
+        </div>
+
+        <div
+          onClick={() => handleNavigate("Thit")}
+          className=" mx-2 my-2 md:inline-block p-4 w-24 h-32 rounded-md items-center hover:shadow-gray-500 hover:shadow-2xl hover:bg-slate-50 cursor-pointer transition duration-300 ease-in-out text-center align-middle bg-gray-400 bg-opacity-20"
+        >
+          <div className="items-center m-auto w-10 h-14 mb-1">
+            <img src={svgimg2} alt="svg" className="" />
+          </div>
+          <div className="text-gray-700 text-xs text-center font-sans">
+            Meat
+          </div>
+        </div>
+
+        <div
+          onClick={() => handleNavigate("Hai san")}
+          className="mx-2 my-2 md:inline-block p-4 w-24 h-32 rounded-md items-center hover:shadow-red-400 text-center hover:shadow-2xl hover:bg-slate-50 cursor-pointer transition duration-300 ease-in-out align-middle bg-gray-400 bg-opacity-20"
+        >
+          <div className="items-center m-auto w-10 h-14 mb-1">
+            <img src={svgimg10} alt="svg" className="" />
+          </div>
+          <div className="text-gray-700 text-xs text-center font-sans">
+            Seafood
+          </div>
+        </div>
+
+        <div
+          onClick={() => handleNavigate("Do an nhanh")}
+          className="mx-2 my-2 inline-block p-4 w-24 h-32 rounded-md items-center text-center hover:shadow-yellow-500  hover:shadow-2xl hover:bg-slate-50 cursor-pointer transition duration-300 ease-in-out align-middle bg-gray-400 bg-opacity-20"
+        >
+          <div className="items-center m-auto w-10 h-14 mb-1">
+            <img src={svgcos} alt="svg" className="" />
+          </div>
+          <div className="text-gray-700 text-xs text-center font-sans">
+            Fast food
+          </div>
+        </div>
+
+        <div
+          onClick={() => handleNavigate("Thuc pham nha lam")}
+          className=" mx-2 my-2 inline-block p-4 w-24 h-32 rounded-md items-center hover:shadow-violet-500 text-center hover:shadow-2xl hover:bg-slate-50 cursor-pointer transition duration-300 ease-in-out align-middle bg-gray-400 bg-opacity-20"
+        >
+          <div className="items-center m-auto w-10 h-14 mb-1">
+            <img src={svgimg3} alt="svg" className="" />
+          </div>
+          <div className="text-gray-700 text-xs text-center font-sans">
+            Homemade
+          </div>
+        </div>
+
+        <div className="mx-2 my-2 inline-block p-4 w-24 h-32 rounded-md items-center hover:shadow-violet-500 text-center hover:shadow-2xl hover:bg-slate-50 cursor-pointer transition duration-300 ease-in-out align-middle bg-gray-400 bg-opacity-20">
+          <div className="items-center m-auto w-10 h-14 mb-1">
+            <img src={svgimg9} alt="svg" className="" />
+          </div>
+          <div className="text-gray-700 text-xs text-center font-sans">
+            Second hand
+          </div>
+        </div>
+      </div>
+      {categories.map((category) => (
+        <HomeProduct category={category} />
+      ))}
 
       {/* Chat gemini */}
       <div className={`${showGemini ? "fixed" : "hidden"} z-30 `}>

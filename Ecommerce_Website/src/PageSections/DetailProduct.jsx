@@ -141,7 +141,7 @@ const DetailProduct = () => {
     };
     const { error, cart } = await addItemtoCart(product1);
     if (error) return null;
-    console.log(cart);
+    updateNotification("success", "Item successfully added");
   };
   const handleBuyNow = async (id) => {
     await addItemCart(id);

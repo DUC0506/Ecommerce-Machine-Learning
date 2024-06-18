@@ -172,7 +172,14 @@ const Expense = () => {
         </button>
       </div>
 
-      {expenses.length > 0 && expenses ? (
+      {expenses.length === 0 && expenses && pagination === 1 ? (
+        <NoItem
+          title={"Welcome sellers to the expenses management page"}
+          body={
+            "This is the expense management page where you manage your business expenses. If you experience any difficulty managing your expenses, please contact us for assistance."
+          }
+        />
+      ) : (
         <div className="overflow-x-auto rounded shadow-md cursor-pointer mt-4 ">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
@@ -257,13 +264,6 @@ const Expense = () => {
             </div>
           </div>
         </div>
-      ) : (
-        <NoItem
-          title={"Welcome sellers to the expenses management page"}
-          body={
-            "This is the expense management page where you manage your business expenses. If you experience any difficulty managing your expenses, please contact us for assistance."
-          }
-        />
       )}
       {/* Modal */}
       {modalOpen && (

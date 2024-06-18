@@ -256,6 +256,7 @@ export const addProduct = catchAsync(async (req, res) => {
  */
 export const addProductColor = catchAsync(async (req, res) => {
   // 1) Add product color
+
   const { type, message, statusCode, color } =
     await productService.addProductColor(
       req.params.productId,
@@ -294,7 +295,8 @@ export const addProductSize = catchAsync(async (req, res) => {
     await productService.addProductSize(
       req.params.productId,
       req.user.id,
-      req.body.size
+      req.body.size,
+      req.body.ratioPrice
     );
 
   // 2) Check if there is an error
@@ -475,6 +477,7 @@ export const deleteProduct = catchAsync(async (req, res) => {
  */
 export const deleteProductColor = catchAsync(async (req, res) => {
   // 1) Delete product color
+
   const { type, message, statusCode } = await productService.deleteProductColor(
     req.params.productId,
     req.user.id,

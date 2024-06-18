@@ -333,7 +333,14 @@ export default function Products() {
             </Button>
           </div>
         </div>
-        {products.length > 0 && products ? (
+        {products.length === 0 && products && pagination === 1 ? (
+          <NoItem
+            title={"Welcome sellers to the product management page"}
+            body={
+              "Please add your first product to your sales. If you encounter problems during product management, please contact us to have your questions resolved."
+            }
+          />
+        ) : (
           <TabsContent value="all">
             <Card x-chunk="dashboard-06-chunk-0">
               <CardHeader>
@@ -381,12 +388,12 @@ export default function Products() {
                       <TableRow key={product.id}>
                         <TableCell className="hidden sm:table-cell">
                           {/* <Image
-                        alt="Product image"
-                        className="aspect-square rounded-md object-cover"
-                        height="64"
-                        src="/placeholder.svg"
-                        width="64"
-                    /> */}
+                      alt="Product image"
+                      className="aspect-square rounded-md object-cover"
+                      height="64"
+                      src="/placeholder.svg"
+                      width="64"
+                  /> */}
                           <img
                             src={product.mainImage}
                             alt=""
@@ -475,13 +482,6 @@ export default function Products() {
               </CardFooter>
             </Card>
           </TabsContent>
-        ) : (
-          <NoItem
-            title={"Welcome sellers to the product management page"}
-            body={
-              "Please add your first product to your sales. If you encounter problems during product management, please contact us to have your questions resolved."
-            }
-          />
         )}
       </Tabs>
 

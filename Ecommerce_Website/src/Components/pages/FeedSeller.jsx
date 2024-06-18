@@ -92,7 +92,16 @@ const FeedSeller = () => {
           ></textarea>
         </div>
 
-        {posts.length > 0 && posts ? (
+        {posts.length === 0 && posts && pagination === 1 ? (
+          <NoItem
+            title={
+              "Welcome sellers to the article management page for residents"
+            }
+            body={
+              "Make your first post so you can share about the product with apartment residents. If you have difficulty managing your articles, please contact us to have your questions resolved."
+            }
+          />
+        ) : (
           <div className="top-28 mt-10 max-w-xl mx-auto  ">
             {posts.map((post) => (
               <Post
@@ -127,15 +136,6 @@ const FeedSeller = () => {
               </div>
             </div>
           </div>
-        ) : (
-          <NoItem
-            title={
-              "Welcome sellers to the article management page for residents"
-            }
-            body={
-              "Make your first post so you can share about the product with apartment residents. If you have difficulty managing your articles, please contact us to have your questions resolved."
-            }
-          />
         )}
       </div>
     </div>
