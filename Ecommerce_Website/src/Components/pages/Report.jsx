@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import SalesChart from "../admin/shared/SaleChart";
-import { getTotalSalesBySeller } from "../../api/order";
-import { useAuth } from "../../hooks";
+import {
+  getAllTotalSalesBySeller,
+  getTotalSalesBySeller,
+} from "../../api/order";
+import { useAuth, useNotification } from "../../hooks";
 import { FaDongSign, FaArrowDownLong } from "react-icons/fa6";
 import { FaLevelUpAlt, FaUsers } from "react-icons/fa";
 import { GoDash } from "react-icons/go";
@@ -16,16 +19,18 @@ export default function Report() {
   const [totalSale, setTotalSale] = useState(0);
   const [products, setProducts] = useState([]);
   const [predicts, setPredicts] = useState([]);
+  const [period, setPeriod] = useState("");
   const [historyPredict, setHistoryPredict] = useState({});
   const [pagination, setPagination] = useState(1);
-
+  const { updateNotification } = useNotification();
   const fetchOrders = async () => {
-    const { type, deliveredOrders, totalRevenue } = await getTotalSalesBySeller(
-      authInfo.profile._id
-    );
+    const { type, deliveredOrders, totalRevenue } =
+      await getAllTotalSalesBySeller(authInfo.profile._id, period);
     if (type === "Success") {
       setTotalSale(totalRevenue);
       setOrders(deliveredOrders);
+    } else {
+      updateNotification("warning", "No orders in this time");
     }
   };
   const fetchProducts = async () => {
@@ -43,6 +48,11 @@ export default function Report() {
     if (type === "Success") {
       setPredicts(predicts);
     }
+  };
+  const handlePeriodChange = async (event) => {
+    const selectedValue = event.target.value;
+    console.log(selectedValue);
+    setPeriod(selectedValue);
   };
   const handleChangePredict = async (event) => {
     const selectedValue = event.target.value;
@@ -117,7 +127,7 @@ export default function Report() {
     fetchProducts();
     fetchPredict();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pagination]);
+  }, [pagination, period]);
   return (
     <div className="bg-white">
       <div className="p-4 ">
@@ -133,14 +143,30 @@ export default function Report() {
         </h1>
       </div>
 
-      {orders.length > 0 && orders ? (
+      {orders.length > 0 ||
+      predicts.len > 0 ||
+      (products.length > 0 && orders) ? (
         <div className="w-full">
           <div className="flex w-full">
             <div className="w-1/2 mr-2 bg-slate-50 p-4 rounded shadow-md cursor-pointer">
-              <div className="font-sans font-semibold text-xl bg-yellow-500 w-fit rounded p-1 hover:bg-yellow-400">
-                Total revenue
+              <div className="font-sans w-full flex justify-between font-semibold text-xl bg-yellow-500  rounded p-1 hover:bg-yellow-400">
+                <p className="p-2 text-white">Total revenue</p>
+
+                <div class="max-w-sm ">
+                  <select
+                    onChange={handlePeriodChange}
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  outline-none block w-full p-2.5 "
+                  >
+                    <option value="" selected>
+                      All time
+                    </option>
+                    <option value="lastWeek">Last week</option>
+                    <option value="lastMonth">Last Month</option>
+                  </select>
+                </div>
               </div>
-              <div className="flex justify-between items-center">
+
+              <div className="flex justify-between items-center mt-2">
                 <div className="font-sans font-bold text-xl text-yellow-400 flex items-center">
                   {totalSale}
                   <FaDongSign />
@@ -151,7 +177,7 @@ export default function Report() {
                   } flex items-center`}
                 >
                   {percentRevenue > 0 ? <FaLevelUpAlt /> : <FaArrowDownLong />}{" "}
-                  {percentRevenue.toFixed(2)}%
+                  {percentRevenue > 0 ? percentRevenue.toFixed(2) : 0}%
                 </div>
               </div>
 
@@ -172,10 +198,23 @@ export default function Report() {
             </div>
 
             <div className="w-1/2 mr-2 bg-slate-50 p-4 rounded shadow-md cursor-pointer">
-              <div className="font-sans font-semibold text-xl bg-yellow-500 w-fit rounded p-1 hover:bg-yellow-400">
-                Total customers
+              <div className="font-sans w-full flex justify-between font-semibold text-xl bg-yellow-500  rounded p-1 hover:bg-yellow-400">
+                <p className="p-2 text-white">Total customers</p>
+
+                <div class="max-w-sm ">
+                  <select
+                    onChange={handlePeriodChange}
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  outline-none block w-full p-2.5 "
+                  >
+                    <option value="" selected>
+                      All time
+                    </option>
+                    <option value="lastWeek">Last week</option>
+                    <option value="lastMonth">Last Month</option>
+                  </select>
+                </div>
               </div>
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center mt-2">
                 <div className="font-sans font-bold text-xl text-yellow-400 flex items-center">
                   {orders.length}
                   <FaUsers className="ml-2 text-2xl" />
@@ -186,7 +225,7 @@ export default function Report() {
                   } flex items-center`}
                 >
                   {percentUser > 0 ? <FaLevelUpAlt /> : <FaArrowDownLong />}{" "}
-                  {percentUser.toFixed(2)}%
+                  {percentUser > 0 ? percentUser.toFixed(2) : 0}%
                 </div>
               </div>
 
@@ -215,7 +254,7 @@ export default function Report() {
             />
           </div>
           <div className="flex-col justify-center bg-slate-50 mt-4 rounded p-4  shadow-md ">
-            <div className="font-sans text-xl font-semibold bg-yellow-500 w-fit rounded p-1 hover:bg-yellow-400">
+            <div className="font-sans text-xl text-white p-2 font-semibold bg-yellow-500 w-fit rounded  hover:bg-yellow-400">
               Prediction history
             </div>
             <select
@@ -224,7 +263,7 @@ export default function Report() {
               className="w-full  font-sans md:w-auto font-semibold px-4 py-2 mt-4 border rounded cursor-pointer focus:outline-none hover:border-yellow-500"
             >
               <option disabled value="" className="font-sans font-semibold ">
-                Chọn sản phẩm đã dự đoán
+                Choose prediction history
               </option>
               {predicts.map((opt, index) => (
                 <option
@@ -241,7 +280,7 @@ export default function Report() {
               <SalesChart
                 labels={historyPredict.labels}
                 data={historyPredict.dataPredict}
-                label="Dự đoán "
+                label="Prediction "
               />
             )}
           </div>

@@ -40,7 +40,8 @@ import {
   deleteUser,
   deleteMyAccount,
   getSellers,
-  updateToSeller
+  updateToSeller,
+  addCardBank
 } from './user.controller';
 
 import {
@@ -179,7 +180,8 @@ const userController = {
   deleteUser,
   deleteMyAccount,
   getSellers,
-  updateToSeller
+  updateToSeller,
+  addCardBank
 };
 
 const categoryController = {

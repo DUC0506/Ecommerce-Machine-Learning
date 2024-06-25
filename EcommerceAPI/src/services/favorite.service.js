@@ -69,8 +69,11 @@ export const addFavoriteProduct = catchAsync(async (userId, productId) => {
  * @returns { Object<type|message|statusCode|favorite> }
  */
 export const getFavoriteList = catchAsync(async (userId) => {
-  const favorite = await Favorite.findOne({ user: userId });
-
+  const favorite = await Favorite.findOne({ user: userId }).populate({
+    path: 'products',
+    select: 'name priceAfterDiscount mainImage'
+  });
+  console.log(favorite);
   // 1) Check if favorite document doesn't exists
   if (!favorite) {
     return {

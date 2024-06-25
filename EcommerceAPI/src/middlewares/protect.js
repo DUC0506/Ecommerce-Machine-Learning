@@ -28,7 +28,10 @@ const protect = catchAsync(async (req, res, next) => {
   const decoded = await promisify(jwt.verify)(token, config.jwt.secret);
 
   // 4) Extract user data from database
-  const currentUser = await User.findById(decoded.sub);
+  const currentUser = await User.findById(decoded.sub).populate({
+    path: 'apartment',
+    select: 'name'
+  });
 
   // 5) Check if user does not exist
   if (!currentUser) {

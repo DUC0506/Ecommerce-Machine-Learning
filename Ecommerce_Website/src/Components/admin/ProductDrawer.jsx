@@ -1,11 +1,12 @@
 import { getSellerProducts } from "../../api/products";
-import { useAuth } from "../../hooks";
+import { useAuth, useNotification } from "../../hooks";
 import React, { useEffect, useState } from "react";
 import { MdAddBox, MdBatchPrediction } from "react-icons/md";
 import { AiFillSignal } from "react-icons/ai";
 
 const ProductDrawer = ({ onSubmit, holidays }) => {
   const { authInfo } = useAuth();
+  const { updateNotification } = useNotification();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [products, setProducts] = useState([]);
   const [holidayData, setHolidayData] = useState([]);
@@ -36,7 +37,12 @@ const ProductDrawer = ({ onSubmit, holidays }) => {
     }));
   };
   const handleHolidays = () => {
-    setHolidayData([...holidayData, formatDate(formData.holidays)]);
+    if (formData.holidays && Date.parse(formData.holidays)) {
+      console.log(formData.holidays);
+      setHolidayData([...holidayData, formatDate(formData.holidays)]);
+    } else {
+      updateNotification("error", "Invalid or empty holiday date!");
+    }
   };
   const fetchProducts = async () => {
     const { type, products } = await getSellerProducts(authInfo.profile._id);
@@ -51,11 +57,39 @@ const ProductDrawer = ({ onSubmit, holidays }) => {
       [name]: value,
     }));
   };
-  console.log(formData);
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    const { start_date, end_date } = formData;
+    const startDate = new Date(start_date);
+    const endDate = new Date(end_date);
 
+    if (startDate > endDate) {
+      updateNotification("error", "Start date must be earlier than end date!");
+      return;
+    }
+
+    const maxDifference = 12; // Số tháng tối đa
+    const differenceInMonths =
+      (endDate.getFullYear() - startDate.getFullYear()) * 12 +
+      (endDate.getMonth() - startDate.getMonth());
+
+    if (differenceInMonths > maxDifference) {
+      updateNotification(
+        "error",
+        "The period between start and end date must not exceed 12 months!"
+      );
+      return;
+    }
     onSubmit(formData, holidayData);
+    setFormData({
+      start_date: "",
+      end_date: "",
+      holidays: "",
+      productIndex: 1,
+      productId: "",
+    });
+    setHolidayData([]);
     // Add your form submission logic here
     closeDrawer();
   };

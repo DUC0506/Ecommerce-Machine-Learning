@@ -82,6 +82,7 @@ export const getCategory = catchAsync(async (req, res) => {
  */
 export const addCategory = catchAsync(async (req, res) => {
   // 1) Create new category
+
   const { type, message, statusCode, category } =
     await categoryService.createCategory(
       { name: req.body.name, description: req.body.description },

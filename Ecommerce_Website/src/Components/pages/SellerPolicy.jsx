@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 export default function SellerPolicy() {
   const navigate = useNavigate();
   const handleSupport = () => {
-    navigate(`dashboard/messages`);
+    navigate(`/dashboard/messages`);
   };
   return (
     <div className="container mx-auto p-4  w-full  ">

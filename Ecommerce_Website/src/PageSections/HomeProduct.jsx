@@ -6,15 +6,19 @@ import React, { useState } from "react";
 
 export default function HomeProduct({ category }) {
   const [products, setProducts] = useState([]);
-
+  console.log(category);
   const fetchProducts = async () => {
-    const { type, message, products } = await getProductsByHome(category._id);
-    console.log(products);
-    setProducts(products);
+    const { type, products } = await getProductsByHome(category._id);
+    if (type === "Success") {
+      console.log(products);
+      setProducts(products);
+    }
   };
   const navigate = useNavigate();
   const handleNavigate = () => {
-    navigate(`/product-page?category=${category.name}`);
+    navigate(`/product-page?category=${category.name}`, {
+      state: { categoryId: category._id },
+    });
   };
   useState(() => {
     fetchProducts();

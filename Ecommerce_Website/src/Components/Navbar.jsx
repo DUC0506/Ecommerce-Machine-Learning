@@ -1,19 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../Styles/ComponentStyles/Navbar.css";
 import Logo from "../assets/CONDOmarket .png";
 
 import { useSelector } from "react-redux";
 import Search from "./Search";
-
+import { FaLocationDot, FaAngleDown } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks";
 import { FaUser } from "react-icons/fa";
 import { FiPackage } from "react-icons/fi";
 import { IoIosLogOut } from "react-icons/io";
 // import { FaRegNewspaper } from "react-icons/fa";
-import { IoPricetagsOutline } from "react-icons/io5";
-import { FaAngleDown } from "react-icons/fa6";
-import { IoStorefrontOutline } from "react-icons/io5";
+import { IoPricetagsOutline, IoStorefrontOutline } from "react-icons/io5";
+
 import fruitIcon from "../assets/Fruit3.png";
 import meat from "../assets/meat1.png";
 import seafood from "../assets/seafood.png";
@@ -25,21 +24,30 @@ import spices from "../assets/spices.png";
 import otherFood from "../assets/bibimbap.png";
 import secondHand from "../assets/second-hand.png";
 import newpaper from "../assets/newspaper.png";
-
+import { BiSolidCategory } from "react-icons/bi";
+import { getCategory } from "..//api/category";
 const Navbar = () => {
   const { item } = useSelector((state) => state.add);
   const [showCategories, setShowCategories] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [categories, setCategories] = useState([]);
 
   const navigate = useNavigate();
   const { handleLogout, authInfo } = useAuth();
-  console.log(authInfo);
+  console.log(authInfo.profile);
   const handleCategoryHover = () => {
     setShowCategories(true);
   };
 
   const handleCategoryLeave = () => {
     setShowCategories(false);
+  };
+  const getCategories = async () => {
+    const { type, categories } = await getCategory();
+    if (type === "Success") {
+      console.log(categories);
+      setCategories(categories);
+    }
   };
   // const loginUser=() => {
 
@@ -65,8 +73,8 @@ const Navbar = () => {
   const handleNews = () => {
     navigate("/feed-page");
   };
-  const handleNavigate = (name) => {
-    navigate(`/product-page?category=${name}`);
+  const handleNavigate = (name, id) => {
+    navigate(`/product-page?category=${name}`, { state: { categoryId: id } });
   };
   const handleSellerForm = () => {
     navigate(`/seller-form`);
@@ -74,12 +82,24 @@ const Navbar = () => {
   const handleSendSearch = (text) => {
     navigate(`/product-page?key=${text}`);
   };
+  const handleFavorite = () => {
+    navigate("/my-favorite");
+  };
+  useEffect(() => {
+    getCategories();
+  }, []);
   return (
     <div className="nav-cover">
       <div className="divide-y divide-gray-200  items-center">
         <div className="main-nav">
-          <div className="w-16 h-16 py-1 " onClick={() => navigateHome()}>
+          <div className="w-16 h-16  " onClick={() => navigateHome()}>
             <img src={Logo} alt="logo" className="rounded-full" />
+          </div>
+          <div className=" items-center cursor-pointer md:flex hidden">
+            <FaLocationDot className="text-yellow-400 mr-1 text-xl" />
+            <p className="font-semibold font-sans text-sm">
+              {authInfo.profile.apartment.name}
+            </p>
           </div>
           <Search search={handleSendSearch} />
           <div className="hidden md:inline-block text-right ">
@@ -170,6 +190,7 @@ const Navbar = () => {
               strokeWidth={1}
               stroke="currentColor"
               className="w-6 "
+              onClick={handleFavorite}
             >
               <path
                 strokeLinecap="round"
@@ -187,28 +208,30 @@ const Navbar = () => {
                 onMouseEnter={handleCategoryHover}
                 onMouseLeave={handleCategoryLeave}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6 text-white"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
-                  />
-                </svg>
-                <div className="pl-2 font-sans font-bold text-base px-[72px] py-1 text-white ">
+                <BiSolidCategory className="text-xl text-white" />
+                <div className="pl-2  flex items-center font-sans font-semibold text-sm px-[30px] md:pr-[45px] py-1 md:text-base text-white ">
                   {/* Categories{" "} */}
-                  CATEGORIES
+                  Product Categories
                 </div>
                 {showCategories && (
                   <div className="absolute top-full left-0 z-40  bg-white w-full rounded-md shadow-md">
                     {/* Add your category links here */}
-                    <div
+                    {categories.map((category) => (
+                      <div
+                        className=" flex items-center text-base border-b border-gray-200 py-2 mt-1 pl-2 category-link hover:bg-yellow-400 rounded font-sans  font-bold"
+                        onClick={() =>
+                          handleNavigate(category.name, category._id)
+                        }
+                      >
+                        <img
+                          src={category.image}
+                          alt="fruit"
+                          className="w-8 h-8 mr-2"
+                        />{" "}
+                        {category.name}
+                      </div>
+                    ))}
+                    {/* <div
                       className=" flex items-center text-base border-b border-gray-200 py-2 mt-1 pl-2 category-link hover:bg-yellow-400 rounded font-sans  font-bold"
                       onClick={() => handleNavigate("Trai Cay")}
                     >
@@ -294,7 +317,7 @@ const Navbar = () => {
                         className="w-8 h-8 mr-2"
                       />
                       Secondhand Goods
-                    </div>
+                    </div> */}
                     {/* <a href='/' className='block py-2 pl-2 hover:bg-yellow-400 font-sans'>Category 7</a>
                 <a href='/' className='block py-2 pl-2 hover:bg-yellow-400 font-sans'>Category 8</a>
                 <a href='/' className='block py-2 pl-2 hover:bg-yellow-400 font-sans'>Category 9</a> */}
@@ -355,7 +378,7 @@ const Navbar = () => {
             </div>
             <div></div>
             <div
-              className="md:flex bg-yellow-400 p-1 items-center transition ease-in duration-200 ml-3 sm:hidden hover:bg-gray-200 px-2 rounded-full cursor-pointer"
+              className="md:flex hidden bg-yellow-400 p-1 items-center transition ease-in duration-200 ml-3 sm:hidden hover:bg-gray-200 px-2 rounded-full cursor-pointer"
               onClick={() => handleSellerForm()}
             >
               <IoStorefrontOutline className=" mr-1 text-white text-lg" />

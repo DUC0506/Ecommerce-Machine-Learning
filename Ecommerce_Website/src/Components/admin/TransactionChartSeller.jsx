@@ -19,14 +19,25 @@ export default function TransactionChartSeller() {
   //   productId: "",
   // });
   const [dataPre, setDataPre] = useState([]);
-  const [date, setDate] = useState();
+  const [date, setDate] = useState({
+    start_date: "",
+    end_date: "",
+  });
   const [loading, setLoading] = useState(false);
   const { updateNotification } = useNotification();
   // const [holidayData, setHolidayData] = useState([]);
   // const [products, setProducts] = useState([]);
 
-  function generateLabels(length) {
-    return Array.from({ length }, (_, index) => `Week ${index + 1}`);
+  function generateLabels(startDate, length) {
+    const start = new Date(startDate);
+    const labels = [];
+    for (let i = 0; i < length; i++) {
+      // Tính toán ngày bắt đầu của tuần i
+      const currentDate = new Date(start);
+      currentDate.setDate(start.getDate() + i * 7);
+      labels.push(formatDate(currentDate));
+    }
+    return labels;
   }
   function formatDate(dateString) {
     const date = new Date(dateString);
@@ -37,7 +48,7 @@ export default function TransactionChartSeller() {
     return `${month}-${day}-${year}`;
   }
 
-  const labels = generateLabels(dataPre.length);
+  const labels = generateLabels(date.start_date, dataPre.length);
   const data = dataPre;
 
   // const handleHolidays = () => {
@@ -85,12 +96,12 @@ export default function TransactionChartSeller() {
         endDate: formattedFormData.end_date,
         holidays: holidays,
         dataPredict: predictions,
-        labels: generateLabels(predictions.length),
+        labels: generateLabels(formData.start_date, dataPre.length),
         product: formData.productId,
       };
 
       await addPredict(dataPredict);
-    }, 12000);
+    }, 10000);
   };
   // const fetchProducts = async () => {
   //   const { type, products } = await getSellerProducts(authInfo.profile._id);

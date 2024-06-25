@@ -40,6 +40,7 @@ router.post('/verify-email', verifyEmail);
 
 router.get('/is-auth', protect, (req, res) => {
   const { user } = req;
+
   res.json({
     user
   });

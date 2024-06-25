@@ -14,7 +14,8 @@ import {
   deleteUser,
   deleteMyAccount,
   getSellers,
-  updateToSeller
+  updateToSeller,
+  addCardBank
 } from '../controllers/user.controller';
 
 // Utils
@@ -42,6 +43,7 @@ router.patch('/update-details', updateUserDetails);
 
 router.patch('/updateToSeller', updateToSeller);
 
+router.patch('/addCardBank', addCardBank);
 // Update User Profile Image (Multer Middleware) Route
 router.patch(
   '/update-profile-image',

@@ -18,44 +18,42 @@ import {
   getProductsSearchByApartment,
 } from "../api/products";
 import NotFound from "../Components/admin/shared/NotFound";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { TiChevronLeftOutline, TiChevronRightOutline } from "react-icons/ti";
 
 import { useNotification } from "../hooks";
+import { getCategory } from "../api/category";
 // import lens from '../assets/images/img-5.png'
 const Links = () => {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   let queryParamValue = urlParams.get("category");
-  let queryParamSearchValue = urlParams.get("key"); // Thay 'queryParamName' bằng tên của query parameter bạn muốn lấy
+  let queryParamSearchValue = urlParams.get("key");
+  const location = useLocation();
+  const categoryId = location.state?.categoryId;
+  const [categories, setCategories] = useState([]);
 
-  console.log(queryParamValue, queryParamSearchValue);
-  let idCategory;
-  if (queryParamValue === "Trai Cay") {
-    idCategory = "6613e85ddf25192bb94fc43d";
-  } else if (queryParamValue === "Thit") {
-    idCategory = "65af1d4b4620fa8010cff722";
-  } else if (queryParamValue === "Hai san") {
-    idCategory = "6613e8abdf25192bb94fc440";
-  } else if (queryParamValue === "Đồ ăn nhanh") {
-    idCategory = "6613e877df25192bb94fc43e";
-  } else if (queryParamValue === "Thực phẩm") {
-    idCategory = "6613e8a0df25192bb94fc43f";
-  }
   const dispatch = useDispatch();
   const { updateNotification } = useNotification();
-  // const { items } = useSelector((state) => state.add);
+
   const navigate = useNavigate();
 
   const [items, setItems] = useState([]);
   const [numberPage, setNumberPage] = useState(1);
-  // const [numbers,setNumbers]=useState(3)
+
   const [limit, setLimit] = useState(3);
-  //   let numbers = 3;
+  const fetchCategories = async () => {
+    const { type, categories } = await getCategory();
+    if (type === "Success") {
+      console.log(categories);
+      setCategories(categories);
+    }
+  };
+
   const fetchItems = async () => {
     const { error, message, products } = await getProductsByApartment(
-      idCategory,
+      categoryId,
       numberPage
     );
     console.log(products);
@@ -80,8 +78,8 @@ const Links = () => {
       setItems([...products]);
     }
   };
-  const handleNavigate = (name) => {
-    navigate(`/product-page?category=${name}`);
+  const handleNavigate = (name, id) => {
+    navigate(`/product-page?category=${name}`, { state: { categoryId: id } });
   };
   const handleNumberPage = (num) => {
     if (num === limit + 2) {
@@ -113,10 +111,10 @@ const Links = () => {
     } else {
       fetchItems();
     }
+    fetchCategories();
 
-    // fetchItems();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [idCategory, numberPage, queryParamSearchValue]);
+  }, [categoryId, numberPage, queryParamSearchValue]);
   return (
     <div className="m-auto max-w-6xl mt-16">
       <div className="flex items-center">
@@ -129,7 +127,20 @@ const Links = () => {
       </div>
 
       <div className="flex m-auto max-w-4xl mt-4 flex-wrap align-middle items-center justify-center w-full">
-        <div
+        {categories.map((category) => (
+          <div
+            onClick={() => handleNavigate(category.name, category._id)}
+            className="mx-2 my-2 inline-block p-4 w-24 h-32 rounded-md items-center hover:shadow-pink-500 hover:shadow-2xl hover:bg-slate-50 cursor-pointer transition duration-300 ease-in-out  text-center align-middle bg-gray-400 bg-opacity-20"
+          >
+            <div className="items-center m-auto w-10 h-14 mb-1">
+              <img src={category.image} alt="svg" className="" />
+            </div>
+            <div className="text-gray-700 text-xs text-center font-sans">
+              {category.name}
+            </div>
+          </div>
+        ))}
+        {/* <div
           onClick={() => handleNavigate("Trai Cay")}
           className="mx-2 my-2 inline-block p-4 w-24 h-32 rounded-md items-center hover:shadow-pink-500 hover:shadow-2xl hover:bg-slate-50 cursor-pointer transition duration-300 ease-in-out  text-center align-middle bg-gray-400 bg-opacity-20"
         >
@@ -199,7 +210,7 @@ const Links = () => {
           <div className="text-gray-700 text-xs text-center font-sans">
             Second hand
           </div>
-        </div>
+        </div> */}
       </div>
       <div className="flex align-bottom items-center mb-4">
         <div className="font-semibold text-xl text-gray-800 mr-4 font-sans">

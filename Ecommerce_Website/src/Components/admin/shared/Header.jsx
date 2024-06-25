@@ -4,6 +4,8 @@ import { HiOutlineBell, HiOutlineChatAlt } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import { useAuth } from "../../../hooks";
+import { FaUser, FaSignOutAlt } from "react-icons/fa";
+import { IoMdSettings } from "react-icons/io";
 import { getTotalOrdersNotification } from "../../../api/order";
 // import { Button } from "../../ui/button";
 // import { Badge } from "../../ui/badge";
@@ -94,40 +96,6 @@ export default function Header() {
         <Popover className="relative">
           {({ open }) => (
             <>
-              <Popover.Button
-                className={classNames(
-                  open && "bg-gray-100",
-                  "group inline-flex items-center rounded-sm p-1.5 text-gray-700 hover:text-opacity-100 focus:outline-none active:bg-gray-100"
-                )}
-              >
-                <HiOutlineChatAlt fontSize={24} />
-              </Popover.Button>
-              <Transition
-                as={Fragment}
-                enter="transition ease-out duration-200"
-                enterFrom="opacity-0 translate-y-1"
-                enterTo="opacity-100 translate-y-0"
-                leave="transition ease-in duration-150"
-                leaveFrom="opacity-100 translate-y-0"
-                leaveTo="opacity-0 translate-y-1"
-              >
-                <Popover.Panel className="absolute right-0 z-10 mt-2.5 transform w-80">
-                  <div className="bg-white rounded-sm shadow-md ring-1 ring-black ring-opacity-5 px-2 py-2.5">
-                    <strong className="text-gray-700 font-medium">
-                      Messages
-                    </strong>
-                    <div className="mt-2 py-1 text-sm">
-                      This is messages panel.
-                    </div>
-                  </div>
-                </Popover.Panel>
-              </Transition>
-            </>
-          )}
-        </Popover>
-        <Popover className="relative">
-          {({ open }) => (
-            <>
               <div
                 className={classNames(
                   open && "bg-gray-100",
@@ -208,10 +176,10 @@ export default function Header() {
                     onClick={() => navigate("/dashboard/user-info")}
                     className={classNames(
                       active && "bg-gray-100",
-                      "active:bg-gray-200 rounded-sm px-4 py-2 text-gray-700 cursor-pointer focus:bg-gray-200"
+                      "active:bg-gray-200 flex hover:bg-yellow-300 items-center rounded-sm px-4 py-2 text-gray-700 cursor-pointer focus:bg-gray-200"
                     )}
                   >
-                    Your Profile
+                    <FaUser className="text-xl mr-1" /> Your Profile
                   </div>
                 )}
               </Menu.Item>
@@ -221,10 +189,10 @@ export default function Header() {
                     onClick={() => navigate("/settings")}
                     className={classNames(
                       active && "bg-gray-100",
-                      "active:bg-gray-200 rounded-sm px-4 py-2 text-gray-700 cursor-pointer focus:bg-gray-200"
+                      "active:bg-gray-200 flex hover:bg-yellow-300 items-center rounded-sm px-4 py-2 text-gray-700 cursor-pointer focus:bg-gray-200"
                     )}
                   >
-                    Settings
+                    <IoMdSettings className="text-xl mr-1" /> Settings
                   </div>
                 )}
               </Menu.Item>
@@ -233,11 +201,11 @@ export default function Header() {
                   <div
                     className={classNames(
                       active && "bg-gray-100",
-                      "active:bg-gray-200 rounded-sm px-4 py-2 text-gray-700 cursor-pointer focus:bg-gray-200"
+                      "active:bg-gray-200 hover:bg-yellow-300  flex items-centerrounded-sm px-4 py-2 text-gray-700 cursor-pointer focus:bg-gray-200"
                     )}
                     onClick={handleLogoutDB}
                   >
-                    Sign out
+                    <FaSignOutAlt className="text-xl mr-1" /> Sign out
                   </div>
                 )}
               </Menu.Item>

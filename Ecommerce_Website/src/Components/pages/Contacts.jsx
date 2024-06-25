@@ -35,7 +35,7 @@ export default function Contacts({ contacts, changeChat }) {
             {contacts.map((contact, index) => (
               <div
                 key={contact._id}
-                className={`flex items-center border-b border-slate-400 py-4 cursor-pointer my-1 rounded hover:bg-yellow-200 hover:within ${
+                className={`flex items-center border-b border-slate-400 py-4 cursor-pointer my-1 rounded hover:bg-gradient-to-tr from-[#facc15] to-[#5FC3E4] hover:within ${
                   index === currentSelected ? "bg-yellow-500" : "bg-white "
                 }`}
                 onClick={() => changeCurrentChat(index, contact)}
@@ -49,9 +49,7 @@ export default function Contacts({ contacts, changeChat }) {
                 </div>
                 <div
                   className={`ml-4   ${
-                    index === currentSelected
-                      ? " text-white"
-                      : " text-slate-400 "
+                    index === currentSelected ? " text-white" : " text-black "
                   }`}
                 >
                   <h3>{contact.username}</h3>
@@ -65,7 +63,9 @@ export default function Contacts({ contacts, changeChat }) {
                         alt="apartment"
                         className="w-5 h-5 mr-1"
                       />
-                      {contact.apartment.name}
+                      {authInfo.profile.role === "admin"
+                        ? contact.apartment.name
+                        : ""}
                     </h3>
                   )}
                   {contact.role === "admin" ? <h3>Admin</h3> : ""}

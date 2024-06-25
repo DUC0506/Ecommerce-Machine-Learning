@@ -163,7 +163,10 @@ export const signin = catchAsync(async (email, password) => {
   }
 
   // 2) Get user from database
-  const user = await User.findOne({ email }).select('+password');
+  const user = await User.findOne({ email }).select('+password').populate({
+    path: 'apartment',
+    select: 'name'
+  });
 
   // 3) Check if user does not exist
   if (!user) {

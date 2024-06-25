@@ -1,7 +1,8 @@
 import React from "react";
 import Navbar from "../Components/Navbar";
 import "../Styles/PageStyles/Landing.css";
-
+import vegetable from "../assets/vegetable1.png";
+import vegetable1 from "../assets/vegetable.png";
 const Landing = () => {
   return (
     <div>
@@ -11,24 +12,28 @@ const Landing = () => {
           <div className="inline-block background sm:flex rounded-md w-full md:w-8/12 h-96 bg-slate-200 p-0 overflow-hidden">
             <div className="md:w-80 text-2xl text-gray-600 sm:ml-14 mt-10 text-center md:text-left sm:px-0 sm:py-0 w-full px-10 py-5">
               <div className="p-1 bg-gray-400 text-xs rounded-xl w-32 text-center mb-1 sm:ml-0">
-                Our new products
+                Fresh Arrivals
               </div>
               <div className="font-semibold mb-8">
-                Active Summer With Energy Drink 123{" "}
-                <span className="text-yellow-500">300ml</span>
+                Local Delights Just for Your Community{" "}
+                <span className="text-yellow-500">Condo Market</span>
               </div>
               <div className="text-sm mb-10 leading-7 font-sans">
-                The online apartment market provides a convenient platform for
-                residents to buy and sell local specialty foods
+                Discover and enjoy specialty foods from your neighbors. Buy,
+                sell, and savor local flavors right within your apartment
+                community.
               </div>
               <button className="text-sm p-2 bg-white rounded-sm border-transparent border-2 text-semibold w-32 focus:ring-2 focus:sring-sky-400">
-                Shop Now
+                Explore Now
               </button>
             </div>
-            <div className="bg-img w-8/12 bg-no-repeat relative rotate-6 bg-center bottom-0"></div>
+            <div className=" w-8/12  bg-center bottom-0">
+              <img src={vegetable} alt="" className="bg-transparent" />
+              <img src={vegetable1} alt="" className="bg-transparent" />
+            </div>
           </div>
           <div className="relative w-full mt-10 md:mt-0 rounded-md md:w-1/3 h-96 bg-yellow-300 p-1 overflow-hidden ">
-            <div className="absolute top-7 rotate-180 right-10">
+            <div className="absolute top-4 rotate-180 right-10">
               <lord-icon
                 src="https://cdn.lordicon.com/xxdqfhbi.json"
                 trigger="loop"
@@ -58,11 +63,11 @@ const Landing = () => {
                   d="M6 6h.008v.008H6V6z"
                 />
               </svg>
-              20% SALE OFF
+              20% OFF for Local Flavors!
             </div>
-            <div className="text-xs mt-8 font-sans w-72 ml-10 text-gray-600 leading-2">
-              To explore and participate in the online apartment market, visit
-              our website now!.{" "}
+            <div className="text-sm mt-4 font-sans w-72 ml-10 text-gray-600 leading-2">
+              Join our online community to discover, buy, and enjoy the best
+              local foods from your neighbors !.
             </div>
             <div className="images"></div>
           </div>

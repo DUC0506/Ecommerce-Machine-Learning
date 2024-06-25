@@ -49,6 +49,7 @@ import Predict from "./Components/pages/Predict";
 import StatusAdmin from "./Components/admin/StatusAdmin";
 import ManagerProduct from "./Components/pages/ManagerProduct";
 import NewsManagement from "./Components/pages/NewsManagement";
+import FavoriteProduct from "./PageSections/FavoriteProduct";
 
 function App() {
   // const { soon, product, products, addedsuccessfully } = useSelector(
@@ -165,6 +166,7 @@ function App() {
         <Route index path="/product-page" element={<Productpage />} />
         <Route index path="/feed-page" element={<Feed />} />
         <Route index path="/seller-form" element={<RegisterSeller />} />
+        <Route index path="/my-favorite" element={<FavoriteProduct />} />
 
         {/* <Route path='/:id/product' element={<Product/>}/>
         <Route path="/comingSoon" element={<Comingsoon/>}/>

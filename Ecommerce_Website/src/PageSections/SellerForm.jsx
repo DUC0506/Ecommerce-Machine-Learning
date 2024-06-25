@@ -97,9 +97,9 @@ const SellerForm = () => {
         return (
           <div className="w-full">
             <h2 className="font-sans text-xl font-semibold">
-              Thông tin nhà bán hàng
+              Seller information
             </h2>
-            <div className="font-sans mt-2">Tên nhà bán hàng</div>
+            <div className="font-sans mt-2">Seller name</div>
             <input
               type="text"
               name="name"
@@ -119,19 +119,19 @@ const SellerForm = () => {
             />
             <div className="flex w-full">
               <div className="w-1/2 mr-2">
-                <div className="font-sans mt-2">Địa chỉ </div>
+                <div className="font-sans mt-2">Address </div>
                 <input
                   type="text"
                   name="address"
                   value={sellerInfo.address}
                   onChange={(e) => handleChange(e, "sellerInfo")}
-                  placeholder="Địa chỉ nhà bán hàng"
+                  placeholder="Address seller"
                   className="w-full mt-4 mr-2 px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500 font-sans"
                 />
               </div>
 
               <div className="w-1/2 ">
-                <div className="font-sans mt-2">Tên khu chung cư </div>
+                <div className="font-sans mt-2">Apartment name</div>
                 <input
                   type="text"
                   name="apartment"
@@ -142,7 +142,7 @@ const SellerForm = () => {
                 />
               </div>
             </div>
-            <div className="font-sans mt-2">Số điện thoại</div>
+            <div className="font-sans mt-2">Phone</div>
             <input
               type="phone "
               name="sdt"
@@ -157,8 +157,8 @@ const SellerForm = () => {
       case 2:
         return (
           <div>
-            <h2 className="font-sans font-semibold">Thông tin thuế</h2>
-            <div className="mt-4 font-sans">Loại hình kinh doanh</div>
+            <h2 className="font-sans font-semibold">Tax information</h2>
+            <div className="mt-4 font-sans">Business type</div>
             <input
               type="text"
               name="taxId"
@@ -166,7 +166,7 @@ const SellerForm = () => {
               onChange={(e) => handleChange(e, "taxInfo")}
               className="w-full   px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500 font-sans"
             />
-            <div className="font-sans mt-4">Địa chỉ đăng kí kinh doanh</div>
+            <div className="font-sans mt-4">Business registration address</div>
             <input
               type="text"
               name="taxAddress"
@@ -175,7 +175,7 @@ const SellerForm = () => {
               placeholder="Mã số thuế"
               className="w-full   px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500 font-sans"
             />
-            <div className="mt-4 font-sans">Email nhận thông báo</div>
+            <div className="mt-4 font-sans">Email to receive notifications</div>
             <input
               type="text"
               name="taxEmail"
@@ -184,13 +184,13 @@ const SellerForm = () => {
               placeholder="Mã số thuế"
               className="w-full   px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500 font-sans"
             />
-            <div className="mt-4 font-sans">Mã số thuế</div>
+            <div className="mt-4 font-sans">Tax code</div>
             <input
               type="text"
               name="taxId"
               value={taxInfo.taxId}
               onChange={(e) => handleChange(e, "taxInfo")}
-              placeholder="Mã số thuế"
+              placeholder="tax code"
               className="w-full  px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500 font-sans"
             />
 
@@ -200,8 +200,10 @@ const SellerForm = () => {
       case 3:
         return (
           <div>
-            <h2 className="font-sans font-semibold">Thông tin định danh</h2>
-            <div className="mt-4 font-sans">Số căn cước công dân</div>
+            <h2 className="font-sans font-semibold">
+              Identification information
+            </h2>
+            <div className="mt-4 font-sans">Citizen identification number</div>
             <input
               type="text"
               name="idCard"
@@ -210,7 +212,7 @@ const SellerForm = () => {
               placeholder="Số CMND/CCCD"
               className="w-full  px-4 py-2 border rounded-lg focus:outline-none focus:border-yellow-500 font-sans"
             />
-            <div className="mt-4 font-sans">Họ và tên</div>
+            <div className="mt-4 font-sans">Full name</div>
             <input
               type="text"
               name="nameCard"
@@ -238,7 +240,7 @@ const SellerForm = () => {
               className="bg-gray-300 hover:bg-gray-400 font-sans text-gray-800 font-bold py-2 px-4 rounded"
               onClick={prevStep}
             >
-              Quay lại
+              Back
             </button>
           )}
           {step !== 3 && step !== 0 ? (
@@ -247,7 +249,7 @@ const SellerForm = () => {
               className="bg-yellow-400 hover:bg-yellow-500 ml-auto text-white font-bold py-2 px-4 rounded font-sans"
               onClick={nextStep}
             >
-              Tiếp theo
+              Next
             </button>
           ) : step !== 0 ? (
             <button
@@ -255,7 +257,7 @@ const SellerForm = () => {
               onClick={() => handleSaveSeller()}
               className="bg-yellow-500 hover:bg-yellow-600 font-sans text-white font-bold py-2 px-4 rounded"
             >
-              Lưu
+              Save
             </button>
           ) : (
             ""

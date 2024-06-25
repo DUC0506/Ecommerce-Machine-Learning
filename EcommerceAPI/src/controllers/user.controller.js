@@ -191,6 +191,29 @@ export const updateToSeller = catchAsync(async (req, res) => {
   });
 });
 
+export const addCardBank = catchAsync(async (req, res) => {
+  // 1) Find user document and update it's details
+  const { type, message, statusCode, user } = await userService.addBankToUser(
+    req.user,
+    req.body
+  );
+
+  // 2) Check if there is an error
+  if (type === 'Error') {
+    return res.status(statusCode).json({
+      type,
+      message: req.polyglot.t(message)
+    });
+  }
+
+  // 3) If everything is OK, send data
+  return res.status(statusCode).json({
+    type,
+    message: req.polyglot.t(message),
+    user
+  });
+});
+
 /**
  * @desc      Update User Profile Image Controller
  * @param     { Object } req - Request object

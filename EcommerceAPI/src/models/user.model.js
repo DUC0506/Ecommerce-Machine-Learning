@@ -96,6 +96,13 @@ const userSchema = mongoose.Schema(
       cardId: { type: String },
       cardName: { type: String }
     },
+    cardBank: [
+      {
+        bankNumber: { type: String },
+        bankDate: { type: String },
+        bankCVV: { type: String }
+      }
+    ],
     isGlobalBan: {
       type: Boolean,
       default: false

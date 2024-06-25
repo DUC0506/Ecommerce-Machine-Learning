@@ -219,6 +219,40 @@ export const updateUserDetails = catchAsync(async (user, body) => {
   };
 });
 
+export const addBankToUser = catchAsync(async (user, body) => {
+  const { bankNumber, bankDate, bankCVV } = body;
+  if (!bankNumber || !bankDate || !bankCVV) {
+    return {
+      type: 'Error',
+      message: 'fieldsRequired',
+      statusCode: 400
+    };
+  }
+  const { id } = user;
+  user = await User.findByIdAndUpdate(
+    id,
+    {
+      $push: {
+        cardBank: {
+          bankNumber,
+          bankDate,
+          bankCVV
+        }
+      }
+    },
+    {
+      new: true,
+      runValidators: true
+    }
+  );
+  return {
+    type: 'Success',
+    message: 'successfulUserDetails',
+    statusCode: 200,
+    user
+  };
+});
+
 export const updateUserToSeller = catchAsync(async (user, body) => {
   const { taxAddress, taxEmail, cardId, cardName } = body;
   let { taxId } = body;

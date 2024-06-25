@@ -46,7 +46,7 @@ export default function ContactsUser({ contacts, changeChat }) {
                     className="w-full h-full rounded-full"
                   />
                 </div>
-                <div className="ml-4 text-white">
+                <div className="ml-4 text-white font-sans">
                   <h3>{contact.username}</h3>
                   {/* {contact.role ==='admin'?'':  <h3>({contact.apartment.name})</h3>}
                   {contact.role ==='admin' ? <h3>Admin</h3> : ''} */}
@@ -64,7 +64,7 @@ export default function ContactsUser({ contacts, changeChat }) {
                 />
               </div>
               <div className="text-white font-sans">
-                <h2>{currentUserName}</h2>
+                <h2 className="font-sans">{currentUserName}</h2>
               </div>
             </div>
           </div>

@@ -12,7 +12,7 @@ const Product = ({ name, price, images, option, id, item }) => {
   //   dispatch(updateadded());
   //   toast.success('Added To Cart Successfully')
   // }
-  console.log(id, item);
+
   const navigate = useNavigate();
   const { updateNotification } = useNotification();
   const addItemCart = async (id) => {

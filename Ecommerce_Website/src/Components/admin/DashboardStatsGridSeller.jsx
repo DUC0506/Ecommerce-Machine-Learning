@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 // import { IoBagHandle, IoPieChart, IoPeople, IoCart } from "react-icons/io5";
 import {
+  getAllTotalSalesBySeller,
   getTotalOrders,
   // getTotalSales,
-  getTotalSalesBySeller,
 } from "../../api/order";
 import { getSellers } from "../../api/user";
 import { TbCurrencyDong } from "react-icons/tb";
@@ -18,30 +18,20 @@ import {
 import { Activity, CreditCard, DollarSign, Users } from "lucide-react";
 import { getTotalExpenses } from "../../api/expense";
 export default function DashboardStatsGridSeller() {
-  const [recentOrders, setRecentOrders] = useState([{}]);
+  const [recentOrders, setRecentOrders] = useState();
   const [totalUsers, setTotalUsers] = useState([{}]);
   const [totalOrders, setTotalOrders] = useState([]);
   const [totalExpense, setTotalExpense] = useState(0);
   const { authInfo } = useAuth();
   const fetchRecentOrders = async () => {
-    const { type, deliveredOrders } = await getTotalSalesBySeller(
+    const { type, totalRevenue } = await getAllTotalSalesBySeller(
       authInfo.profile._id
     );
     if (type === "Success") {
-      setRecentOrders(deliveredOrders);
-      console.log(deliveredOrders);
+      setRecentOrders(totalRevenue);
+      console.log(totalRevenue);
     }
   };
-  let totalOrderPriceAll;
-  if (recentOrders.length > 1) {
-    totalOrderPriceAll = recentOrders.reduce(
-      (total, order) => total + order.totalPrice,
-      0
-    );
-  } else {
-    totalOrderPriceAll = 0;
-  }
-  console.log(recentOrders);
 
   const fetchTotalUsers = async () => {
     const { type, users } = await getSellers();
@@ -90,11 +80,11 @@ export default function DashboardStatsGridSeller() {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold flex items-center font-sans">
-            {totalOrderPriceAll}
+            {recentOrders}
             <TbCurrencyDong className="text-yellow-400" />
           </div>
           <p className="text-xs text-muted-foreground font-sans">
-            {totalOrderPriceAll > 0 ? " +20.1% from last month" : ""}
+            {recentOrders > 0 ? " +2.1% from last month" : ""}
           </p>
         </CardContent>
       </Card>
@@ -110,7 +100,7 @@ export default function DashboardStatsGridSeller() {
             {totalExpense} <TbCurrencyDong className="text-yellow-400" />
           </div>
           <p className="text-xs text-muted-foreground font-sans">
-            {totalExpense > 0 ? " +20.1% from last month" : ""}
+            {totalExpense > 0 ? " +12.1% from last month" : ""}
           </p>
         </CardContent>
       </Card>
@@ -128,7 +118,7 @@ export default function DashboardStatsGridSeller() {
             {totalUsers?.length}
           </div>
           <p className="text-xs text-muted-foreground font-sans">
-            {totalUsers?.length > 0 ? " +20.1% from last month" : ""}
+            {totalUsers?.length > 0 ? " +20% from last month" : ""}
           </p>
         </CardContent>
       </Card>
@@ -145,7 +135,7 @@ export default function DashboardStatsGridSeller() {
             {totalOrders?.length}
           </div>
           <p className="text-xs text-muted-foreground font-sans">
-            {totalOrders?.length > 0 ? " +20.1% from last month" : ""}
+            {totalOrders?.length > 0 ? " +8% from last month" : ""}
           </p>
         </CardContent>
       </Card>

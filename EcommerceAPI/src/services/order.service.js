@@ -572,8 +572,6 @@ export const queryOrdersBySellerNotification = catchAsync(async (req) => {
 
   const lengthOrders = orders.length;
 
-  console.log(lengthOrders);
-
   // 2) Check of orders doesn't exist
   if (!orders) {
     return {
@@ -635,6 +633,13 @@ export const cancelOrder = catchAsync(async (id) => {
       statusCode: 404
     };
   }
+  if (order.status === 'Delivered') {
+    return {
+      type: 'Error',
+      message: 'Order has been delivered',
+      statusCode: 400
+    };
+  }
 
   // 3) Increase product quantity and reduce product sold
   for (const item of order.products) {
@@ -690,9 +695,61 @@ export const totalSales = catchAsync(async (req) => {
     totalRevenue
   };
 });
-export const totalSalesBySeller = catchAsync(async (req) => {
-  // 1) Tìm tất cả các đơn hàng đã được giao hàng ("Delivered")
+// export const totalSalesBySeller = catchAsync(async (req) => {
+//   // 1) Tìm tất cả các đơn hàng đã được giao hàng ("Delivered")
+//   const { id } = req.params;
+//   if (!mongoose.Types.ObjectId.isValid(id)) {
+//     return {
+//       type: 'Error',
+//       message: 'Invalid seller id format',
+//       statusCode: 400
+//     };
+//   }
+
+//   // Chuyển đổi chuỗi `id` thành một ObjectID
+//   const sellerId = mongoose.Types.ObjectId(id);
+
+//   if (!id) {
+//     return {
+//       type: 'Error',
+//       message: 'No id seller orders found',
+//       statusCode: 404
+//     };
+//   }
+//   const deliveredOrders = await Order.find({
+//     status: 'Delivered',
+//     // isPaid: true,
+//     seller: sellerId
+//   }).populate({ path: 'products.product', select: 'name' });
+
+//   // 2) Kiểm tra xem có đơn hàng đã giao hàng hay không
+//   if (!deliveredOrders || deliveredOrders.length === 0) {
+//     return {
+//       type: 'Error',
+//       message: 'No delivered orders found',
+//       statusCode: 404
+//     };
+//   }
+
+//   // 3) Tính tổng doanh thu từ các đơn hàng đã giao hàng
+//   const totalRevenue = deliveredOrders.reduce(
+//     (total, order) => total + order.totalPrice,
+//     0
+//   );
+
+//   // 4) Nếu mọi thứ ổn, trả về dữ liệu
+//   return {
+//     type: 'Success',
+//     message: 'Total sales calculated successfully',
+//     statusCode: 200,
+//     totalRevenue,
+//     deliveredOrders
+//   };
+// });
+export const totalSalesBySeller = catchAsync(async (req, res) => {
   const { id } = req.params;
+
+  // Kiểm tra định dạng id
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return {
       type: 'Error',
@@ -704,6 +761,7 @@ export const totalSalesBySeller = catchAsync(async (req) => {
   // Chuyển đổi chuỗi `id` thành một ObjectID
   const sellerId = mongoose.Types.ObjectId(id);
 
+  // Kiểm tra nếu id không tồn tại
   if (!id) {
     return {
       type: 'Error',
@@ -711,13 +769,41 @@ export const totalSalesBySeller = catchAsync(async (req) => {
       statusCode: 404
     };
   }
-  const deliveredOrders = await Order.find({
-    status: 'Delivered',
-    // isPaid: true,
-    seller: sellerId
-  }).populate({ path: 'products.product', select: 'name' });
 
-  // 2) Kiểm tra xem có đơn hàng đã giao hàng hay không
+  // Nhận khoảng thời gian từ yêu cầu hoặc đặt mặc định
+  const { period } = req.query;
+
+  let filter = { status: 'Delivered', seller: sellerId };
+
+  if (period) {
+    let startDate;
+    const endDate = new Date();
+
+    if (period === 'lastMonth') {
+      startDate = new Date();
+      startDate.setMonth(startDate.getMonth() - 1);
+    } else if (period === 'lastWeek') {
+      startDate = new Date();
+      startDate.setDate(startDate.getDate() - 7);
+    } else {
+      return {
+        type: 'Error',
+        message: 'Invalid period specified',
+        statusCode: 400
+      };
+    }
+
+    // Thêm bộ lọc thời gian vào bộ lọc truy vấn
+    filter.createdAt = { $gte: startDate, $lte: endDate };
+  }
+
+  // Tìm tất cả các đơn hàng đã giao theo bộ lọc
+  const deliveredOrders = await Order.find(filter).populate({
+    path: 'products.product',
+    select: 'name'
+  });
+
+  // Kiểm tra xem có đơn hàng đã giao hàng hay không
   if (!deliveredOrders || deliveredOrders.length === 0) {
     return {
       type: 'Error',
@@ -726,13 +812,13 @@ export const totalSalesBySeller = catchAsync(async (req) => {
     };
   }
 
-  // 3) Tính tổng doanh thu từ các đơn hàng đã giao hàng
+  // Tính tổng doanh thu từ các đơn hàng đã giao hàng
   const totalRevenue = deliveredOrders.reduce(
     (total, order) => total + order.totalPrice,
     0
   );
 
-  // 4) Nếu mọi thứ ổn, trả về dữ liệu
+  // Nếu mọi thứ ổn, trả về dữ liệu
   return {
     type: 'Success',
     message: 'Total sales calculated successfully',
@@ -741,7 +827,6 @@ export const totalSalesBySeller = catchAsync(async (req) => {
     deliveredOrders
   };
 });
-
 export const totalOrders = catchAsync(async (query) => {
   const number = query.limits;
 

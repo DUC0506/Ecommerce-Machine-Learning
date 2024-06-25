@@ -250,12 +250,15 @@ export const totalAllOrderBySeller = catchAsync(async (req, res) => {
   // 1) Update order status
   const { type, message, statusCode, totalRevenue, deliveredOrders } =
     await orderService.totalSalesBySeller(req);
+  let ordersWithTimestamps;
+  if (deliveredOrders) {
+    ordersWithTimestamps = deliveredOrders.map((order) => ({
+      ...order.toObject(),
+      createdAt: order.createdAt,
+      updatedAt: order.updatedAt
+    }));
+  }
 
-  const ordersWithTimestamps = deliveredOrders.map((order) => ({
-    ...order.toObject(),
-    createdAt: order.createdAt,
-    updatedAt: order.updatedAt
-  }));
   // 2) Check if there is an error
   if (type === 'Error') {
     return res.status(statusCode).json({

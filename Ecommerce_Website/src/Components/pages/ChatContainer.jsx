@@ -77,8 +77,8 @@ export default function ChatContainer({ currentChat, socket }) {
   }, [messages]);
 
   return (
-    <div className="flex flex-col h-full w-3/4 bg-white">
-      <div className="flex w-full items-center justify-between p-4 h-1/6 rounded border-b border-slate-200 bg-yellow-400 ">
+    <div className="flex flex-col h-full w-3/4  bg-gradient-to-tr from-[#facc15] to-[#5FC3E4]">
+      <div className="flex w-full items-center justify-between p-4 h-1/6 rounded border-b border-slate-200  bg-gradient-to-tr from-[#facc15] to-[#5FC3E4] ">
         <div className="flex w-full items-center gap-4 ">
           <div className="flex w-full justify-between">
             <div className="flex items-center">

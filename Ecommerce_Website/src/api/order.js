@@ -44,9 +44,9 @@ export const getTotalOrders = async (
   try {
     let url = "/order/totalOrders";
     if (sellerId) {
-      url = `/order/orderBySeller?seller=${sellerId}&limit=${number}&page=${pagination}`;
+      url = `/order/orderBySeller?seller=${sellerId}&limit=${number}&page=${pagination}&sort=-createdAt`;
     } else if (number) {
-      url = `/order/totalOrders?limits=${number}&page=${pagination}`;
+      url = `/order/totalOrders?limits=${number}&page=${pagination} `;
     }
     const { data } = await client.get(url, {
       headers: {
@@ -127,7 +127,7 @@ export const getAllOrdersByUser = async (id) => {
   const token = getToken();
 
   try {
-    const { data } = await client.get(`/order/?status=Delivered`, {
+    const { data } = await client.get(`/order/?sort=-createdAt`, {
       headers: {
         Authorization: "Bearer " + token,
       },
@@ -159,7 +159,28 @@ export const getTotalSalesBySeller = async (id, pagination) => {
     return error;
   }
 };
+export const getAllTotalSalesBySeller = async (id, period) => {
+  const token = getToken();
+  let url;
+  if (period) {
+    url = `/order/totalSalesBySeller/${id}?period=${period}`;
+  } else {
+    url = `/order/totalSalesBySeller/${id}`;
+  }
+  console.log(url);
+  try {
+    const { data } = await client.get(url, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
 
+    return data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
 export const getOrder = async (id) => {
   const token = getToken();
 
@@ -172,7 +193,22 @@ export const getOrder = async (id) => {
 
     return data;
   } catch (error) {
-    console.log(error);
-    return error;
+    return error.response.data;
+  }
+};
+export const cancelOrder = async (id) => {
+  const token = getToken();
+
+  try {
+    const { data } = await client.delete(`/order/${id}`, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.log(error.response.data);
+    return error.response.data;
   }
 };

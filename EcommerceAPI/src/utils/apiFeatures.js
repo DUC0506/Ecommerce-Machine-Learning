@@ -45,15 +45,17 @@ const apiFeatures = catchAsync(async (req, model, populate, apartment) => {
 
   // Sort
   if (req.query.sort) {
-    const sortBy = req.query.sort.split(',');
-    const obj = {};
-    const number = Number(sortBy[0]);
-
-    sortBy.forEach((field) => {
-      obj[field] = number;
+    const sortBy = req.query.sort.split(',').map((field) => {
+      if (field.startsWith('-')) {
+        return [field.substring(1), -1];
+      }
+      return [field, 1];
     });
 
-    delete obj[sortBy[0]];
+    const obj = {};
+    sortBy.forEach(([field, order]) => {
+      obj[field] = order;
+    });
 
     query = query.sort(obj);
   }

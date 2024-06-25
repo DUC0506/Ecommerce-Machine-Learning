@@ -259,7 +259,7 @@ const Feed = () => {
   const { updateNotification } = useNotification();
   const fetchNews = async () => {
     const { type, message, news } = await getNewsByApartment(
-      authInfo.profile.apartment
+      authInfo.profile.apartment._id
     );
     if (type === "Error") {
       return updateNotification("error", message);
@@ -270,7 +270,7 @@ const Feed = () => {
 
   const fetchApartment = async () => {
     const { type, message, apartment } = await getApartment(
-      authInfo.profile.apartment
+      authInfo.profile.apartment._id
     );
     if (type === "Error") return message;
     setApartment(apartment);
@@ -282,11 +282,16 @@ const Feed = () => {
   }, []);
   return (
     <div className="w-full h-screen">
-      <div className="fixed w-full z-50 top-0">
+      <div className="fixed w-full z-50 top-0 ">
         <ToastContainer />
         <Navbar />
+        <div className="md:p-2 hidden md:block  text-center w-full font-sans font-bold  bg-gradient-to-tr from-[#facc15] to-[#72c635]">
+          Be a part of a better apartment community. Receive 20% discount during
+          promotion period.
+        </div>
       </div>
-      <div className="flex w-full top-28 mt-10 relative">
+
+      <div className="grid  grid-cols-1 md:grid-cols-3 w-full top-28 md:mt-16 relative">
         {/* <div className="w-1/4 font-sans font-bold text-xl p-4 rounded  shadow-md bg-white ">
           <div className=" font-sans font-semibold text-xl flex items-center justify-center flex-wrap">
             <MdApartment className="mr-1 text-yellow-400" />
@@ -321,7 +326,8 @@ const Feed = () => {
           </div>
         </div> */}
         {/* top-28 mt-10 */}
-        <div className=" max-w-xl mx-auto relative w-1/2 ">
+
+        <div className=" w-full col-span-1 md:col-span-2 md:px-20 mt-8  ">
           {posts.map((post) => (
             <Post
               id={post._id}
@@ -336,12 +342,12 @@ const Feed = () => {
             />
           ))}
         </div>
-        {/* <div className="w-1/4 rounded py-4  px-3 shadow-md bg-white h-fit mr-2 whitespace-pre-line">
-          <div className="font-semibold font-sans flex justify-center b-yellow-400 border-b-2 border-zinc-300 ">
-            Thông tin
+        <div className=" col-span-1 hidden md:block  h-fit rounded py-4  px-3 shadow-md bg-white  mr-2 sticky  whitespace-pre-line">
+          <div className="font-bold text-lg p-4 font-sans flex justify-center b-yellow-400 border-b-2 border-zinc-300 ">
+            Apartment community information
           </div>
-          <div className="font-sans">{apartment.description}</div>
-        </div> */}
+          <div className="font-sans px-4">{apartment.description}</div>
+        </div>
       </div>
     </div>
   );

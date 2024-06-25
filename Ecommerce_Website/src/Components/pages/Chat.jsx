@@ -22,7 +22,7 @@ export default function Chat({ role, apartment }) {
 
   const fetchUsers = async () => {
     // const data = await axios.get(`${process.env.REACT_APP_ALL_USERS_ROUTE}/${currentUser._id}`);
-    let { type, users } = await getUsers(role, apartment);
+    let { type, users } = await getUsers(role, apartment._id);
     if (type === "Error") {
       users = [];
     }
@@ -45,7 +45,7 @@ export default function Chat({ role, apartment }) {
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center gap-4 bg-gray-900">
-      <div className="container h-full w-full bg-yellow-400 bg-opacity-80 flex overflow-auto">
+      <div className="container h-full w-full  bg-opacity-80 flex overflow-auto">
         {role === "seller" && apartment ? (
           <ContactsUser contacts={contacts} changeChat={handleChatChange} />
         ) : (

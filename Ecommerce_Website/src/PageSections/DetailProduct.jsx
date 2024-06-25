@@ -25,6 +25,7 @@ import { useNotification } from "../hooks";
 // import { useAuth } from "../hooks";
 import { BiSolidCategory } from "react-icons/bi";
 import { GrDeliver } from "react-icons/gr";
+import { addFavoriteProduct } from "../api/favorite";
 
 const DetailProduct = () => {
   const { updateNotification } = useNotification();
@@ -163,6 +164,17 @@ const DetailProduct = () => {
   const handleDecreaseQuantity = () => {
     if (quantityProduct > 1) {
       setQuantityProduct(quantityProduct - 1);
+    }
+  };
+  const addProductToListFavorite = async () => {
+    console.log(product._id);
+    const { type, message } = await addFavoriteProduct(product._id);
+    if (type === "Error") return updateNotification("error", message);
+    else {
+      return updateNotification(
+        "success",
+        "Item successfully list favorite added"
+      );
     }
   };
 
@@ -342,6 +354,7 @@ const DetailProduct = () => {
                       <button class="group transition-all duration-500 p-0.5">
                         <svg
                           width="60"
+                          onClick={addProductToListFavorite}
                           height="60"
                           viewBox="0 0 60 60"
                           fill="none"

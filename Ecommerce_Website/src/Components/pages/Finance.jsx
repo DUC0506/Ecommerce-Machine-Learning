@@ -11,6 +11,7 @@ import card from "../../assets/card.png";
 import pay from "../../assets/payout.png";
 import { getTotalExpenses } from "../../api/expense";
 import NoItem from "../admin/shared/NoItem";
+import { updateBankOfSeller } from "../../api/user";
 
 export default function Finance() {
   const [recentOrders, setRecentOrders] = useState([]);
@@ -89,7 +90,9 @@ export default function Finance() {
     }-${date.getFullYear()}`;
     return formattedDate;
   };
-  const handleAddCreditCard = () => {
+  const handleAddCreditCard = async (data) => {
+    console.log(data);
+    // const { type, message } = await updateBankOfSeller(data);
     setOpenCardModal(false);
   };
   const fetchTotalExpenses = async () => {
@@ -98,6 +101,7 @@ export default function Finance() {
       setTotalExpense(totalExpense);
     }
   };
+  const handleCastOut = () => {};
 
   useEffect(() => {
     fetchRecentOrders();
@@ -105,7 +109,7 @@ export default function Finance() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pagination]);
   return (
-    <div className="bg-white">
+    <div className="bg-white w-full">
       {recentOrders.length > 0 && recentOrders ? (
         <div className="w-full ">
           <div className="p-4">
@@ -120,8 +124,8 @@ export default function Finance() {
               sellers in business strategy.
             </h1>
           </div>
-          <div className="flex w-full justify-between overflow-x-auto shadow-md rounded  ">
-            <div className=" rounded bg-white w-1/2 p-8 m-2 border">
+          <div className="grid grid-cols-1 overflow-x-hidden md:grid-cols-2  w-full justify-between  shadow-md rounded  ">
+            <div className=" rounded bg-white w-full p-8 m-2 border">
               <p className="font-sans font-medium text-sm flex items-center">
                 Updated data on date{" "}
                 <p className=" ml-2   bg-yellow-400 rounded p-1">
@@ -134,16 +138,19 @@ export default function Finance() {
               </div>
               <div className="font-sans font-medium text-xl flex items-center justify-between mt-2">
                 <div className="flex items-center border px-4 py-2 rounded">
-                  {totalOrderPriceAll * 0.98 - totalExpense}{" "}
+                  {totalOrderPriceAll * 0.97}{" "}
                   <TbCurrencyDong className="text-yellow-400 text-2xl" />{" "}
                 </div>
-                <div className="font-sans flex font-medium text-lg bg-yellow-400 hover:bg-yellow-500  py-1 px-4 rounded justify-center items-center cursor-pointer">
+                <div
+                  onClick={handleCastOut}
+                  className="font-sans flex font-medium text-lg bg-yellow-400 hover:bg-yellow-500  py-1 px-4 rounded justify-center items-center cursor-pointer"
+                >
                   <img src={pay} alt="card" className="w-8" />
                   Cash out
                 </div>
               </div>
             </div>
-            <div className="rounded bg-white w-1/2 p-8 m-2 border">
+            <div className="rounded bg-white w-full p-8 m-2 border">
               <div className="font-sans font-medium text-xl mb-2 ">
                 Bank account
               </div>
@@ -303,7 +310,7 @@ export default function Finance() {
                     </td>
                     <td class="px-6 py-4 font-sans ">
                       <div className="flex items-center font-sans">
-                        {order.totalPrice * 0.98}
+                        {order.totalPrice * 0.97}
                         <TbCurrencyDong />
                       </div>
                     </td>
@@ -348,7 +355,7 @@ export default function Finance() {
           <div
             className={
               hideModal
-                ? "absolute bg-white w-1/2 h-auto rounded top-1/3 right-10 p-6 cursor-pointer z-10 border-2 border-yellow-400 "
+                ? "absolute bg-gradient-to-tr from-[#facc15] to-[#5FC3E4] shadow-md w-1/2 h-auto rounded top-1/3 right-10 p-6 cursor-pointer z-10 "
                 : "hidden"
             }
           >
@@ -357,7 +364,7 @@ export default function Finance() {
                 Chi tiết quyết toán
               </h1>
               <ImCancelCircle
-                className="text-yellow-400 text-xl "
+                className="text-red-500 text-xl "
                 onClick={() => setHideModal(false)}
               />
             </div>
@@ -390,7 +397,7 @@ export default function Finance() {
               <div className="font-sans font-medium text-sm">
                 <div className="mt-2 font-sans">Phí</div>
                 <div className="mt-2 font-sans flex items-center">
-                  {order.totalPrice * 0.02}
+                  {order.totalPrice * 0.03}
                   <TbCurrencyDong />{" "}
                 </div>
               </div>
@@ -399,7 +406,7 @@ export default function Finance() {
                   Quyết toán
                 </div>
                 <div className="mt-2 font-sans flex items-center">
-                  {order.totalPrice * 0.98}
+                  {order.totalPrice * 0.97}
                   <TbCurrencyDong />{" "}
                 </div>
               </div>
@@ -426,7 +433,7 @@ export default function Finance() {
                   Phí hoa hồng cho nền tảng
                 </div>
                 <div className=" ml-2 mt-2 font-sans flex items-center">
-                  {order.totalPrice * 0.012}
+                  {order.totalPrice * 0.022}
                   <TbCurrencyDong />{" "}
                 </div>
               </div>
@@ -442,7 +449,7 @@ export default function Finance() {
               <div className="flex justify-between  w-full font-sans font-semibold text-xl border-b-2 border-yellow-400 pb-4">
                 <div className="mt-2 font-sans">Tổng tiền quyết toán</div>
                 <div className="mt-2 font-sans flex items-center">
-                  {order.totalPrice * 0.98}
+                  {order.totalPrice * 0.97}
                   <TbCurrencyDong />{" "}
                 </div>
               </div>

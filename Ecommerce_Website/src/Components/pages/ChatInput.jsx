@@ -27,7 +27,7 @@ export default function ChatInput({ handleSendMsg }) {
   };
 
   return (
-    <div className="grid grid-cols-chatinput bg-yellow-400 p-4 rounded-xl h-full mr-2">
+    <div className="grid grid-cols-chatinput  bg-gradient-to-tr from-[#facc15] to-[#5FC3E4] p-4 rounded-xl h-full mr-2">
       <div className="flex items-center justify-center  w-full h-full">
         <div className="relative w-full h-full">
           <BsEmojiSmileFill
@@ -47,7 +47,7 @@ export default function ChatInput({ handleSendMsg }) {
           placeholder="Nhập tin nhắn"
           className="bg-white text-current rounded-full py-2 px-4 focus:outline-none w-full font-sans"
           onChange={(e) => setMsg(e.target.value)}
-          onClick={()=>setShowEmojiPicker(false)}
+          onClick={() => setShowEmojiPicker(false)}
           value={msg}
         />
         <button type="submit" className="ml-4">

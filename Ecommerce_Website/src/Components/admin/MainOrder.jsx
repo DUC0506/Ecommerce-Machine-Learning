@@ -43,11 +43,19 @@ import {
   PaginationContent,
   PaginationItem,
 } from "../ui/pagination";
-import { getTotalOrders, orderStatus } from "../../api/order";
+import {
+  getAllTotalSalesBySeller,
+  getTotalOrders,
+  orderStatus,
+} from "../../api/order";
 import { useNotification } from "../../hooks";
 import NoItem from "./shared/NoItem";
 export default function MainOrder({ sellerId }) {
   const [recentOrders, setRecentOrders] = useState([]);
+  const [totalRevenue, setTotalRevenue] = useState({
+    totalRevenue: 0,
+    deliveredOrders: 0,
+  });
   const [orderInfo, setOrderInfo] = useState(null);
   const [indexOrder, setIndexOrder] = useState(null);
   const { updateNotification } = useNotification();
@@ -55,16 +63,21 @@ export default function MainOrder({ sellerId }) {
   const fecthRecentOrders = async () => {
     const { type, orders } = await getTotalOrders(10, sellerId, pagination);
     if (type === "Success") {
-      console.log(orders);
       setRecentOrders(orders);
       return orders; // Trả về orders
     }
     return [];
   };
-  let totalPrice = recentOrders.reduce((total, order) => {
-    return total + order.totalPrice;
-  }, 0);
-  console.log(totalPrice);
+  const fetchRecentOrders = async () => {
+    const { type, totalRevenue, deliveredOrders } =
+      await getAllTotalSalesBySeller(sellerId);
+    if (type === "Success") {
+      setTotalRevenue({
+        totalRevenue,
+        deliveredOrders,
+      });
+    }
+  };
 
   const handleStatusChange = async (id, newStatus) => {
     console.log(newStatus);
@@ -98,6 +111,7 @@ export default function MainOrder({ sellerId }) {
   };
   useEffect(() => {
     fecthRecentOrders();
+    fetchRecentOrders();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pagination]);
   return (
@@ -130,12 +144,12 @@ export default function MainOrder({ sellerId }) {
               <CardHeader className="pb-2">
                 <CardDescription>Total Order</CardDescription>
                 <CardTitle className="text-4xl text-yellow-500">
-                  {recentOrders.length}
+                  {totalRevenue.deliveredOrders.length}
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-xs text-muted-foreground">
-                  {recentOrders.length > 0 ? "+25% from last week" : ""}
+                <div className="text-xl text-muted-foreground">
+                  {totalRevenue.deliveredOrders.length > 0 ? "Delivered" : ""}
                 </div>
               </CardContent>
               <CardFooter></CardFooter>
@@ -144,12 +158,12 @@ export default function MainOrder({ sellerId }) {
               <CardHeader className="pb-1 ">
                 <CardDescription>Amount</CardDescription>
                 <CardTitle className="text-2xl text-yellow-500 text-wrap">
-                  {totalPrice} đ
+                  {totalRevenue.totalRevenue} đ
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-xs text-muted-foreground">
-                  {recentOrders.length > 0 ? " +10% from last month" : ""}
+                  {totalRevenue.totalRevenue > 0 ? " +10% from last month" : ""}
                 </div>
               </CardContent>
               <CardFooter></CardFooter>
@@ -178,13 +192,17 @@ export default function MainOrder({ sellerId }) {
                     <DropdownMenuLabel>Filter by</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuCheckboxItem checked>
-                      Fulfilled
+                      Not process
                     </DropdownMenuCheckboxItem>
                     <DropdownMenuCheckboxItem>
-                      Declined
+                      Processing
+                    </DropdownMenuCheckboxItem>
+                    <DropdownMenuCheckboxItem>Shipped</DropdownMenuCheckboxItem>
+                    <DropdownMenuCheckboxItem>
+                      Delivered
                     </DropdownMenuCheckboxItem>
                     <DropdownMenuCheckboxItem>
-                      Refunded
+                      Cancelled
                     </DropdownMenuCheckboxItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -252,7 +270,7 @@ export default function MainOrder({ sellerId }) {
                             </TableCell>
                             <TableCell className="hidden sm:table-cell">
                               <Badge
-                                className="text-xs bg-yellow-500"
+                                className="text-xs bg-yellow-500 cursor-pointer"
                                 variant="secondary"
                               >
                                 {order.status}

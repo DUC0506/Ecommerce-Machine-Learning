@@ -86,11 +86,13 @@ const UpdateProductModal = ({
   };
 
   const handleSelectChange = (name) => (value) => {
+    console.log(name, value);
     setEditedProduct((prevData) => ({ ...prevData, [name]: value }));
   };
   console.log(editedProduct);
   const handleUpdate = () => {
     onUpdateProduct(editedProduct);
+
     onRequestClose();
   };
 
@@ -247,6 +249,7 @@ const UpdateProductModal = ({
     // }
     setEditedProduct({ ...product });
     fetchCategory();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   // return (
@@ -718,6 +721,7 @@ const UpdateProductModal = ({
                           className="font-sans"
                           aria-label="Select category"
                           value={editedProduct.category._id}
+                          onValueChange={handleSelectChange("category")}
                         >
                           <SelectValue placeholder="Select category" />
                         </SelectTrigger>

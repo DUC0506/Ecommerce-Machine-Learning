@@ -35,6 +35,7 @@ export const getPredict = async (id) => {
 };
 export const addPredict = async (predict) => {
   const token = getToken();
+  console.log(predict);
 
   try {
     const { data } = await client.post(`/predict/`, predict, {

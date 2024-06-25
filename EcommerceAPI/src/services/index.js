@@ -25,7 +25,8 @@ import {
   deleteUser,
   deleteMyAccount,
   querySellers,
-  updateUserToSeller
+  updateUserToSeller,
+  addBankToUser
 } from './user.service';
 
 import {
@@ -189,7 +190,8 @@ const userService = {
   deleteUser,
   deleteMyAccount,
   querySellers,
-  updateUserToSeller
+  updateUserToSeller,
+  addBankToUser
 };
 
 const categoryService = {

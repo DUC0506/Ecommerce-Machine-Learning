@@ -94,15 +94,12 @@ export default function ManagerProduct({ number, sellerId }) {
           <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
             <Card className="sm:col-span-2" x-chunk="dashboard-05-chunk-0">
               <CardHeader className="pb-3">
-                <CardTitle>Your Orders</CardTitle>
+                <CardTitle>Seller Products</CardTitle>
                 <CardDescription className="max-w-lg text-balance leading-relaxed">
                   Introducing Our Dynamic Orders Dashboard for Seamless
                   Management and Insightful Analysis.
                 </CardDescription>
               </CardHeader>
-              <CardFooter>
-                <Button>Create New Order</Button>
-              </CardFooter>
             </Card>
             <Card x-chunk="dashboard-05-chunk-1">
               <CardHeader className="pb-2">
@@ -179,9 +176,9 @@ export default function ManagerProduct({ number, sellerId }) {
             <TabsContent value="week">
               <Card x-chunk="dashboard-05-chunk-3">
                 <CardHeader className="px-7">
-                  <CardTitle>Orders</CardTitle>
+                  <CardTitle>Products</CardTitle>
                   <CardDescription>
-                    Recent orders from your store.
+                    Recent products from your seller.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -295,7 +292,7 @@ export default function ManagerProduct({ number, sellerId }) {
               </CardHeader>
               <CardContent className="p-6 text-sm">
                 <div className="grid gap-3">
-                  <div className="font-semibold">Order Details</div>
+                  <div className="font-semibold">Product Details</div>
                   <ul className="grid gap-3 font-sans">
                     {/* {orderInfo
                       ? orderInfo.products.map((product) => (

@@ -1,8 +1,33 @@
-import React from "react";
+import { useNotification } from "../../../hooks";
+import React, { useState } from "react";
 
 export default function CardCredit({ addCreditCard }) {
+  const { updateNotification } = useNotification();
+  const [card, setCard] = useState({
+    cardNumber: "",
+    cardExpiration: "",
+    code: "",
+  });
   const handleSubmit = () => {
-    addCreditCard();
+    if (
+      card.cardNumber === "" ||
+      card.cardExpiration === "" ||
+      card.code === ""
+    )
+      return updateNotification("warning", "Please fill all fields");
+    addCreditCard(card);
+    setCard({
+      cardNumber: "",
+      cardExpiration: "",
+      code: "",
+    });
+  };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCard({
+      ...card,
+      [name]: value,
+    });
   };
   return (
     <form class={`max-w-sm `}>
@@ -13,6 +38,9 @@ export default function CardCredit({ addCreditCard }) {
         <input
           type="text"
           id="card-number-input"
+          name="cardNumber"
+          value={card.cardNumber}
+          onChange={handleChange}
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-yellow-400 focus:border-blue-500 block w-full pe-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="4242 4242 4242 4242"
           pattern="^4[0-9]{12}(?:[0-9]{3})?$"
@@ -50,6 +78,9 @@ export default function CardCredit({ addCreditCard }) {
           <input
             datepicker
             datepicker-format="mm/yy"
+            value={card.cardExpiration}
+            onChange={handleChange}
+            name="cardExpiration"
             id="card-expiration-input"
             type="text"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-yellow-400 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -63,6 +94,9 @@ export default function CardCredit({ addCreditCard }) {
           </label>
           <input
             type="number"
+            name="code"
+            value={card.code}
+            onChange={handleChange}
             id="cvv-input"
             aria-describedby="helper-text-explanation"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-yellow-400 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -72,7 +106,7 @@ export default function CardCredit({ addCreditCard }) {
         </div>
       </div>
       <button
-        type="submit"
+        type="button"
         onClick={handleSubmit}
         class="text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
       >
