@@ -11,7 +11,7 @@ import APIFeatures from '../utils/apiFeatures';
 import config from '../config/config';
 
 // Models
-import { Order, Cart, Product, User } from '../models/index';
+import { Order, Cart, Product, User, Transaction } from '../models/index';
 import { sendEmailSeller, textNewOrder } from '../utils/sendEmail';
 
 const stripe = STRIPE_SDK(config.stripe.secret_key);
@@ -236,7 +236,6 @@ export const createOrderBySeller = catchAsync(async (body, user) => {
       ...item,
       size: item.selectedSize.size
     }));
-    console.log(itemsWithSize);
 
     const order = await Order.create({
       products: itemsWithSize,
@@ -450,7 +449,22 @@ export const orderStatus = catchAsync(async (status, id) => {
   }
 
   const order = await Order.findById(id);
-
+  if (status === 'Delivered') {
+    const seller = await User.findById(order.seller);
+    if (seller) {
+      seller.balance += order.totalPrice;
+      await seller.save();
+    }
+    const transaction = new Transaction({
+      user: seller._id,
+      amount: order.totalPrice,
+      order: order._id,
+      status: 'completed',
+      type: 'deposit',
+      date: Date.now()
+    });
+    await transaction.save();
+  }
   // 3) Check if order doesn't exist
   if (!order) {
     return {
@@ -515,9 +529,27 @@ export const queryOrders = catchAsync(async (req) => {
   } else {
     req.query.user = req.user._id;
   }
+  const populateQuery = [
+    {
+      path: 'user',
+      select: 'username phone email',
+      populate: {
+        path: 'apartment',
+        select: 'name' // Chọn trường 'name' của 'apartment'
+      }
+    },
+    {
+      path: 'seller',
+      select: 'username phone email',
+      populate: {
+        path: 'apartment',
+        select: 'name' // Chọn trường 'name' của 'apartment'
+      }
+    }
+  ];
 
   // 1) Get all orders
-  const orders = await APIFeatures(req, Order);
+  const orders = await APIFeatures(req, Order, populateQuery);
 
   // 2) Check of orders doesn't exist
   if (!orders) {

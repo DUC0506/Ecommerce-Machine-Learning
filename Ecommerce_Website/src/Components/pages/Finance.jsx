@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useAuth } from "../../hooks";
+import { useAuth, useNotification } from "../../hooks";
 import { getOrder, getTotalSalesBySeller } from "../../api/order";
 
 import { TbCurrencyDong } from "react-icons/tb";
@@ -9,34 +9,25 @@ import { BsFillPlusSquareFill } from "react-icons/bs";
 import CardCredit from "../admin/shared/CardCredit";
 import card from "../../assets/card.png";
 import pay from "../../assets/payout.png";
-import { getTotalExpenses } from "../../api/expense";
+
 import NoItem from "../admin/shared/NoItem";
-import { updateBankOfSeller } from "../../api/user";
+import { getUser, updateBankOfSeller } from "../../api/user";
+
+import WithdrawFunds from "./WithDraw";
 
 export default function Finance() {
   const [recentOrders, setRecentOrders] = useState([]);
   const [hideModal, setHideModal] = useState(false);
   const [openCardModal, setOpenCardModal] = useState(false);
   const [order, setOrder] = useState({});
-  const [totalExpense, setTotalExpense] = useState(0);
+  const [user, setUser] = useState();
   const [pagination, setPagination] = useState(1);
+  const [openWithdrawModal, setOpenWithdrawModal] = useState(false);
+
   const { authInfo } = useAuth();
   const sellerId = authInfo.profile._id;
+  const { updateNotification } = useNotification();
 
-  //   const option1 = [
-  //     { value: "Doanh thu thấp đến cao" },
-  //     { value: "Doanh thu  cao đến thấp" },
-  //   ];
-  //   const option2 = [
-  //     { value: "Khoảng thời gian" },
-  //     { value: "1 tuần " },
-  //     { value: "1 tháng" },
-  //   ];
-  //   const option3 = [
-  //     { value: "Ngày đặt hàng" },
-  //     { value: "Từ thấp đến cao" },
-  //     { value: "Từ cao đến thấp" },
-  //   ];
   const fetchRecentOrders = async () => {
     const { type, deliveredOrders } = await getTotalSalesBySeller(
       sellerId,
@@ -63,26 +54,9 @@ export default function Finance() {
     setPagination(pagination + 1);
   };
 
-  // const handleStatusChange = async (id, newStatus) => {
-  //   console.log(newStatus);
-  //   const { type, message } = await orderStatus(id, newStatus);
-  //   if (type === "error") return message;
-  //   console.log(message);
-  //   fetchRecentOrders();
-  // };
-
   let time = new Date();
   // Tính tổng totalPrice của tất cả các đơn hàng
-  console.log(recentOrders);
-  let totalOrderPriceAll;
-  if (recentOrders.length > 0) {
-    totalOrderPriceAll = recentOrders.reduce(
-      (total, order) => total + order.totalPrice,
-      0
-    );
-  } else {
-    totalOrderPriceAll = 0;
-  }
+
   const convertISOToDateFormat = (isoDateString, settlement) => {
     const date = new Date(isoDateString);
     const formattedDate = `${date.getDate() + (settlement ? 1 : 0)}-${
@@ -91,22 +65,28 @@ export default function Finance() {
     return formattedDate;
   };
   const handleAddCreditCard = async (data) => {
-    console.log(data);
-    // const { type, message } = await updateBankOfSeller(data);
-    setOpenCardModal(false);
+    const { type, message } = await updateBankOfSeller(data);
+    if (type === "error") return updateNotification("error", message);
+    updateNotification("success", "Update bank account successfully");
   };
-  const fetchTotalExpenses = async () => {
-    const { type, totalExpense } = await getTotalExpenses();
+  const fetchBankAccount = async () => {
+    const { type, user } = await getUser(authInfo.profile._id);
     if (type === "Success") {
-      setTotalExpense(totalExpense);
+      setUser(user);
     }
   };
-  const handleCastOut = () => {};
+  const handleCastOut = () => {
+    setOpenWithdrawModal(true);
+  };
+  const handleCloseModal = () => {
+    fetchBankAccount();
+    setOpenWithdrawModal(false);
+  };
 
   useEffect(() => {
     fetchRecentOrders();
-    fetchTotalExpenses();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    fetchBankAccount();
   }, [pagination]);
   return (
     <div className="bg-white w-full">
@@ -124,6 +104,12 @@ export default function Finance() {
               sellers in business strategy.
             </h1>
           </div>
+          <WithdrawFunds
+            isOpen={openWithdrawModal}
+            isClose={handleCloseModal}
+            user={user}
+          />
+
           <div className="grid grid-cols-1 overflow-x-hidden md:grid-cols-2  w-full justify-between  shadow-md rounded  ">
             <div className=" rounded bg-white w-full p-8 m-2 border">
               <p className="font-sans font-medium text-sm flex items-center">
@@ -138,7 +124,8 @@ export default function Finance() {
               </div>
               <div className="font-sans font-medium text-xl flex items-center justify-between mt-2">
                 <div className="flex items-center border px-4 py-2 rounded">
-                  {totalOrderPriceAll * 0.97}{" "}
+                  {/* {totalOrderPriceAll * 0.97}{" "} */}
+                  {user.balance}
                   <TbCurrencyDong className="text-yellow-400 text-2xl" />{" "}
                 </div>
                 <div
@@ -151,18 +138,21 @@ export default function Finance() {
               </div>
             </div>
             <div className="rounded bg-white w-full p-8 m-2 border">
-              <div className="font-sans font-medium text-xl mb-2 ">
-                Bank account
-              </div>
               <div className="font-sans font-normal text-normal flex items-center mt-2">
-                {" "}
-                <img src={card} alt="card" className="w-8" /> Bank account
-                number{" "}
+                <div className="font-sans font-medium text-xl mb-2 ">
+                  Bank account
+                </div>
                 <BsFillPlusSquareFill
                   className="text-yellow-500 text-xl ml-2 cursor-pointer"
                   onClick={() => setOpenCardModal(true)}
                 />
               </div>
+              {user?.cardBank.map((account) => (
+                <span className="flex  items-center rounded-full border font-semibold border-yellow-400 w-fit px-2">
+                  <img src={card} alt="card" className="w-8 mr-2 " />
+                  {account.bankNumber}
+                </span>
+              ))}
               <div
                 className={`${
                   openCardModal
@@ -170,7 +160,10 @@ export default function Finance() {
                     : "hidden"
                 }`}
               >
-                <CardCredit addCreditCard={handleAddCreditCard} />
+                <CardCredit
+                  addCreditCard={handleAddCreditCard}
+                  isClose={() => setOpenCardModal(false)}
+                />
               </div>
             </div>
           </div>

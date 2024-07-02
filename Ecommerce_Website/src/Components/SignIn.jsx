@@ -27,7 +27,12 @@ const Signin = () => {
     }
     handleLogin(userInfo.email, userInfo.password);
   };
-
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault(); // Prevent default form submission behavior
+      handleSubmit();
+    }
+  };
   const handleNavigator = () => {
     navigate(`/signUp`);
   };
@@ -66,6 +71,7 @@ const Signin = () => {
                 placeholder="Email"
                 value={userInfo.email}
                 onChange={handleChange}
+                onKeyPress={handleKeyPress}
                 required
               />
             </div>
@@ -78,6 +84,7 @@ const Signin = () => {
                 placeholder=" Password"
                 value={userInfo.password}
                 onChange={handleChange}
+                onKeyPress={handleKeyPress}
                 required
               />
             </div>

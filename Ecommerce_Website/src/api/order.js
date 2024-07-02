@@ -109,7 +109,7 @@ export const getAllOrders = async (id) => {
   const token = getToken();
 
   try {
-    const url = `/order?id=${id}`;
+    const url = `/order`;
 
     const { data } = await client.get(url, {
       headers: {

@@ -3,6 +3,20 @@ import { useNotification } from "../hooks";
 const useValidation = () => {
   const { updateNotification } = useNotification();
   const validateFields = (userInfo) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!userInfo.email) {
+      updateNotification("error", "Email not found");
+      return false;
+    }
+    if (!emailRegex.test(userInfo.email)) {
+      updateNotification("error", "Invalid email format");
+      return false;
+    }
+
+    if (!userInfo.apartment || userInfo.apartment === "") {
+      updateNotification("error", "Apartment not found");
+      return false;
+    }
     if (!userInfo.name) {
       updateNotification("error", "Name not found");
       return false;
@@ -11,10 +25,7 @@ const useValidation = () => {
       updateNotification("error", "Username not found");
       return false;
     }
-    if (!userInfo.email) {
-      updateNotification("error", "Email not found");
-      return false;
-    }
+
     if (!userInfo.password) {
       updateNotification("error", "Password not found");
       return false;
@@ -49,9 +60,13 @@ const useValidation = () => {
     return true;
   };
   const validateSignIn = (userInfo) => {
-    console.log(userInfo);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!userInfo.email) {
       updateNotification("error", "Email not found");
+      return false;
+    }
+    if (!emailRegex.test(userInfo.email)) {
+      updateNotification("error", "Invalid email format");
       return false;
     }
     if (!userInfo.password) {
@@ -161,13 +176,36 @@ const useValidation = () => {
     // Additional validation checks can be added here
     return true;
   };
+  const validateUser = (userData) => {
+    if (!userData.buildingName || userData.buildingName === "") {
+      updateNotification("error", " Building name not found");
+      return false;
+    }
+    if (!userData.numberFloor || userData.numberFloor === "") {
+      updateNotification("error", "Number of floor not found");
+      return false;
+    }
+    if (!userData.numberApartment || userData.numberApartment === "") {
+      updateNotification("error", "Number of apartment not found");
+      return false;
+    }
 
+    if (!userData.phone || userData.phone === "") {
+      updateNotification("error", "Phone not found");
+      return false;
+    }
+    if (!userData.agreed) {
+      updateNotification("error", "Agreed  not accepted");
+      return false;
+    }
+  };
   return {
     validateFields,
     validateSignIn,
     validateProduct,
     validateExpense,
     validateNews,
+    validateUser,
   };
 };
 

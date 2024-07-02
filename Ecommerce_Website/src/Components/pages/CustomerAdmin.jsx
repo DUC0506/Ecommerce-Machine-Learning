@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { MdDeleteForever, MdEdit } from "react-icons/md";
-import { IoSearchOutline } from "react-icons/io5";
+import { IoPersonAdd } from "react-icons/io5";
 import {
   createUser,
   getUser,
@@ -63,177 +63,120 @@ const CustomerAdmin = () => {
   const handleNavigate = (id) => {
     navigate(`history-transactions/${id}`);
   };
+  const handleSellerProduct = (id, role) => {
+    if (role === "seller") {
+      navigate(`/dashboard/sellers/seller-products/${id}`);
+    }
+  };
 
   return (
-    <div className="h-full ">
-      <div className=" mx-auto p-8 relative w-full h-full">
-        <div className="flex justify-between mb-4">
-          <h1 className="text-3xl font-medium font-sans">Quản lý người dùng</h1>
+    <div className="h-full   bg-white">
+      <div className=" mx-auto p-8  w-full h-full">
+        <div className="flex justify-between mb-4 items-center ">
+          <div>
+            <h1 class="mb-4 text-xl font-bold leading-none tracking-tight text-gray-900 md:text-2xl lg:text-3xl dark:text-white">
+              Track your{" "}
+              <span class="text-yellow-500 dark:text-blue-500">user's</span>{" "}
+            </h1>
+          </div>
           <button
             onClick={() => setAddUserModalOpen(true)}
-            className="bg-yellow-400 text-white px-4 py-2 rounded font-sans font-medium"
+            className="bg-yellow-400 text-white gap-2 px-4 py-2 rounded font-sans font-medium flex items-center"
           >
-            Thêm người dùng
+            <IoPersonAdd className="text-xl" /> Add user
           </button>
         </div>
-        <div>
-          <div className="flex items-center space-x-4  ">
-            <span className="font-sans  font-medium">Tất cả</span>
-            <span className="font-sans  font-medium text-yellow-400 underline  underline-offset-8   ">
-              Đang hoạt động
-            </span>
-            <span className="font-sans  font-medium">Bị hủy bỏ</span>
-            <span className="font-sans  font-medium">Đang xét duyệt</span>
-            <span className="font-sans  font-medium">Bị đình chỉ</span>
-            <span className="font-sans  font-medium">Nháp</span>
-            <span className="font-sans  font-medium">Đã xóa</span>
-          </div>
-        </div>
-
-        <div className="mb-4 mt-4 font-sans border rounded flex flex-col md:flex-row md:justify-between pt-8 pb-8 pl-4 pr-4 bg-gray-200">
-          <div className="w-full  mb-4 md:mb-0 mr-2">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Tìm kiếm..."
-                className="w-full px-4 py-2 border rounded focus:outline-none hover:border-yellow-500"
-              />
-              <span className="absolute right-3 top-3 text-gray-400 cursor-pointer">
-                <IoSearchOutline />
-              </span>
-            </div>
-          </div>
-          <div className="w-full font-sans  md:w-auto flex space-x-4 ">
-            <select className="w-full md:w-auto px-4 py-2 border rounded  cursor-pointer focus:outline-none hover:border-yellow-500 ">
-              <option className="font-sans py-4  ">
-                Số lượng tòa thấp đến cao
-              </option>
-              <option className="font-sans py-2 ">
-                Số lượng tòa cao đến thấp
-              </option>
-            </select>
-            <select className="w-full font-sans md:w-auto px-4 py-2 border rounded cursor-pointer focus:outline-none hover:border-yellow-500">
-              <option className="font-sans  ">Địa chỉ</option>
-
-              {/* Thêm các lựa chọn loại sản phẩm vào đây */}
-            </select>
-            <select className="w-full font-sans md:w-auto px-4 py-2 border rounded cursor-pointer focus:outline-none hover:border-yellow-500">
-              <option className="font-sans p-4 hover:bg-yellow-500">
-                Trạng thái
-              </option>
-              <option className="font-sans py-2  ">Cũ</option>
-              <option className="font-sans py-2 ">Mới</option>
-              {/* Thêm các lựa chọn loại sản phẩm vào đây */}
-            </select>
-          </div>
-        </div>
         <div className="w-full">
-          {/* Dòng tiêu đề */}
-          <div className="flex bg-gray-200 mb-2 ">
-            <div className="w-1/4 py-2 px-4 font-sans font-medium justify-center flex ">
-              User
-            </div>
-            <div className="w-1/6 py-2 px-4 font-sans font-medium justify-center flex">
-              User name
-            </div>
-            <div className="w-1/6 py-2 px-4 font-sans font-medium justify-center flex">
-              Email
-            </div>
-            <div className="w-1/6 py-2 px-4 font-sans font-medium justify-center flex">
-              role
-            </div>
-            <div className="w-1/6 py-2 px-4 font-sans font-medium justify-center flex">
-              Chung cư
-            </div>
+          <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th scope="col" class="px-6 py-3">
+                  Name
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  User name
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Email
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Role
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Apartment
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {/* Các dòng sản phẩm */}
+              {users.map((user, index) => (
+                <tr
+                  key={index}
+                  class="bg-white border-b cursor-pointer  hover:bg-gray-50 "
+                  onClick={() => handleSellerProduct(user._id, user.role)}
+                >
+                  <th
+                    scope="row"
+                    class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    <div class="ps-3">
+                      <div class="text-base font-semibold flex  justify-center items-center">
+                        <img
+                          src={user.profileImage}
+                          alt={user.name}
+                          className="w-10 h-10 object-cover rounded-full  font-sans "
+                        />
+                        <span className=" ml-1 font-sans font-medium ">
+                          {user.username}
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                  <td class="px-6 py-4 font-sans font-medium  ">
+                    {" "}
+                    {user.name}
+                  </td>
+                  <td class="px-6 py-4 font-sans font-medium"> {user.email}</td>
+                  <td class="px-6 py-4 font-sans font-medium"> {user.role}</td>
+                  <td class="px-6 py-4 font-sans font-medium">
+                    <div class="flex items-center">{user?.apartment?.name}</div>
+                  </td>
+                  <td class="px-6 py-4">
+                    <button
+                      onClick={() => handleDeleteUser(user._id)}
+                      className="bg-yellow-400 text-white px-2 mr-0.5 py-1 font-sans font-medium rounded"
+                    >
+                      <MdDeleteForever />
+                    </button>
+                    <button
+                      onClick={() => handleInfo(user._id)}
+                      className="bg-yellow-400 text-white px-2 py-1 font-sans font-medium rounded"
+                    >
+                      <MdEdit />
+                    </button>
+                  </td>
+                </tr>
+              ))}
 
-            <div className="w-1/6 py-2 px-4 font-sans font-medium ">
-              Hành động
-            </div>
-          </div>
-
-          {/* Các dòng sản phẩm */}
-          {users.map((user, index) => (
-            <div
-              key={user._id}
-              className={`flex rounded cursor-pointer bg-white ${
-                index !== 0 ? "mt-2" : ""
-              }`}
-            >
-              <div
-                onClick={() => {
-                  handleNavigate(user._id);
-                }}
-                className="w-1/4  p-4 flex items-center space-x-4 cursor-pointer"
-              >
-                <img
-                  src={user.profileImage}
-                  alt={user.name}
-                  className="w-10 h-10 object-cover  font-sans "
+              <AddUserModal
+                isOpen={isAddUserModalOpen}
+                onRequestClose={() => setAddUserModalOpen(false)}
+                onAddUser={handleAddUser}
+              />
+              {user && (
+                <UpdateUserModal
+                  isOpen={isUpdateUserModalOpen}
+                  onRequestClose={() => setUpdateUserModalOpen(false)}
+                  user={{ ...user }}
+                  onUpdateUser={handleUpdateUser}
                 />
-                <span className=" font-sans font-medium ">{user.name}</span>
-              </div>
-              <div
-                onClick={() => {
-                  handleNavigate(user._id);
-                }}
-                className="w-1/6  font-sans font-medium justify-center flex  p-4 items-center"
-              >
-                {user.username}
-              </div>
-              <div
-                onClick={() => {
-                  handleNavigate(user._id);
-                }}
-                className="w-1/6  font-sans font-medium justify-center flex  p-4 items-center"
-              >
-                {user.email}
-              </div>
-              <div
-                onClick={() => {
-                  handleNavigate(user._id);
-                }}
-                className="w-1/6  font-sans font-medium justify-center flex items-center  p-4"
-              >
-                {user.role}{" "}
-              </div>
-              <div
-                onClick={() => {
-                  handleNavigate(user._id);
-                }}
-                className="w-1/6  font-sans font-medium justify-center flex items-center  p-4"
-              >
-                {user?.apartment?.name}{" "}
-              </div>
-              <div className="w-1/6  font-sans font-medium  p-4 md:flex items-center">
-                <button
-                  onClick={() => handleDeleteUser(user._id)}
-                  className="bg-yellow-400 text-white px-2 mr-0.5 py-1 font-sans font-medium rounded"
-                >
-                  <MdDeleteForever />
-                </button>
-                <button
-                  onClick={() => handleInfo(user._id)}
-                  className="bg-yellow-400 text-white px-2 py-1 font-sans font-medium rounded"
-                >
-                  <MdEdit />
-                </button>
-              </div>
-            </div>
-          ))}
+              )}
+            </tbody>
+          </table>
         </div>
-        <AddUserModal
-          isOpen={isAddUserModalOpen}
-          onRequestClose={() => setAddUserModalOpen(false)}
-          onAddUser={handleAddUser}
-        />
-        {user && (
-          <UpdateUserModal
-            isOpen={isUpdateUserModalOpen}
-            onRequestClose={() => setUpdateUserModalOpen(false)}
-            user={{ ...user }}
-            onUpdateUser={handleUpdateUser}
-          />
-        )}
       </div>
     </div>
   );

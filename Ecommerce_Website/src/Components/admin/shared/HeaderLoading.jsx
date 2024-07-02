@@ -5,8 +5,7 @@ export default function HeaderLoading() {
   return (
     <div className="px-4">
       <h1 class="mb-4 flex sm:px-4 text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-white">
-        We use AI to predict products{" "}
-        <IoArrowRedo className="ml-1  text-yellow-400" />
+        We use AI to predict <IoArrowRedo className="ml-1  text-yellow-400" />
       </h1>
       <div className="flex items-center">
         <div className="w-full">

@@ -1,7 +1,7 @@
 import catchAsync from '../utils/catchAsync';
 
 // Services
-import { predictService } from '../services/index';
+import { transactionService } from '../services/index';
 
 /**
  * @desc      Create New Review Controller
@@ -12,11 +12,11 @@ import { predictService } from '../services/index';
  * @property  { Object } req.body - Body object data
  * @returns   { JSON } - A JSON object representing the type, message and the review
  */
-export const addPredict = catchAsync(async (req, res) => {
+export const createWithdrawal = catchAsync(async (req, res) => {
   // 1) Create new review
-
-  const { type, message, statusCode, predict } =
-    await predictService.createPredict(req.user.id, req.body);
+  console.log(req.body);
+  const { type, message, statusCode, transaction } =
+    await transactionService.createWithdrawal(req.user, req.body);
 
   // 2) Check if there is an error
   if (type === 'Error') {
@@ -30,30 +30,10 @@ export const addPredict = catchAsync(async (req, res) => {
   return res.status(statusCode).json({
     type,
     message: req.polyglot.t(message),
-    predict
+    transaction
   });
 });
-export const analysisPredict = catchAsync(async (req, res) => {
-  // 1) Create new review
 
-  const { type, message, statusCode, queryAnalysis } =
-    await predictService.queryAnalysisAI(req.user, req.body);
-
-  // 2) Check if there is an error
-  if (type === 'Error') {
-    return res.status(statusCode).json({
-      type,
-      message: req.polyglot.t(message)
-    });
-  }
-
-  // 3) If everything is OK, send data
-  return res.status(statusCode).json({
-    type,
-    message: req.polyglot.t(message),
-    queryAnalysis
-  });
-});
 /**
  * @desc      Get All Reviews Controller
  * @param     { Object } req - Request object
@@ -64,18 +44,18 @@ export const analysisPredict = catchAsync(async (req, res) => {
  * @property  { Number } req.query.limit - Maximum number of reviews on page
  * @return    { JSON } - A JSON object representing the type, message and the reviews
  */
-export const getAllPredicts = catchAsync(async (req, res) => {
+export const getAllTransaction = catchAsync(async (req, res) => {
   let { page, sort, limit, select } = req.query;
 
   // 1) Setting default params
-  if (!page) page = 1;
-  if (!sort) sort = '';
-  if (!limit) limit = 10;
-  if (!select) select = '';
+  if (!page) req.query.page = 1;
+  if (!sort) req.query.sort = '';
+  if (!limit) req.query.limit = 10;
+  if (!select) req.query.select = '';
 
   // 1) Get all reviews
-  const { type, message, statusCode, predicts } =
-    await predictService.queryPredicts(req);
+  const { type, message, statusCode, transactions } =
+    await transactionService.queryTransactions(req);
 
   // 2) Check if there is an error
   if (type === 'Error') {
@@ -84,12 +64,17 @@ export const getAllPredicts = catchAsync(async (req, res) => {
       message: req.polyglot.t(message)
     });
   }
+  const transactionsWithTimestamps = transactions.map((expense) => ({
+    ...expense.toObject(),
+    createdAt: expense.createdAt,
+    updatedAt: expense.updatedAt
+  }));
 
   // 3) If everything is OK, send data
   return res.status(statusCode).json({
     type,
     message: req.polyglot.t(message),
-    predicts
+    transactions: transactionsWithTimestamps
   });
 });
 
@@ -101,12 +86,12 @@ export const getAllPredicts = catchAsync(async (req, res) => {
  * @property  { String } req.params.reviewId - Review ID
  * @return    { JSON } - A JSON object representing the type, message and the review
  */
-export const getPredict = catchAsync(async (req, res) => {
-  const { idPredict } = req.params;
+export const removeTransaction = catchAsync(async (req, res) => {
+  const { transactionId } = req.params;
 
   // 1) Get review using it's ID
-  const { type, message, statusCode, predict } =
-    await predictService.queryPredictById(idPredict);
+  const { type, message, statusCode } =
+    await transactionService.deleteTransaction(transactionId);
 
   // 2) Check if there is an error
   if (type === 'Error') {
@@ -116,10 +101,30 @@ export const getPredict = catchAsync(async (req, res) => {
     });
   }
 
-  // 3) If everything is OK, send data
+  return res.status(statusCode).json({
+    type,
+    message: req.polyglot.t(message)
+  });
+});
+
+export const updateTransaction = catchAsync(async (req, res) => {
+  const { transactionId } = req.params;
+
+  // 1) Get review using it's ID
+  const { type, message, statusCode, transaction } =
+    await transactionService.updateTransaction(transactionId, req.body);
+
+  // 2) Check if there is an error
+  if (type === 'Error') {
+    return res.status(statusCode).json({
+      type,
+      message: req.polyglot.t(message)
+    });
+  }
+
   return res.status(statusCode).json({
     type,
     message: req.polyglot.t(message),
-    predict
+    transaction
   });
 });

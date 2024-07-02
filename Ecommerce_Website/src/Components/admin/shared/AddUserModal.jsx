@@ -68,186 +68,265 @@ const AddUserModal = ({ isOpen, onRequestClose, onAddUser }) => {
 
   return (
     <div
-      className={`absolute w-auto md:w-full top-1/3 left-1/4 md:left-1/2 md:top-1/2 h-full transform -translate-x-1/2 -translate-y-1/2 bg-slate-100 p-8 rounded shadow-md overflow-y-auto max-h-full ${
-        isOpen ? "block" : "hidden"
-      }`}
+      className={`absolute w-full h-full   inset-0 bg-gray-800 opacity-95 z-50 ${
+        isOpen ? "flex" : "hidden"
+      }  items-center justify-center  `}
     >
-      <h2 className="text-2xl  mb-4 font-sans font-medium">Thông tin cơ bản</h2>
-      <div class="mb-8 bg-white rounded p-4">
-        <label for="name" class=" mb-2 flex font-sans font-medium">
-          <p className="text-red-500">*</p>Tên người dùng{" "}
-        </label>
-        <input
-          type="text"
-          id="name"
-          placeholder="[Nội dung]+[Loại sản phẩm]"
-          name="name"
-          value={newUser.name}
-          onChange={handleChange}
-          class="w-full border p-2 mb-4 focus:outline-none  focus:border-yellow-500"
-        />
+      <div class="relative p-4 w-full max-w-2xl  h-full md:h-auto  bg-white rounded   ">
+        <h3 class="mb-4 text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-white">
+          <mark class="px-2 text-white bg-yellow-500 rounded dark:bg-blue-500">
+            Create
+          </mark>{" "}
+          user
+        </h3>
+        <div className=" flex items-center gap-4 w-full">
+          <div className="w-full">
+            <label
+              for="name"
+              class="block my-2 text-sm font-sans font-medium text-gray-900 "
+            >
+              Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={newUser.name}
+              onChange={handleChange}
+              class="bg-gray-50 border hover:outline-yellow-400 outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5  "
+              placeholder="Duc"
+              required
+            />
+          </div>
+          <div className="w-full">
+            <label
+              for="address"
+              class="block my-2 text-sm font-sans font-medium text-gray-900 "
+            >
+              username
+            </label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              value={newUser.username}
+              onChange={handleChange}
+              class="bg-gray-50 border hover:outline-yellow-400 outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5  "
+              placeholder="duc123"
+              required
+            />
+          </div>
+        </div>
+        <div className=" flex items-center gap-4">
+          <div className="w-full">
+            <label
+              for="email"
+              class="block my-2 text-sm font-sans font-medium text-gray-900 "
+            >
+              Email
+            </label>
+            <input
+              type="text"
+              id="email"
+              name="email"
+              value={newUser.email}
+              onChange={handleChange}
+              class="bg-gray-50 border hover:outline-yellow-400 outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5  "
+              placeholder="duc@gmail.com"
+              required
+            />
+          </div>
+          <div className="w-full">
+            <label
+              for="password"
+              class="block my-2 text-sm font-medium font-sans text-gray-900 "
+            >
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={newUser.password}
+              onChange={handleChange}
+              class="bg-gray-50 border hover:outline-yellow-400 outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5  "
+              placeholder="123xyz"
+              required
+            />
+          </div>
+        </div>
+        <div className=" flex items-center gap-4">
+          <div className="w-full">
+            <label
+              for="passwordConfirmation"
+              class="block my-2 text-sm font-sans font-medium text-gray-900 "
+            >
+              Password Confirm
+            </label>
+            <input
+              type="text"
+              id="passwordConfirmation"
+              name="passwordConfirmation"
+              value={newUser.passwordConfirmation}
+              onChange={handleChange}
+              class="bg-gray-50 border hover:outline-yellow-400 outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5  "
+              placeholder="123xyz"
+              required
+            />
+          </div>
+          <div className="w-full">
+            <label
+              for="role"
+              class="block my-2 text-sm font-sans font-medium text-gray-900 "
+            >
+              Role
+            </label>
+            <input
+              type="text"
+              id="role"
+              name="role"
+              value={newUser.role}
+              onChange={handleChange}
+              class="bg-gray-50 border hover:outline-yellow-400 outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5  "
+              placeholder="seller"
+              required
+            />
+          </div>
+        </div>
+        <h2 class="text-2xl   font-sans font-medium">Image</h2>
+        <div class=" bg-white rounded p-4">
+          <div className="mb-8 w-full ">
+            <label
+              htmlFor="mainImage"
+              className="flex mb-2 font-sans font-medium"
+            >
+              <p className="text-red-500">*</p>
+              Main Image:
+            </label>
+            <input
+              type="file"
+              id="image"
+              name="image"
+              onChange={handleFileChange}
+              className="w-full border p-2 mb-4 focus:outline-none focus:border-yellow-500"
+            />
+            {newUser.image && (
+              <img
+                src={newUser.image}
+                alt="Main Image"
+                className="w-32 h-auto"
+              />
+            )}
+            {mainImageUrl && (
+              <img
+                src={mainImageUrl}
+                alt="Main Image"
+                className="w-32 h-auto"
+              />
+            )}
+          </div>
+        </div>
 
-        <label for="username" class="flex mb-2 font-sans font-medium">
-          <p className="text-red-500 ">*</p>Tài khoản
-        </label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          class="w-full border p-2 mb-4 focus:outline-none  focus:border-yellow-500"
-          value={newUser.username}
-          onChange={handleChange}
-        />
+        <div class=" bg-white rounded p-4 mb-4"></div>
+        <div className=" flex items-center gap-4">
+          <div className="w-full">
+            <label
+              for="name"
+              class="block my-2 text-sm font-sans font-medium text-gray-900 "
+            >
+              Address
+            </label>
+            <input
+              type="text"
+              id="address"
+              name="address"
+              value={newUser.address}
+              onChange={handleChange}
+              class="bg-gray-50 border hover:outline-yellow-400 outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5  "
+              placeholder="Block 1"
+              required
+            />
+          </div>
+          <div className="w-full">
+            <label
+              for="companyName"
+              class="block my-2 text-sm font-sans font-medium text-gray-900 "
+            >
+              Company Name
+            </label>
+            <input
+              type="text"
+              id="companyName"
+              name="companyName"
+              value={newUser.companyName}
+              onChange={handleChange}
+              class="bg-gray-50 border hover:outline-yellow-400 outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5  "
+              placeholder="XYZ"
+              required
+            />
+          </div>
+        </div>
+        <div className=" flex  gap-4">
+          <div className="w-full">
+            <label
+              for="phone"
+              class="block my-2 text-sm font-sans font-medium text-gray-900 "
+            >
+              Phone
+            </label>
+            <input
+              type="text"
+              id="phone"
+              name="phone"
+              value={newUser.phone}
+              onChange={handleChange}
+              class="bg-gray-50 border hover:outline-yellow-400 outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5  "
+              placeholder="0123123213"
+              required
+            />
+          </div>
+          <div className="w-full">
+            <label
+              for="companyName"
+              class="block my-2 text-sm font-medium text-gray-900 "
+            >
+              Apartment
+            </label>
 
-        <label for="email" class="flex mb-2 font-sans font-medium">
-          <p className="text-red-500">*</p>Email
-        </label>
-        <input
-          type="text"
-          id="email"
-          name="email"
-          class="w-full border p-2 mb-4 focus:outline-none  focus:border-yellow-500"
-          value={newUser.email}
-          onChange={handleChange}
-        />
-
-        <label for="password" class="flex mb-2 font-sans font-medium">
-          <p className="text-red-500">*</p>Password
-        </label>
-        <input
-          type="text"
-          id="password"
-          name="password"
-          class="w-full border p-2 mb-4 focus:outline-none  focus:border-yellow-500"
-          value={newUser.password}
-          onChange={handleChange}
-        />
-        <label
-          for="passwordConfirmation"
-          class="flex mb-2 font-sans font-medium"
-        >
-          <p className="text-red-500">*</p>Confirm Password
-        </label>
-        <input
-          type="text"
-          id="passwordConfirmation"
-          name="passwordConfirmation"
-          class="w-full border p-2 mb-4 focus:outline-none  focus:border-yellow-500"
-          value={newUser.passwordConfirmation}
-          onChange={handleChange}
-        />
-
-        <label for="role" class="flex mb-2 font-sans font-medium">
-          <p className="text-red-500">*</p>Role
-        </label>
-        <input
-          type="text"
-          id="role"
-          name="role"
-          class="w-full border p-2 mb-4 focus:outline-none  focus:border-yellow-500"
-          value={newUser.role}
-          onChange={handleChange}
-        />
-      </div>
-
-      <h2 class="text-2xl  mb-4 font-sans font-medium">Ảnh</h2>
-      <div class=" bg-white rounded p-4">
-        <div className="mb-8">
-          <label
-            htmlFor="mainImage"
-            className="flex mb-2 font-sans font-medium"
+            <select
+              id="apartment"
+              name="apartment"
+              value={newUser.category}
+              onChange={handleChange}
+              class="w-full border p-2 mb-4 font-sans font-normal focus:outline-none  focus:border-yellow-500"
+            >
+              <option value="" disabled>
+                Vui lòng chọn chung cư
+              </option>
+              {apartments.map((apartment) => (
+                <option key={apartment._id} value={apartment._id}>
+                  {apartment.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div class="flex justify-end">
+          <button
+            type="button"
+            className="bg-yellow-500 font-sans text-white px-4 py-2 rounded mr-2"
+            onClick={handleAdd}
           >
-            <p className="text-red-500">*</p>
-            Main Image:
-          </label>
-          <input
-            type="file"
-            id="image"
-            name="image"
-            onChange={handleFileChange}
-            className="w-full border p-2 mb-4 focus:outline-none focus:border-yellow-500"
-          />
-          {newUser.image && (
-            <img src={newUser.image} alt="Main Image" className="w-32 h-auto" />
-          )}
-          {mainImageUrl && (
-            <img src={mainImageUrl} alt="Main Image" className="w-32 h-auto" />
-          )}
+            Create User
+          </button>
+          <button
+            type="button"
+            class="bg-gray-500 font-sans text-white px-4 py-2 rounded"
+            onClick={onRequestClose}
+          >
+            Close
+          </button>
         </div>
-      </div>
-      <h2 class="text-2xl  mb-4 font-sans font-medium">Thông tin chi tiết</h2>
-      <div class=" bg-white rounded p-4 mb-4">
-        <div class="mb-8">
-          <label for="address" class="flex mb-2 font-sans font-medium">
-            <p className="text-red-500">*</p>Address:
-          </label>
-          <textarea
-            id="address"
-            name="address"
-            class="w-full border p-2 mb-4 focus:outline-none  focus:border-yellow-500"
-            value={newUser.address}
-            onChange={handleChange}
-          ></textarea>
-        </div>
-        <div class="mb-8">
-          <label for="companyName" class="flex mb-2 font-sans font-medium">
-            <p className="text-red-500">*</p>Company:
-          </label>
-          <textarea
-            id="companyName"
-            name="companyName"
-            class="w-full border p-2 mb-4 focus:outline-none  focus:border-yellow-500"
-            value={newUser.companyName}
-            onChange={handleChange}
-          ></textarea>
-        </div>
-        <label for="phone" class="flex mb-2 font-sans font-medium">
-          <p className="text-red-500">*</p>Phone
-        </label>
-        <input
-          type="number"
-          id="phone"
-          name="phone"
-          class="w-full border p-2 mb-4 focus:outline-none  focus:border-yellow-500"
-          value={newUser.phone}
-          onChange={handleChange}
-        />
-
-        <label for="apartment" class="flex mb-2 font-sans font-medium">
-          <p className="text-red-500">*</p>Apartment
-        </label>
-        <select
-          id="apartment"
-          name="apartment"
-          value={newUser.category}
-          onChange={handleChange}
-          class="w-full border p-2 mb-4 font-sans font-normal focus:outline-none  focus:border-yellow-500"
-        >
-          <option value="" disabled>
-            Vui lòng chọn chung cư
-          </option>
-          {apartments.map((apartment) => (
-            <option key={apartment._id} value={apartment._id}>
-              {apartment.name}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div class="flex justify-end">
-        <button
-          type="button"
-          className="bg-yellow-500 text-white px-4 py-2 rounded mr-2"
-          onClick={handleAdd}
-        >
-          Thêm người dùng
-        </button>
-        <button
-          type="button"
-          class="bg-gray-500 text-white px-4 py-2 rounded"
-          onClick={onRequestClose}
-        >
-          Close
-        </button>
       </div>
     </div>
   );

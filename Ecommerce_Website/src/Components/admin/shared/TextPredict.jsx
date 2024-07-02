@@ -30,18 +30,18 @@ export default function TextPredict({ startDate, endDate, dataPredict }) {
             <mark class="px-2 text-white bg-yellow-400 rounded ">analysis</mark>{" "}
             and advice for you
           </h4>
-          <p class="mb-3 rounded-lg p-4  whitespace-pre-line font-sans bg-gradient-to-tr from-[#facc15] to-[#5FC3E4] shadow-md ">
+          <p class="mb-3 rounded-lg p-4 font-semibold text-white  whitespace-pre-line font-sans bg-gradient-to-tr from-[#facc15] to-[#5FC3E4] shadow-md ">
             {text}
           </p>
         </div>
       ) : (
         <div role="status" class="max-w-sm animate-pulse w-full">
-          <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
-          <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px] mb-2.5"></div>
-          <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
-          <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[330px] mb-2.5"></div>
-          <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[300px] mb-2.5"></div>
-          <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px]"></div>
+          <div class="h-2.5 bg-gray-200 rounded-full  w-48 mb-4"></div>
+          <div class="h-2 bg-gray-200 rounded-full  max-w-[360px] mb-2.5"></div>
+          <div class="h-2 bg-gray-200 rounded-full  mb-2.5"></div>
+          <div class="h-2 bg-gray-200 rounded-full  max-w-[330px] mb-2.5"></div>
+          <div class="h-2 bg-gray-200 rounded-full  max-w-[300px] mb-2.5"></div>
+          <div class="h-2 bg-gray-200 rounded-full  max-w-[360px]"></div>
           <span class="sr-only">Loading...</span>
         </div>
       )}

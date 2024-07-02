@@ -1,75 +1,182 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const AddApartmentModal = ({ isOpen, onRequestClose, onAddApartment }) => {
-  
-    const [newApartment, setNewApartment] = useState({
-        name: '',
-        address: '',
-        numberOfCourt: 0,
-        numberOfHouse: 0,
-        condition: '',
-        description: ''
-    });
+  const [newApartment, setNewApartment] = useState({
+    name: "",
+    address: "",
+    numberOfCourt: 0,
+    numberOfHouse: 0,
+    condition: "",
+    description: "",
+  });
 
-    const handleAdd = () => {
-        const formData = new FormData();
+  const handleAdd = () => {
+    const formData = new FormData();
 
-            formData.append('name', newApartment.name);
-            formData.append('address', newApartment.address);
-            formData.append('numberOfCourt', newApartment.numberOfCourt);
-            formData.append('numberOfHouse', newApartment.numberOfHouse);
-            formData.append('condition', newApartment.condition);
-            formData.append('description', newApartment.description);
-       
+    formData.append("name", newApartment.name);
+    formData.append("address", newApartment.address);
+    formData.append("numberOfCourt", newApartment.numberOfCourt);
+    formData.append("numberOfHouse", newApartment.numberOfHouse);
+    formData.append("condition", newApartment.condition);
+    formData.append("description", newApartment.description);
 
-        onAddApartment(formData);
-        onRequestClose();
-    }
+    onAddApartment(formData);
+    onRequestClose();
+  };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setNewApartment(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
-    }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setNewApartment((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
-    return (
-        <div className={`absolute w-auto md:w-full top-1/3 left-1/4 md:left-1/2 md:top-1/2 h-full transform -translate-x-1/2 -translate-y-1/2 bg-slate-100 p-8 rounded shadow-md overflow-y-auto max-h-full ${
-            isOpen ? 'block' : 'hidden'
-            }`}>
-            <h2 className="text-2xl  mb-4 font-sans font-medium">Thông tin cơ bản</h2>
-            <div className="mb-8 bg-white rounded p-4">
-                <label htmlFor="name" className=" mb-2 flex font-sans font-medium"><p className='text-red-500'>*</p>Tên Chung cư </label>
-                <input type="text" id="name" placeholder='[Nội dung]+[Loại sản phẩm]' name="name" value={newApartment.name} onChange={handleChange} className="w-full border p-2 mb-4 focus:outline-none  focus:border-yellow-500" />
-
-                <label htmlFor="address" className="flex mb-2 font-sans font-medium"><p className='text-red-500 '>*</p>Địa chỉ:</label>
-                <input type="text" id="address" name="address" className="w-full border p-2 mb-4 focus:outline-none  focus:border-yellow-500" value={newApartment.address} onChange={handleChange} />
-
-                <label htmlFor="numberOfCourt" className="flex mb-2 font-sans font-medium"><p className='text-red-500'>*</p>Số lượng tòa:</label>
-                <input type="number" id="numberOfCourt" name="numberOfCourt" className="w-full border p-2 mb-4 focus:outline-none  focus:border-yellow-500" value={newApartment.numberOfCourt} onChange={handleChange} />
-
-                <label htmlFor="numberOfHouse" className="flex mb-2 font-sans font-medium"><p className='text-red-500'>*</p>Số lượng căn hộ</label>
-                <input type="number" id="numberOfHouse" name="numberOfHouse" className="w-full border p-2 mb-4 focus:outline-none  focus:border-yellow-500" value={newApartment.numberOfHouse} onChange={handleChange} />
-
-                <label htmlFor="condition" className="flex mb-2 font-sans font-medium"><p className='text-red-500'>*</p>Tình trạng </label>
-                <input type="text" id="condition" name="condition" className="w-full border p-2 mb-4 focus:outline-none  focus:border-yellow-500" value={newApartment.condition} onChange={handleChange} />
+  return (
+    <div
+      className={`absolute w-full h-full   inset-0 bg-gray-800 opacity-95 z-50 ${
+        isOpen ? "flex" : "hidden"
+      }  items-center justify-center  `}
+    >
+      <div class="relative p-4 w-full max-w-2xl h-full md:h-auto  bg-white rounded   ">
+        <h3 class="mb-4 text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-white">
+          <mark class="px-2 text-white bg-yellow-500 rounded dark:bg-blue-500">
+            Add
+          </mark>{" "}
+          apartment
+        </h3>
+        <div className="mb-8 bg-white rounded p-4 ">
+          <div className=" flex items-center gap-4">
+            <div>
+              <label
+                for="name"
+                class="block my-2 text-sm font-medium text-gray-900 "
+              >
+                Apartment name
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={newApartment.name}
+                onChange={handleChange}
+                class="bg-gray-50 border hover:outline-yellow-400 outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5  "
+                placeholder="Chung cư Vạn Phúc"
+                required
+              />
             </div>
-
-            <h2 className="text-2xl  mb-4 font-sans font-medium">Thông tin chi tiết</h2>
-            <div className=" bg-white rounded p-4 mb-4">
-                <div className="mb-8">
-                    <label htmlFor="description" className="flex mb-2 font-sans font-medium"><p className='text-red-500'>*</p>Description:</label>
-                    <textarea id="description" name="description" className="w-full border p-2 mb-4 focus:outline-none  focus:border-yellow-500" value={newApartment.description} onChange={handleChange}></textarea>
-                </div>
+            <div>
+              <label
+                for="address"
+                class="block my-2 text-sm font-medium text-gray-900 "
+              >
+                Address
+              </label>
+              <input
+                type="text"
+                id="address"
+                name="address"
+                value={newApartment.address}
+                onChange={handleChange}
+                class="bg-gray-50 border hover:outline-yellow-400 outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5  "
+                placeholder="Quận 1, HCM"
+                required
+              />
             </div>
-            <div className="flex justify-end">
-                <button type="button" className="bg-yellow-500 text-white px-4 py-2 rounded mr-2" onClick={handleAdd}>Thêm Chung cư</button>
-                <button type="button" className="bg-gray-500 text-white px-4 py-2 rounded" onClick={onRequestClose}>Close</button>
+          </div>
+          <div className=" flex items-center gap-4">
+            <div>
+              <label
+                for="numberOfCourt"
+                class="block my-2 text-sm font-medium text-gray-900 "
+              >
+                Number of courts
+              </label>
+              <input
+                type="text"
+                id="numberOfCourt"
+                name="numberOfCourt"
+                value={newApartment.numberOfCourt}
+                onChange={handleChange}
+                class="bg-gray-50 border hover:outline-yellow-400 outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5  "
+                placeholder="8"
+                required
+              />
             </div>
+            <div>
+              <label
+                for="numberOfHouse"
+                class="block my-2 text-sm font-medium text-gray-900 "
+              >
+                Number of houses
+              </label>
+              <input
+                type="text"
+                id="numberOfHouse"
+                name="numberOfHouse"
+                value={newApartment.numberOfHouse}
+                onChange={handleChange}
+                class="bg-gray-50 border hover:outline-yellow-400 outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5  "
+                placeholder="9"
+                required
+              />
+            </div>
+          </div>
+          <div>
+            <label
+              for="condition"
+              class="block my-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Status
+            </label>
+            <input
+              type="text"
+              id="condition"
+              name="condition"
+              value={newApartment.numbeconditionrOfHouse}
+              onChange={handleChange}
+              class="bg-gray-50 border hover:outline-yellow-400 outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5  "
+              placeholder="Good"
+              required
+            />
+          </div>
         </div>
-    );
+
+        <label
+          for="description"
+          class="block my-2 text-sm font-medium text-gray-900 dark:text-white"
+        >
+          Description apartment
+        </label>
+        <textarea
+          id="description"
+          value={newApartment.description}
+          onChange={handleChange}
+          rows="4"
+          class="bg-gray-50 border hover:outline-yellow-400 outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5  "
+          placeholder="Write description..."
+        ></textarea>
+
+        <div className="flex justify-end mt-2">
+          <button
+            type="button"
+            className="bg-yellow-500 text-white px-4 py-2 rounded mr-2"
+            onClick={handleAdd}
+          >
+            Add apartment
+          </button>
+          <button
+            type="button"
+            className="bg-gray-500 text-white px-4 py-2 rounded"
+            onClick={onRequestClose}
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default AddApartmentModal;

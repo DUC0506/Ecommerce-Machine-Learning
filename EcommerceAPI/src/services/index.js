@@ -5,7 +5,8 @@ import {
   refreshAuth,
   resetPassword,
   verifyEmail,
-  changePassword
+  changePassword,
+  isVerifyPassword
 } from './auth.service';
 
 import {
@@ -163,6 +164,13 @@ import {
   deleteStatus
 } from './status.service';
 
+import {
+  createWithdrawal,
+  deleteTransaction,
+  queryTransactions,
+  updateTransaction
+} from './transaction.service';
+
 const authService = {
   signin,
   signup,
@@ -170,7 +178,8 @@ const authService = {
   refreshAuth,
   resetPassword,
   verifyEmail,
-  changePassword
+  changePassword,
+  isVerifyPassword
 };
 
 const reviewService = {
@@ -323,6 +332,12 @@ const statusService = {
   updateStatusDetails,
   deleteStatus
 };
+const transactionService = {
+  createWithdrawal,
+  deleteTransaction,
+  queryTransactions,
+  updateTransaction
+};
 export {
   authService,
   userService,
@@ -341,5 +356,6 @@ export {
   messageService,
   predictService,
   expenseService,
-  statusService
+  statusService,
+  transactionService
 };

@@ -19,14 +19,23 @@ export default function Chat({ role, apartment }) {
   console.log(apartment);
   const { authInfo } = useAuth();
   const host = "http://localhost:3000";
-
+  if (!apartment) {
+    apartment = { _id: null };
+  }
   const fetchUsers = async () => {
     // const data = await axios.get(`${process.env.REACT_APP_ALL_USERS_ROUTE}/${currentUser._id}`);
     let { type, users } = await getUsers(role, apartment._id);
     if (type === "Error") {
       users = [];
     }
-    const data = await getUsers("admin");
+    console.log(users);
+    let data;
+    if (authInfo.profile.role === "admin") {
+      data = await getUsers("seller");
+    } else {
+      data = await getUsers("admin");
+    }
+    console.log(data.users);
 
     let mergedContacts = [...users, ...data.users];
     setContacts(mergedContacts);
@@ -44,7 +53,7 @@ export default function Chat({ role, apartment }) {
   };
 
   return (
-    <div className="w-full h-full flex flex-col justify-center items-center gap-4 bg-gray-900">
+    <div className="w-full z-[999] h-full flex flex-col justify-center items-center gap-4 bg-gray-900">
       <div className="container h-full w-full  bg-opacity-80 flex overflow-auto">
         {role === "seller" && apartment ? (
           <ContactsUser contacts={contacts} changeChat={handleChatChange} />

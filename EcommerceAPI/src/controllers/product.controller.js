@@ -448,7 +448,7 @@ export const deleteProduct = catchAsync(async (req, res) => {
   // 1) Delete product using it's ID
   const { type, message, statusCode } = await productService.deleteProduct(
     req.params.productId,
-    req.user.id
+    req.user
   );
 
   // 2) Check if there is an error

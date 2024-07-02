@@ -99,7 +99,7 @@ const HomePage = () => {
           <Chat role="seller" apartment={authInfo.profile?.apartment._id} />
         </div>
         <div
-          className={`${showGemini ? "hidden" : "fixed"} z-50`}
+          className={`${showGemini ? "hidden" : "fixed"} z-0`}
           onClick={() => handleShowGemini(true)}
         >
           <button
@@ -109,11 +109,7 @@ const HomePage = () => {
             aria-expanded="false"
             data-state="closed"
           >
-            <img
-              src={GeminiIcon}
-              alt="123"
-              className="rounded w-16 h-16 z-10"
-            />
+            <img src={GeminiIcon} alt="123" className="rounded w-16 h-16 z-0" />
             {/* Today what do eat ? */}
           </button>
         </div>

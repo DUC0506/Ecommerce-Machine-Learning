@@ -7,7 +7,8 @@ import {
   resetPassword,
   verifyEmail,
   sendVerificationEmail,
-  changePassword
+  changePassword,
+  verifyPassword
 } from './auth.controller';
 
 import {
@@ -158,6 +159,12 @@ import {
   updateStatusDetails,
   removeStatus
 } from './status.controller';
+import {
+  createWithdrawal,
+  getAllTransaction,
+  removeTransaction,
+  updateTransaction
+} from './transaction.controller';
 
 const authController = {
   signin,
@@ -168,7 +175,8 @@ const authController = {
   resetPassword,
   verifyEmail,
   sendVerificationEmail,
-  changePassword
+  changePassword,
+  verifyPassword
 };
 
 const userController = {
@@ -322,6 +330,12 @@ const statusController = {
   updateStatusDetails,
   removeStatus
 };
+const transactionController = {
+  createWithdrawal,
+  getAllTransaction,
+  removeTransaction,
+  updateTransaction
+};
 export {
   authController,
   userController,
@@ -340,5 +354,6 @@ export {
   messageController,
   predictController,
   expenseController,
-  statusController
+  statusController,
+  transactionController
 };

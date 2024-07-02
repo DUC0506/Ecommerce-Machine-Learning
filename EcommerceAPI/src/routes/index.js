@@ -18,6 +18,7 @@ import messageRoute from './message.route';
 import predictRoute from './predict.route';
 import expenseRoute from './expense.route';
 import statusRoute from './status.route';
+import transaction from './transaction.route';
 
 const router = express.Router();
 
@@ -39,5 +40,6 @@ router.use('/message', messageRoute);
 router.use('/predict', predictRoute);
 router.use('/expense', expenseRoute);
 router.use('/status', statusRoute);
+router.use('/transaction', transaction);
 
 export default router;

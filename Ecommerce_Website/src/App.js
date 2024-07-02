@@ -50,6 +50,11 @@ import StatusAdmin from "./Components/admin/StatusAdmin";
 import ManagerProduct from "./Components/pages/ManagerProduct";
 import NewsManagement from "./Components/pages/NewsManagement";
 import FavoriteProduct from "./PageSections/FavoriteProduct";
+import VerifyApartment from "./Components/VerifyApartment";
+import WithdrawFunds from "./Components/pages/WithDraw";
+import PasswordConfirmation from "./Components/pages/PasswordModal";
+import PredictAdmin from "./PageSections/PredictAdmin";
+import TransactionsFinance from "./Components/admin/TransactionsFinance";
 
 function App() {
   // const { soon, product, products, addedsuccessfully } = useSelector(
@@ -57,7 +62,7 @@ function App() {
   // );
 
   const { authInfo } = useAuth();
-  console.log(authInfo.isLoggedIn);
+
   // const navigate = useNavigate();
   if (!authInfo.isLoggedIn && window.location.pathname !== "/signIn") {
     // navigate('/signIn');
@@ -83,7 +88,6 @@ function App() {
   const isSeller = authInfo.profile?.role === "seller";
   const isUser = authInfo.profile?.role === "user";
 
-  console.log(isUser);
   if (isAdmin)
     return (
       <Routes>
@@ -95,12 +99,15 @@ function App() {
             path="dashboard/customers/history-transactions/:id"
             element={<HistoryTransaction />}
           />
-          <Route path="dashboard/sellers" element={<SellersAdmin />} />
+          <Route path="dashboard/predict" element={<PredictAdmin />} />
           <Route
             path="dashboard/sellers/seller-products/:id"
             element={<SellerProducts />}
           />
-          <Route path="dashboard/orders" element={<Order />} />
+          <Route
+            path="dashboard/transactions"
+            element={<TransactionsFinance />}
+          />
           <Route path="dashboard/status" element={<StatusAdmin />} />
           <Route path="dashboard/user-info" element={<UserInfo />} />
           <Route path="dashboard/promotion" element={<PromotionSeller />} />
@@ -112,7 +119,7 @@ function App() {
             path="dashboard/news-management"
             element={<NewsManagement />}
           />
-          <Route path="dashboard/chat" element={<Chat role="seller" />} />
+          <Route path="dashboard/chat" element={<Chat role="user" />} />
         </Route>
       </Routes>
     );
@@ -131,6 +138,17 @@ function App() {
           <Route path="dashboard/user-info" element={<UserInfo />} />
           <Route path="dashboard/feed-seller" element={<FeedSeller />} />
           <Route path="dashboard/policy-seller" element={<SellerPolicy />} />
+          <Route
+            index
+            path="dashboard/withdraw-funds"
+            element={<WithdrawFunds />}
+          />
+          <Route
+            index
+            path="dashboard/password-confirmation"
+            element={<PasswordConfirmation />}
+          />
+
           <Route
             index
             path="dashboard/campaign/:idPromotion"
@@ -167,6 +185,7 @@ function App() {
         <Route index path="/feed-page" element={<Feed />} />
         <Route index path="/seller-form" element={<RegisterSeller />} />
         <Route index path="/my-favorite" element={<FavoriteProduct />} />
+        <Route index path="/verify-apartment" element={<VerifyApartment />} />
 
         {/* <Route path='/:id/product' element={<Product/>}/>
         <Route path="/comingSoon" element={<Comingsoon/>}/>

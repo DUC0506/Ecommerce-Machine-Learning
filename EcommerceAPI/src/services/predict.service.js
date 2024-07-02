@@ -13,9 +13,10 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
  * @returns { Object<type|message|statusCode|review> }
  */
 export const createPredict = catchAsync(async (user, body) => {
-  const { startDate, endDate, dataPredict, labels, product } = body;
+  const { startDate, endDate, dataPredict, labels, product, apartment } = body;
 
   let { holidays } = body;
+
   // 1) Check if user entered all fields
   if (!startDate || !endDate) {
     return {
@@ -35,16 +36,28 @@ export const createPredict = catchAsync(async (user, body) => {
   if (!holidays) {
     holidays = [];
   }
-  // 3) Create review
-  const predict = await Predict.create({
-    user,
-    startDate,
-    endDate,
-    holidays,
-    dataPredict,
-    labels,
-    product
-  });
+  let predict;
+  if (!product && apartment) {
+    predict = await Predict.create({
+      user,
+      startDate,
+      endDate,
+      holidays,
+      dataPredict,
+      labels,
+      apartment
+    });
+  } else {
+    predict = await Predict.create({
+      user,
+      startDate,
+      endDate,
+      holidays,
+      dataPredict,
+      labels,
+      product
+    });
+  }
 
   // 4) If everything is OK, send data
   return {
@@ -106,7 +119,7 @@ export const queryPredictById = catchAsync(async (idPredict) => {
   };
 });
 
-export const queryAnalysisAI = catchAsync(async (body) => {
+export const queryAnalysisAI = catchAsync(async (user, body) => {
   const { startDate, endDate, dataPredict } = body;
 
   const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY);
@@ -120,12 +133,22 @@ export const queryAnalysisAI = catchAsync(async (body) => {
     maxOutputTokens: 1024
   };
 
-  const parts = [
-    {
-      text: `input: đây là số liệu ${dataPredict} số lượng  đã được bán  theo từng  tuần của một sản phẩm tính theo tuần từ ${startDate} đến ${endDate} hãy phân tích số liệu và đưa ra lời khuyên cho nhà bán hàng  này   `
-    },
-    { text: 'output: ' }
-  ];
+  let parts;
+  if (user.role === 'admin') {
+    parts = [
+      {
+        text: `input: đây là số liệu ${dataPredict} doanh thu  của cửa hàng theo từng  tuần  từ ${startDate} đến ${endDate} hãy phân tích ngắn gọn số liệu và đưa ra lời khuyên và kế hoạch hay chiến dịch cho nhà quản lý nền tảng buôn bán thực phẩm trong khu chung cư này   `
+      },
+      { text: 'output: ' }
+    ];
+  } else {
+    parts = [
+      {
+        text: `input: đây là số liệu ${dataPredict} số lượng  đã được bán  theo từng  tuần của một sản phẩm tính theo tuần từ ${startDate} đến ${endDate} hãy phân tích ngắn gọn số liệu và đưa ra lời khuyên và kế hoạch cho nhà bán hàng trong khu chung cư này   `
+      },
+      { text: 'output: ' }
+    ];
+  }
 
   const result = await model.generateContent({
     contents: [{ role: 'user', parts }],

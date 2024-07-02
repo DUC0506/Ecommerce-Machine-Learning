@@ -79,6 +79,28 @@ export const signin = catchAsync(async (req, res) => {
     tokens
   });
 });
+export const verifyPassword = catchAsync(async (req, res) => {
+  const { email, password } = req.body;
+
+  // 1) Calling sign in service
+  const { type, message, statusCode, user } =
+    await authService.isVerifyPassword(email, password);
+
+  // 2) Check if something went wrong
+  if (type === 'Error') {
+    return res.status(statusCode).json({
+      type,
+      message: req.polyglot.t(message)
+    });
+  }
+
+  // 3) If everything is OK, send data
+  return res.status(statusCode).json({
+    type,
+    message: req.polyglot.t(message),
+    user
+  });
+});
 
 /**
  * @desc      Logout Controller

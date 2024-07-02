@@ -884,7 +884,7 @@ export const updateProductImages = catchAsync(
  * @param   { String } sellerId - Seller ID
  * @returns { Object<type|message|statusCode> }
  */
-export const deleteProduct = catchAsync(async (productId, sellerId) => {
+export const deleteProduct = catchAsync(async (productId, user) => {
   const product = await Product.findById(productId);
 
   // 1) Check if product doesn't exist
@@ -895,14 +895,15 @@ export const deleteProduct = catchAsync(async (productId, sellerId) => {
       statusCode: 404
     };
   }
-
-  // 2) Check if user isn't the owner of the product
-  if (sellerId.toString() !== product.seller.toString()) {
-    return {
-      type: 'Error',
-      message: 'notSeller',
-      statusCode: 403
-    };
+  if (user.role !== 'admin') {
+    // 2) Check if user isn't the owner of the product
+    if (user._id.toString() !== product.seller.toString()) {
+      return {
+        type: 'Error',
+        message: 'notSeller',
+        statusCode: 403
+      };
+    }
   }
 
   // 3) Delete product using it's ID

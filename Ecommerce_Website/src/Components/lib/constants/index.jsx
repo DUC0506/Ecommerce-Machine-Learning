@@ -102,9 +102,9 @@ export const DASHBOARD_SIDEBAR_LINKS_ADMIN = [
     icon: <HiOutlineCube />,
   },
   {
-    key: "orders",
-    label: "Orders",
-    path: "/dashboard/orders",
+    key: "transaction",
+    label: "Transactions",
+    path: "/dashboard/transactions",
     icon: <HiOutlineShoppingCart />,
   },
   {
@@ -114,9 +114,9 @@ export const DASHBOARD_SIDEBAR_LINKS_ADMIN = [
     icon: <HiOutlineUsers />,
   },
   {
-    key: "sellers",
-    label: "Sellers",
-    path: "/dashboard/sellers",
+    key: "predict",
+    label: "Predict",
+    path: "/dashboard/predict",
     icon: <IoStorefrontSharp />,
   },
 

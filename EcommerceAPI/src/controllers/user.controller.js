@@ -193,6 +193,7 @@ export const updateToSeller = catchAsync(async (req, res) => {
 
 export const addCardBank = catchAsync(async (req, res) => {
   // 1) Find user document and update it's details
+
   const { type, message, statusCode, user } = await userService.addBankToUser(
     req.user,
     req.body

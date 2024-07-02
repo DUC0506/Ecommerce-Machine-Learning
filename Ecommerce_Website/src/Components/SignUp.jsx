@@ -5,9 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { resisterUser } from "../api/auth";
 import useValidation from "../utils/validator";
 import logo from "../assets/CONDOmarket .png";
+import VerifyApartment from "./VerifyApartment";
 const SignUp = () => {
   const [apartments, setApartments] = useState([]);
-
+  const [openModal, setOpenModal] = useState(false);
   const [userInfo, setUserInfo] = useState({
     email: "",
     password: "",
@@ -49,7 +50,16 @@ const SignUp = () => {
     setUserInfo({ ...userInfo, [name]: value });
   };
 
+  const handleVerify = () => {
+    validateFields(userInfo);
+    if (validateFields(userInfo)) {
+      setOpenModal(true);
+    }
+  };
   const onSubmit = async (data) => {
+    console.log(data);
+    const address = `${data.buildingName}- ${data.numberFloor} -${data.numberApartment}`;
+    const phone = data.phone;
     validateFields(userInfo);
     const file = await urlToObject();
     const formData = new FormData();
@@ -61,7 +71,8 @@ const SignUp = () => {
     formData.append("role", userInfo.role);
     formData.append("image", file);
     formData.append("apartment", userInfo.apartment);
-
+    formData.append("address", address);
+    formData.append("phone", phone);
     const { type, message, user } = await resisterUser(formData);
     console.log(type, message);
     if (type === "Error") {
@@ -74,6 +85,12 @@ const SignUp = () => {
   const handleNavigator = () => {
     navigate(`/signIn`);
   };
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault(); // Prevent default form submission behavior
+      handleVerify();
+    }
+  };
   useEffect(() => {
     fetchApartments();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -81,7 +98,13 @@ const SignUp = () => {
 
   return (
     <div className="min-h-screen w-full p-14  flex items-center  justify-center  bg-gradient-to-tr from-[#fae17b] to-[#09940d] shadow-md">
-      <div className="grid-cols-1 md:grid-cols-2 grid h-[500px]">
+      <VerifyApartment onSubmit={onSubmit} isOpen={openModal} />
+
+      <div
+        className={`grid-cols-1 md:grid-cols-2 ${
+          openModal ? "hidden" : "grid"
+        }   h-[500px]`}
+      >
         <div class="h-full  shadow-md bg-yellow-300 order-2 md:order-1 md:rounded-l-lg overflow-hidden ">
           <img
             src="https://res.cloudinary.com/dvdjknpvp/image/upload/v1712047012/psd-healthy-menu-promotion-social-media-instagram-story-banner-template_541452-309_zzrsmy.jpg"
@@ -109,6 +132,7 @@ const SignUp = () => {
                 className="w-1/2 rounded-md p-3 outline-none border hover:outline-yellow-400 active:outline-yellow-400 m-1 "
                 placeholder="Email "
                 onChange={handleChange}
+                onKeyDown={handleKeyPress}
                 required
               />
 
@@ -142,6 +166,7 @@ const SignUp = () => {
                 placeholder="Name"
                 value={userInfo.name}
                 onChange={handleChange}
+                onKeyDown={handleKeyPress}
               />
 
               <input
@@ -152,6 +177,7 @@ const SignUp = () => {
                 placeholder="User name"
                 value={userInfo.username}
                 onChange={handleChange}
+                onKeyDown={handleKeyPress}
               />
             </div>
             <div className="mb-4 flex">
@@ -163,6 +189,7 @@ const SignUp = () => {
                 placeholder="Password"
                 value={userInfo.password}
                 onChange={handleChange}
+                onKeyDown={handleKeyPress}
               />
               <input
                 type="password"
@@ -172,12 +199,13 @@ const SignUp = () => {
                 placeholder=" Confirm password"
                 value={userInfo.passwordConfirmation}
                 onChange={handleChange}
+                onKeyDown={handleKeyPress}
               />
             </div>
 
             <button
               type="button"
-              onClick={onSubmit}
+              onClick={handleVerify}
               className="bg-yellow-400 text-white text-xl font-sans font-medium  w-full py-3 mt-2 mb-4 rounded-md hover:bg-yellow-600 focus:outline-none"
             >
               Sign Up

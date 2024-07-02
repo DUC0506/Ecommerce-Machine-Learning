@@ -420,3 +420,49 @@ export const verifyEmail = catchAsync(async (verifyEmailToken) => {
     message: 'successfulEmailVerification'
   };
 });
+
+export const isVerifyPassword = catchAsync(async (email, password) => {
+  // 1) Check if email and password exist
+  if (!email || !password) {
+    return {
+      type: 'Error',
+      statusCode: 400,
+      message: 'emailPasswordRequired'
+    };
+  }
+
+  // 2) Get user from database
+  const user = await User.findOne({ email }).select('+password').populate({
+    path: 'apartment',
+    select: 'name'
+  });
+
+  // 3) Check if user does not exist
+  if (!user) {
+    return {
+      type: 'Error',
+      statusCode: 401,
+      message: 'incorrectEmailOrPassword'
+    };
+  }
+
+  const isMatch = await user.isPasswordMatch(password);
+
+  // 4) Check if passwords match
+  if (!isMatch) {
+    return {
+      type: 'Error',
+      statusCode: 401,
+      message: 'incorrectEmailOrPassword'
+    };
+  }
+
+  // 5) Generate authentication tokens
+  // 6) If everything ok, send data
+  return {
+    type: 'Success',
+    statusCode: 200,
+    message: 'successVerifyPassword',
+    user
+  };
+});

@@ -18,6 +18,7 @@ import Message from './message.model';
 import Predict from './predict.model';
 import Expense from './expense.model';
 import Status from './status.model';
+import Transaction from './transaction.model';
 
 export {
   User,
@@ -39,5 +40,6 @@ export {
   Message,
   Predict,
   Expense,
-  Status
+  Status,
+  Transaction
 };

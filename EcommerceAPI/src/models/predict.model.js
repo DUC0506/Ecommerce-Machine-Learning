@@ -12,6 +12,10 @@ const predictSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Product'
     },
+    apartment: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Apartment'
+    },
     startDate: {
       type: String,
       required: [true, 'Start date must be a valid']

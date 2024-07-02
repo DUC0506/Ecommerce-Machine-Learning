@@ -14,6 +14,19 @@ export const signInUser = async (userInfo) => {
     return { error: error.message || error };
   }
 };
+export const verifyPassword = async (userInfo) => {
+  try {
+    const { data } = await client.post("/auth/verify-password", userInfo);
+
+    return data;
+  } catch (error) {
+    const { response } = error;
+
+    if (response?.data) return response.data;
+
+    return { error: error.message || error };
+  }
+};
 
 export const getUsers = async (role, apartment) => {
   let url = `/user`;

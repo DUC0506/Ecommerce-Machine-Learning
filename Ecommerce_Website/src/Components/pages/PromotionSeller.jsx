@@ -12,7 +12,7 @@ import {
 } from "../../api/promotion";
 import UpdatePromotionModal from "../admin/shared/UpdatePromotionModal ";
 import AddPromotionModal from "../admin/shared/AddPromotionModal";
-// Import hàm để lấy danh sách apartment từ API
+import { MdLibraryAdd } from "react-icons/md";
 
 const PromotionSeller = () => {
   const [promotions, setPromotions] = useState([]);
@@ -62,70 +62,29 @@ const PromotionSeller = () => {
   };
 
   return (
-    <div className="h-full ">
+    <div className="bg-white rounded ">
       <div className=" mx-auto p-8 relative w-full h-full">
-        <div className="flex justify-between mb-4">
-          <h1 className="text-3xl font-medium font-sans">
-            Quản lý chiến dịch quảng cáo
-          </h1>
+        <div className="flex justify-between mb-4 items-center">
+          <div className="ml-2">
+            <h1 class=" text-xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-3xl">
+              List of
+              <span class=" ml-1 text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
+                promotional campaigns.
+              </span>{" "}
+            </h1>
+            <h1 class="mb-4 text-xl font-extrabold leading-none tracking-tight text-gray-900 md:text-2xl lg:text-3xl dark:text-white">
+              <mark class="px-2 text-white bg-yellow-400 rounded ">Help</mark>{" "}
+              sellers in business strategy.
+            </h1>
+          </div>
           <button
             onClick={() => setAddPromotionModalOpen(true)}
-            className="bg-yellow-400 text-white px-4 py-2 rounded font-sans font-medium"
+            className="bg-yellow-400 text-white px-4 py-2 rounded font-sans font-medium flex items-center gap-1"
           >
-            Thêm khuyến mại
+            <MdLibraryAdd /> Add campaigns
           </button>
         </div>
-        <div>
-          <div className="flex items-center space-x-4  ">
-            <span className="font-sans  font-medium">Tất cả</span>
-            <span className="font-sans  font-medium text-yellow-400 underline  underline-offset-8   ">
-              Đang hoạt động
-            </span>
-            <span className="font-sans  font-medium">Bị hủy bỏ</span>
-            <span className="font-sans  font-medium">Đang xét duyệt</span>
-            <span className="font-sans  font-medium">Bị đình chỉ</span>
-            <span className="font-sans  font-medium">Nháp</span>
-            <span className="font-sans  font-medium">Đã xóa</span>
-          </div>
-        </div>
 
-        <div className="mb-4 mt-4 font-sans border rounded flex flex-col md:flex-row md:justify-between pt-8 pb-8 pl-4 pr-4 bg-gray-200">
-          <div className="w-full  mb-4 md:mb-0 mr-2">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Tìm kiếm..."
-                className="w-full px-4 py-2 border rounded focus:outline-none hover:border-yellow-500"
-              />
-              <span className="absolute right-3 top-3 text-gray-400 cursor-pointer">
-                <IoSearchOutline />
-              </span>
-            </div>
-          </div>
-          <div className="w-full font-sans  md:w-auto flex space-x-4 ">
-            <select className="w-full md:w-auto px-4 py-2 border rounded  cursor-pointer focus:outline-none hover:border-yellow-500 ">
-              <option className="font-sans py-4  ">
-                Số lượng tòa thấp đến cao
-              </option>
-              <option className="font-sans py-2 ">
-                Số lượng tòa cao đến thấp
-              </option>
-            </select>
-            <select className="w-full font-sans md:w-auto px-4 py-2 border rounded cursor-pointer focus:outline-none hover:border-yellow-500">
-              <option className="font-sans  ">Địa chỉ</option>
-
-              {/* Thêm các lựa chọn loại sản phẩm vào đây */}
-            </select>
-            <select className="w-full font-sans md:w-auto px-4 py-2 border rounded cursor-pointer focus:outline-none hover:border-yellow-500">
-              <option className="font-sans p-4 hover:bg-yellow-500">
-                Trạng thái
-              </option>
-              <option className="font-sans py-2  ">Cũ</option>
-              <option className="font-sans py-2 ">Mới</option>
-              {/* Thêm các lựa chọn loại sản phẩm vào đây */}
-            </select>
-          </div>
-        </div>
         {promotions.map((promotion) => (
           <div
             key={promotion.id}

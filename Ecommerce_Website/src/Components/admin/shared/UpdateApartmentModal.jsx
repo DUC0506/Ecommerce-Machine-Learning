@@ -31,106 +31,148 @@ const UpdateApartmentModal = ({
   }, [isOpen, apartment]);
   return (
     <div
-      class={`absolute w-auto md:w-full top-1/3 left-1/4 md:left-1/2 md:top-1/2 h-full transform -translate-x-1/2 -translate-y-1/2 bg-slate-100 p-8 rounded shadow-md overflow-y-auto max-h-full ${
-        isOpen ? "block" : "hidden"
-      }`}
+      className={`absolute w-full h-full   inset-0 bg-gray-800 opacity-95 z-50 ${
+        isOpen ? "flex" : "hidden"
+      }  items-center justify-center  `}
     >
-      <h2 class="text-2xl  mb-4 font-sans font-medium">Thông tin cơ bản</h2>
+      {" "}
+      <div class="relative p-4 w-full max-w-2xl h-full md:h-auto  bg-white rounded   ">
+        <h3 class="mb-4 text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-white">
+          <mark class="px-2 text-white bg-yellow-500 rounded dark:bg-blue-500">
+            Update
+          </mark>{" "}
+          apartment
+        </h3>
 
-      <div class="mb-8 bg-white rounded p-4">
-        <label for="name" class=" mb-2 flex font-sans font-medium">
-          <p className="text-red-500">*</p>Tên Chung cư{" "}
-        </label>
-        <input
-          type="text"
-          id="name"
-          placeholder="[Nội dung]+[Loại sản phẩm]"
-          name="name"
-          value={editedApartment.name}
-          onChange={handleChange}
-          class="w-full border p-2 mb-4 focus:outline-none  focus:border-yellow-500"
-        />
+        <div class="mb-8 bg-white rounded p-4">
+          <div className=" flex items-center gap-4">
+            <div>
+              <label
+                for="name"
+                class="block my-2 text-sm font-medium text-gray-900 "
+              >
+                Apartment name
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={editedApartment.name}
+                onChange={handleChange}
+                class="bg-gray-50 border hover:outline-yellow-400 outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5  "
+                placeholder="Chung cư Vạn Phúc"
+                required
+              />
+            </div>
+            <div>
+              <label
+                for="address"
+                class="block my-2 text-sm font-medium text-gray-900 "
+              >
+                Address
+              </label>
+              <input
+                type="text"
+                id="address"
+                name="address"
+                value={editedApartment.address}
+                onChange={handleChange}
+                class="bg-gray-50 border hover:outline-yellow-400 outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5  "
+                placeholder="Quận 1, HCM"
+                required
+              />
+            </div>
+          </div>
 
-        <label for="address" class="flex mb-2 font-sans font-medium">
-          <p className="text-red-500 ">*</p>Địa chỉ:
-        </label>
-        <input
-          type="text"
-          id="address"
-          name="address"
-          class="w-full border p-2 mb-4 focus:outline-none  focus:border-yellow-500"
-          value={editedApartment.address}
-          onChange={handleChange}
-        />
+          <div className=" flex items-center gap-4">
+            <div>
+              <label
+                for="numberOfCourt"
+                class="block my-2 text-sm font-medium text-gray-900 "
+              >
+                Number of courts
+              </label>
+              <input
+                type="text"
+                id="numberOfCourt"
+                name="numberOfCourt"
+                value={editedApartment.numberOfCourt}
+                onChange={handleChange}
+                class="bg-gray-50 border hover:outline-yellow-400 outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5  "
+                placeholder="8"
+                required
+              />
+            </div>
+            <div>
+              <label
+                for="numberOfHouse"
+                class="block my-2 text-sm font-medium text-gray-900 "
+              >
+                Number of houses
+              </label>
+              <input
+                type="text"
+                id="numberOfHouse"
+                name="numberOfHouse"
+                value={editedApartment.numberOfHouse}
+                onChange={handleChange}
+                class="bg-gray-50 border hover:outline-yellow-400 outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5  "
+                placeholder="9"
+                required
+              />
+            </div>
+          </div>
 
-        <label for="numberOfCourt" class="flex mb-2 font-sans font-medium">
-          <p className="text-red-500">*</p>Số lượng tòa:
-        </label>
-        <input
-          type="number"
-          id="numberOfCourt"
-          name="numberOfCourt"
-          class="w-full border p-2 mb-4 focus:outline-none  focus:border-yellow-500"
-          value={editedApartment.numberOfCourt}
-          onChange={handleChange}
-        />
-
-        <label for="numberOfHouse" class="flex mb-2 font-sans font-medium">
-          <p className="text-red-500">*</p>Số lượng căn hộ
-        </label>
-        <input
-          type="text"
-          id="numberOfHouse"
-          name="numberOfHouse"
-          class="w-full border p-2 mb-4 focus:outline-none  focus:border-yellow-500"
-          value={editedApartment.numberOfHouse}
-          onChange={handleChange}
-        />
-
-        <label for="condition" class="flex mb-2 font-sans font-medium">
-          <p className="text-red-500">*</p>Tình trạng{" "}
-        </label>
-        <input
-          type="text"
-          id="condition"
-          name="condition"
-          class="w-full border p-2 mb-4 focus:outline-none  focus:border-yellow-500"
-          value={editedApartment.condition}
-          onChange={handleChange}
-        />
-      </div>
-      <h2 class="text-2xl  mb-4 font-sans font-medium">Ảnh</h2>
-      <div class=" bg-white rounded p-4"></div>
-      <h2 class="text-2xl  mb-4 font-sans font-medium">Thông tin chi tiết</h2>
-      <div class=" bg-white rounded p-4 mb-4">
-        <div class="mb-8">
-          <label for="description" class="flex mb-2 font-sans font-medium">
-            <p className="text-red-500">*</p>Description:
-          </label>
-          <textarea
-            id="description"
-            name="description"
-            class="w-full border p-2 mb-4 focus:outline-none  focus:border-yellow-500"
-            value={editedApartment.description}
-            onChange={handleChange}
-          ></textarea>
+          <div>
+            <label
+              for="condition"
+              class="block my-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Status
+            </label>
+            <input
+              type="text"
+              id="condition"
+              name="condition"
+              value={editedApartment.condition}
+              onChange={handleChange}
+              class="bg-gray-50 border hover:outline-yellow-400 outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5  "
+              placeholder="Good"
+              required
+            />
+          </div>
         </div>
-      </div>
-      <div class="flex justify-end">
-        <button
-          type="button"
-          class="bg-yellow-500 text-white px-4 py-2 rounded mr-2"
-          onClick={handleUpdate}
+        <label
+          for="description"
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
         >
-          Update Product
-        </button>
-        <button
-          type="button"
-          class="bg-gray-500 text-white px-4 py-2 rounded"
-          onClick={onRequestClose}
-        >
-          Close
-        </button>
+          Description apartment
+        </label>
+        <textarea
+          id="description"
+          value={editedApartment.description}
+          onChange={handleChange}
+          rows="4"
+          class="bg-gray-50 font-sans border hover:outline-yellow-400 outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5  "
+          placeholder="Write description..."
+        ></textarea>
+
+        <div class="flex justify-end mt-4">
+          <button
+            type="button"
+            class="bg-yellow-500 text-white px-4 py-2 rounded mr-2"
+            onClick={handleUpdate}
+          >
+            Update Product
+          </button>
+          <button
+            type="button"
+            class="bg-gray-500 text-white px-4 py-2 rounded"
+            onClick={onRequestClose}
+          >
+            Close
+          </button>
+        </div>
       </div>
     </div>
   );

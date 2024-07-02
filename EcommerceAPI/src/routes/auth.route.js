@@ -19,12 +19,14 @@ const {
   resetPassword,
   verifyEmail,
   sendVerificationEmail,
-  changePassword
+  changePassword,
+  verifyPassword
 } = authController;
 
 const router = express.Router();
 
 router.post('/login', signin);
+router.post('/verify-password', verifyPassword);
 
 router.post('/register', singleFile('image'), signup);
 

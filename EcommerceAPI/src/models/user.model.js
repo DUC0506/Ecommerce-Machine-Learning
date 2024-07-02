@@ -96,6 +96,10 @@ const userSchema = mongoose.Schema(
       cardId: { type: String },
       cardName: { type: String }
     },
+    balance: {
+      type: Number,
+      default: 0
+    },
     cardBank: [
       {
         bankNumber: { type: String },
