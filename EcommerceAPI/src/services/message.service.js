@@ -41,7 +41,7 @@ export const createMessage = catchAsync(async (body, userId) => {
 
 export const queryMessages = catchAsync(async (to, userId) => {
   // 1) Check if product doesn't exist
-  console.log(to);
+
   if (!to) {
     return {
       type: 'Error',
@@ -79,10 +79,10 @@ export const queryMessages = catchAsync(async (to, userId) => {
 
 export const queryGenerativeAI = catchAsync(async (body, userId) => {
   const { question } = body;
-
+  const adminId = process.env.ADMIN_ID;
   const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY);
   const model = genAI.getGenerativeModel({
-    model: 'gemini-1.0-pro'
+    model: process.env.MODEL_NAME
   });
   const generationConfig = {
     temperature: 0.9,
@@ -106,7 +106,7 @@ export const queryGenerativeAI = catchAsync(async (body, userId) => {
   const newMessage = await Message.create({
     message: { text: result.response.text() },
     users: ['model', userId],
-    sender: '660be947a68d0cccd9d71c43'
+    sender: adminId
   });
 
   if (!result) {

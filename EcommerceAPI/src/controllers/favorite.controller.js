@@ -41,7 +41,6 @@ export const getFavoriteList = catchAsync(async (req, res) => {
  * @returns   { JSON } - A JSON object representing the type and message
  */
 export const addFavoriteProduct = catchAsync(async (req, res) => {
-  console.log(req.body.productId);
   // 1) Calling addFavoriteProduct service
   const { type, message, statusCode } =
     await favoriteService.addFavoriteProduct(req.user.id, req.body.productId);

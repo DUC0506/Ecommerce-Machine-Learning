@@ -131,7 +131,7 @@ export const addProductToCart = catchAsync(
       totalQuantity: quantity,
       totalPrice: priceAfterDiscount * quantity * sizePrice.ratioPrice
     };
-    // console.log(cartData);
+
     // 4) Create new cart
     const createdCart = await Cart.create(cartData);
     // 5) If everything is OK, send cart

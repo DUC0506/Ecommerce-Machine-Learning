@@ -73,7 +73,7 @@ export const getFavoriteList = catchAsync(async (userId) => {
     path: 'products',
     select: 'name priceAfterDiscount mainImage'
   });
-  console.log(favorite);
+
   // 1) Check if favorite document doesn't exists
   if (!favorite) {
     return {

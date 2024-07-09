@@ -14,7 +14,7 @@ import { transactionService } from '../services/index';
  */
 export const createWithdrawal = catchAsync(async (req, res) => {
   // 1) Create new review
-  console.log(req.body);
+
   const { type, message, statusCode, transaction } =
     await transactionService.createWithdrawal(req.user, req.body);
 

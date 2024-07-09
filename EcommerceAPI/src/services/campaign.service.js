@@ -11,8 +11,7 @@ const scheduleDiscount = async (
   discountRate
 ) => {
   const currentDate = new Date();
-  // Nếu currentDate trùng khớp với campaignStartDate, giảm giá sản phẩm
-  console.log(currentDate.getTime(), campaignStartDate.getTime());
+
   if (currentDate.getTime() > campaignStartDate.getTime()) {
     setTimeout(async () => {
       const products = await Product.find({ _id: { $in: productArray } });
@@ -41,7 +40,7 @@ const scheduleDiscount = async (
         //     }
         //   );
         // }, campaignEndDate.getTime() - currentDate.getTime());
-        const products = await Product.find({ _id: { $in: productArray } });
+        // const products = await Product.find({ _id: { $in: productArray } });
         await Promise.all(
           products.map(async (product) => {
             await Product.updateOne(

@@ -19,7 +19,7 @@ const server = app.listen(serverPort, () => {
 });
 const io = socket(server, {
   cors: {
-    origin: 'http://localhost:3001',
+    origin: process.env.PORT_CLIENT,
     credentials: true
   }
 });

@@ -52,7 +52,7 @@ export const createNews = catchAsync(async (body, files, userId) => {
       videoResult = videoResultUrl.secure_url;
       videoResultId = videoResultUrl.public_id;
     } catch (error) {
-      console.error('Error uploading video:', error);
+      return error;
       // Xử lý lỗi nếu cần
     }
   } else {
@@ -63,10 +63,13 @@ export const createNews = catchAsync(async (body, files, userId) => {
   const imagesPromises = images.map((image) =>
     uploadFile(dataUri(image).content, folderName)
   );
+
   const imagesResult = await Promise.all(imagesPromises);
+
   // 5) Upload image to cloudinary
   const imagesId = [];
   const imagesLink = [];
+
   // 3) Push images links & images IDs to the arrays
   imagesResult.forEach((image) => {
     imagesLink.push(image.secure_url);
