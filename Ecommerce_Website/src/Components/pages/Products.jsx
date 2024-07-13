@@ -273,7 +273,12 @@ export default function Products() {
 
   // )
   return (
-    <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 relative">
+    <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 relative min-h-screen">
+      <AddProductModal
+        isOpen={isAddProductModalOpen}
+        onRequestClose={() => setAddProductModalOpen(false)}
+        onAddProduct={handleAddProduct}
+      />
       {product && (
         <UpdateProductModal
           isOpen={isUpdateProductModalOpen}
@@ -344,7 +349,7 @@ export default function Products() {
           <TabsContent value="all">
             <Card x-chunk="dashboard-06-chunk-0">
               <CardHeader>
-                <h1 class=" text-xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-3xl">
+                <h1 class=" text-xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-3xl whitespace-normal break-words">
                   <span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
                     Products
                   </span>{" "}
@@ -352,8 +357,8 @@ export default function Products() {
                 </h1>
                 {/* <CardTitle className="text-yellow-400">Products</CardTitle> */}
                 <CardDescription>
-                  <h1 class="mb-4 text-xl font-extrabold leading-none tracking-tight text-gray-900 md:text-2xl lg:text-3xl dark:text-white">
-                    <mark class="px-2 text-white bg-yellow-400 rounded ">
+                  <h1 class="mb-4 text-xl font-extrabold leading-none tracking-tight text-gray-900 md:text-2xl lg:text-3xl whitespace-normal break-words">
+                    <mark class="px-2 text-white bg-yellow-400 rounded  ">
                       Manage
                     </mark>{" "}
                     your products and view their sales performance
@@ -484,12 +489,6 @@ export default function Products() {
           </TabsContent>
         )}
       </Tabs>
-
-      <AddProductModal
-        isOpen={isAddProductModalOpen}
-        onRequestClose={() => setAddProductModalOpen(false)}
-        onAddProduct={handleAddProduct}
-      />
     </main>
   );
 }

@@ -58,10 +58,11 @@ const HomePage = () => {
       <ToastContainer />
       <Landing />
       {/* <Links categorys={"All products "} /> */}
-      <div className="flex m-auto max-w-4xl mt-16 flex-wrap align-middle items-center justify-center w-full">
+      <div className="flex m-auto max-w-7xl mt-16 flex-wrap align-middle items-center justify-center w-full">
         {categories.map((category) => (
           <div
             onClick={() => handleNavigate(category.name, category._id)}
+            key={category._id}
             className="mx-2 my-2 inline-block p-4 w-24 h-32 rounded-md items-center hover:shadow-pink-500 hover:shadow-2xl hover:bg-slate-50 cursor-pointer transition duration-300 ease-in-out  text-center align-middle bg-gray-400 bg-opacity-20"
           >
             <div className="items-center m-auto w-10 h-14 mb-1">
@@ -74,7 +75,9 @@ const HomePage = () => {
         ))}
         <div className="mt-8">
           {categories.length > 0
-            ? categories.map((category) => <HomeProduct category={category} />)
+            ? categories.map((category) => (
+                <HomeProduct key={category._id} category={category} />
+              ))
             : ""}
         </div>
 

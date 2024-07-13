@@ -2,6 +2,7 @@
 // AddProductModal.js
 
 import React, { useEffect, useState } from "react";
+import { FaStar } from "react-icons/fa";
 import { getCategory } from "../../../api/category";
 import {
   Select,
@@ -143,7 +144,7 @@ const AddProductModal = ({ isOpen, onRequestClose, onAddProduct }) => {
 
   return (
     <div
-      class={`absolute z-10 w-full top-1/2 left-1/2  md:top-1/2 h-full transform -translate-x-1/2 -translate-y-1/2 bg-slate-100 p-8 rounded shadow-md overflow-y-auto max-h-full ${
+      class={`absolute  z-10 w-full top-1/2 left-1/2  md:top-1/2  h-full transform -translate-x-1/2 -translate-y-1/2 bg-slate-100 p-8 rounded shadow-md overflow-y-auto max-h-full ${
         isOpen ? "block" : "hidden"
       }`}
     >
@@ -183,11 +184,11 @@ const AddProductModal = ({ isOpen, onRequestClose, onAddProduct }) => {
             <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
               <Card x-chunk="dashboard-07-chunk-0">
                 <CardHeader>
-                  <CardTitle className="bg-yellow-400 rounded w-fit p-2">
+                  <CardTitle className="text-yellow-500 rounded w-fit p-2">
                     Product Details
                   </CardTitle>
                   <CardDescription>
-                    Lipsum dolor sit amet, consectetur adipiscing elit
+                    Name and description of the product
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -217,11 +218,12 @@ const AddProductModal = ({ isOpen, onRequestClose, onAddProduct }) => {
               </Card>
               <Card x-chunk="dashboard-07-chunk-1">
                 <CardHeader>
-                  <CardTitle className="bg-yellow-400 rounded w-fit p-2">
+                  <CardTitle className="text-yellow-500 rounded w-fit p-2">
                     Info
                   </CardTitle>
                   <CardDescription>
-                    Lipsum dolor sit amet, consectetur adipiscing elit
+                    Price , Quantity, Sold , Out of stock, Regions, Sizes for
+                    product
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -252,7 +254,7 @@ const AddProductModal = ({ isOpen, onRequestClose, onAddProduct }) => {
                     </div>
                     <div className="flex ">
                       <div className="grid gap-3 mr-4">
-                        <Label htmlFor="name">Color</Label>
+                        <Label htmlFor="name">Regions</Label>
                         <Input
                           id="colors"
                           name="colors"
@@ -327,21 +329,17 @@ const AddProductModal = ({ isOpen, onRequestClose, onAddProduct }) => {
                     </div>
                   </div>
                 </CardContent>
-                <CardFooter className="justify-center border-t p-4">
-                  <Button size="sm" variant="ghost" className="gap-1">
-                    <PlusCircle className="h-3.5 w-3.5" />
-                    Add Variant
-                  </Button>
-                </CardFooter>
               </Card>
+            </div>
+            <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
               <Card x-chunk="dashboard-07-chunk-2">
                 <CardHeader>
-                  <CardTitle className="bg-yellow-400 rounded w-fit p-2">
+                  <CardTitle className="text-yellow-500 rounded w-fit p-2">
                     Product Category
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid gap-6 sm:grid-cols-3">
+                  <div className="grid gap-6 sm:grid-cols-1">
                     <div className="grid gap-3">
                       <Label htmlFor="category">Category</Label>
                       <Select
@@ -350,7 +348,7 @@ const AddProductModal = ({ isOpen, onRequestClose, onAddProduct }) => {
                         onValueChange={handleSelectChange("category")}
                       >
                         <SelectTrigger>
-                          <SelectValue placeholder="Select category" />
+                          <SelectValue value="" placeholder="Select category" />
                         </SelectTrigger>
                         <SelectContent>
                           {categories.map((category) => (
@@ -371,39 +369,13 @@ const AddProductModal = ({ isOpen, onRequestClose, onAddProduct }) => {
                   </div>
                 </CardContent>
               </Card>
-            </div>
-            <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
-              <Card x-chunk="dashboard-07-chunk-3">
-                <CardHeader>
-                  <CardTitle className="bg-yellow-400 rounded w-fit p-2">
-                    Product Status
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid gap-6">
-                    <div className="grid gap-3">
-                      <Label htmlFor="status">Status</Label>
-                      <Select>
-                        <SelectTrigger id="status" aria-label="Select status">
-                          <SelectValue placeholder="Select status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="draft">Draft</SelectItem>
-                          <SelectItem value="published">Active</SelectItem>
-                          <SelectItem value="archived">Archived</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
               <Card className="overflow-hidden" x-chunk="dashboard-07-chunk-4">
                 <CardHeader>
-                  <CardTitle className="bg-yellow-400 rounded w-fit p-2">
+                  <CardTitle className="text-yellow-500 rounded w-fit p-2">
                     Product Images
                   </CardTitle>
                   <CardDescription>
-                    Lipsum dolor sit amet, consectetur adipiscing elit
+                    Images must be at least 300x300px and in JPG, PNG,
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -517,16 +489,18 @@ const AddProductModal = ({ isOpen, onRequestClose, onAddProduct }) => {
               </Card>
               <Card x-chunk="dashboard-07-chunk-5">
                 <CardHeader>
-                  <CardTitle>Archive Product</CardTitle>
+                  <CardTitle className="text-yellow-500">
+                    Rating Product
+                  </CardTitle>
                   <CardDescription>
-                    Lipsum dolor sit amet, consectetur adipiscing elit.
+                    Default rating for this product
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div></div>
-                  <Button size="sm" variant="secondary">
-                    Archive Product
-                  </Button>
+                  <div className="text-yellow-500 flex items-center justify-center gap-1 text-lg font-sans font-semibold">
+                    4.5
+                    <FaStar />
+                  </div>
                 </CardContent>
               </Card>
             </div>

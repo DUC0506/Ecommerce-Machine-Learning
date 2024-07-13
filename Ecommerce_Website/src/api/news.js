@@ -3,7 +3,7 @@ import client from "./client";
 export const getNewsByApartment = async (idApartment, idAuthor, pagination) => {
   let url = idAuthor
     ? `?author=${idAuthor}&limit=10&page=${pagination}?sort=-createdAt`
-    : `?apartment=${idApartment}&limit=10&page=${pagination}?sort=-createdAt`;
+    : `?apartment=${idApartment}&limit=10&page=${pagination}?sort=-createdAt&isApproved=true`;
   console.log(url);
   const token = getToken();
   try {

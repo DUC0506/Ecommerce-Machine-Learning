@@ -25,7 +25,7 @@ import { CiCircleRemove } from "react-icons/ci";
 import { Input } from "../../ui/input";
 import { Label } from "../../ui/label";
 import { Textarea } from "../../ui/textarea";
-import { FaImage } from "react-icons/fa6";
+import { FaImage, FaStar } from "react-icons/fa6";
 // import { ToggleGroup, ToggleGroupItem } from "../../ui/toggle-group";
 import {
   Select,
@@ -379,7 +379,7 @@ const UpdateProductModal = ({
   // );
   return (
     <div
-      class={`absolute z-50 w-full top-1/2 left-1/2  md:top-1/2 h-full transform -translate-x-1/2 -translate-y-1/2 bg-slate-100 p-8 rounded shadow-md overflow-y-auto max-h-full ${
+      class={`absolute z-10 w-full top-1/2 left-1/2  md:top-1/2   h-full transform -translate-x-1/2 -translate-y-1/2 bg-slate-100 p-8 rounded shadow-md overflow-y-auto max-h-full ${
         isOpen ? "block" : "hidden"
       }`}
     >
@@ -472,7 +472,7 @@ const UpdateProductModal = ({
                           name="price"
                           value={editedProduct.price}
                           onChange={handleChange}
-                          type="text"
+                          type="number"
                           className="w-full font-sans"
                         />
                       </div>
@@ -483,14 +483,14 @@ const UpdateProductModal = ({
                           name="priceDiscount"
                           value={editedProduct.priceDiscount}
                           onChange={handleChange}
-                          type="text"
+                          type="number"
                           className="w-full font-sans"
                         />
                       </div>
                     </div>
                     {/* <div className="flex "> */}
                     <div className="grid gap-3 mr-4">
-                      <Label htmlFor="colors">Colors</Label>
+                      <Label htmlFor="colors">Regions</Label>
                       {editedProduct.colors.map((color, index) => (
                         <div key={index} className="flex items-center">
                           <Input
@@ -516,7 +516,7 @@ const UpdateProductModal = ({
                           onClick={addColor}
                           className="mt-2  hover:bg-yellow-400 font-sans p-2 bg-yellow-500 rounded text-white w-fit flex items-center justify-center "
                         >
-                          <MdAddToPhotos /> Add Color
+                          <MdAddToPhotos /> Add Regions
                         </button>
                       </div>
                     </div>
@@ -886,16 +886,18 @@ const UpdateProductModal = ({
               </Card>
               <Card x-chunk="dashboard-07-chunk-5">
                 <CardHeader>
-                  <CardTitle>Archive Product</CardTitle>
+                  <CardTitle className="text-yellow-500">
+                    Rating product
+                  </CardTitle>
                   <CardDescription>
-                    Lipsum dolor sit amet, consectetur adipiscing elit.
+                    Rating and reviews of the product
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div></div>
-                  <Button size="sm" variant="secondary">
-                    Archive Product
-                  </Button>
+                  <div className="text-yellow-500 flex items-center justify-center gap-1 text-lg font-sans font-semibold">
+                    {editedProduct.ratingsAverage}
+                    <FaStar />
+                  </div>
                 </CardContent>
               </Card>
             </div>

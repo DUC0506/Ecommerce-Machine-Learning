@@ -32,8 +32,8 @@ export const getProductsNotApproved = async () => {
 export const getProductsByApartment = async (IdCategory, numberPage) => {
   console.log(numberPage);
   let url = IdCategory
-    ? `products-apartment?category=${IdCategory}&page=${numberPage}&limit=15`
-    : `products-apartment?page=${numberPage}&limit=15`;
+    ? `products-apartment?category=${IdCategory}&page=${numberPage}&limit=15&isApproved=true`
+    : `products-apartment?page=${numberPage}&limit=15&isApproved=true`;
   console.log(url);
   const token = getToken();
   try {
@@ -53,7 +53,7 @@ export const getProductsByHome = async (IdCategory) => {
   const token = getToken();
   try {
     const { data } = await client.get(
-      `/product/products-apartment?category=${IdCategory}&limit=5`,
+      `/product/products-apartment?category=${IdCategory}&limit=5&isApproved=true`,
       {
         headers: {
           Authorization: "Bearer " + token,

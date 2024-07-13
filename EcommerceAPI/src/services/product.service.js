@@ -419,7 +419,7 @@ export const createProduct = catchAsync(async (body, files, seller) => {
 export const updateProductDetails = catchAsync(
   async (productId, sellerId, body) => {
     const product = await Product.findById(productId);
-    const infoProduct = body;
+    const infoProduct = { ...body };
 
     // 1) Check if product doesn't exist
     if (!product) {
@@ -439,7 +439,7 @@ export const updateProductDetails = catchAsync(
       };
     }
 
-    // 3) Check if user try to update colors or sizes fields
+    // 3) Check if user tries to update colors or sizes fields
     if (body.colors || body.sizes) {
       return {
         type: 'Error',
@@ -447,11 +447,20 @@ export const updateProductDetails = catchAsync(
         statusCode: 401
       };
     }
-    // 3) Update product by it's ID
+
+    // Calculate priceAfterDiscount if priceDiscount is provided and not zero
+    if (body.priceDiscount !== undefined && body.priceDiscount !== 0) {
+      infoProduct.priceAfterDiscount =
+        Number(body.price) -
+        (Number(body.price) / 100) * Number(body.priceDiscount);
+    }
+
+    // 4) Update product by its ID
     const result = await Product.findByIdAndUpdate(productId, infoProduct, {
       new: true
     });
-    // 4) If everything is OK, send data
+
+    // 5) If everything is OK, send data
     return {
       type: 'Success',
       message: 'successfulProductDetails',

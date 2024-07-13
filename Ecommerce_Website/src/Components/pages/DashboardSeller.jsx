@@ -51,10 +51,10 @@ export default function DashboardSeller() {
     <div className="flex flex-col gap-4">
       <DashboardStatsGridSeller />
 
-      <div className="flex flex-row gap-4 w-full">
+      <div className="grid md:grid-cols-6 grid-cols-1 flex-row gap-4 w-full">
         {/* <TransactionChartSeller /> */}
         {/* <div className=" mr-2 bg-slate-50 p-4 rounded shadow-md cursor-pointer mt-4"> */}
-        <div className="w-4/6">
+        <div className="md:col-span-4 col-span-1 ">
           {data2.length > 0 && data2 ? (
             <SalesChart
               labels={labels2}
@@ -68,11 +68,9 @@ export default function DashboardSeller() {
             </div>
           )}
         </div>
-        <div className="w-2/6">
+        <div className="col-span-2">
           <PopularProducts />
         </div>
-
-        {/* </div> */}
       </div>
 
       <RecentOrders number={5} sellerId={authInfo.profile._id} />

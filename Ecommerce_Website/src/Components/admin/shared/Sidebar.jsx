@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from "react";
-// import classNames from "classnames";
+
 import { Link, useLocation } from "react-router-dom";
-// import { FcBullish } from "react-icons/fc";
-// import { HiOutlineLogout } from "react-icons/hi";
-// import {
-//   DASHBOARD_SIDEBAR_LINKS,
-//   DASHBOARD_SIDEBAR_BOTTOM_LINKS,
-// } from "../../lib/constants";
-// import { useAuth } from "../../../hooks";
 
 import logo from "../../../assets/condoseller.png";
 
@@ -31,53 +24,9 @@ export default function Sidebar() {
   }, [location.pathname]);
   return (
     <div className="bg-white w-60 p-3 flex flex-col">
-      {/* <div className="flex items-center gap-2 px-1 py-3">
-				<FcBullish fontSize={24} />
-				<span className="text-yellow-400 text-lg">OpenShop</span>
-			</div>
-			<div className="py-8 flex flex-1 flex-col gap-0.5">
-				{DASHBOARD_SIDEBAR_LINKS.map((link) => (
-					<SidebarLink key={link.key} link={link} />
-				))}
-			</div>
-			<div className="flex flex-col gap-0.5 pt-2 border-t border-neutral-700">
-				{DASHBOARD_SIDEBAR_BOTTOM_LINKS.map((link) => (
-					<SidebarLink key={link.key} link={link} />
-				))}
-				<div onClick={() => handleLogoutDB()} className={classNames(linkClass, 'cursor-pointer text-red-500') }>
-					<span className="text-xl">
-						<HiOutlineLogout />
-					</span>
-					Logout
-				</div>
-			</div> */}
-
-      {/* <button
-        data-drawer-target="separator-sidebar"
-        data-drawer-toggle="separator-sidebar"
-        aria-controls="separator-sidebar"
-        type="button"
-        class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-      >
-        <span class="sr-only">Open sidebar</span>
-        <svg
-          class="w-6 h-6"
-          aria-hidden="true"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            clip-rule="evenodd"
-            fill-rule="evenodd"
-            d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
-          ></path>
-        </svg>
-      </button> */}
-
       <aside
         id="separator-sidebar"
-        class="fixed top-0 left-0 z-40 w-60 h-screen transition-transform -translate-x-full sm:translate-x-0"
+        class="fixed top-0 left-0 z-40 w-60 h-screen transition-transform -translate-x-full  lg:translate-x-0 "
         aria-label="Sidebar"
       >
         <div class="h-full w-full px-3 py-4 overflow-y-auto bg-white ">

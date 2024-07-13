@@ -9,6 +9,7 @@ import { getProduct } from "../api/products";
 import { TbCurrencyDong } from "react-icons/tb";
 import Footer from "../Components/Footer";
 import { useNotification } from "../hooks";
+import { convertISOToDateFormat } from "../utils/hepler";
 
 export default function MyOrder() {
   const { updateNotification } = useNotification();
@@ -84,24 +85,34 @@ export default function MyOrder() {
                       </div>
                     </div>
                     <div className="flex flex-col justify-end  pb-2 w-full">
-                      <div
-                        key={index}
-                        className="text-yellow-400 font-sans cursor-pointer font-bold text-xl  mt-2 mb-2 flex items-center justify-end"
-                      >
-                        {order.totalPrice}{" "}
-                        <TbCurrencyDong className="text-lg ml-1 font-sans" />
+                      <div className="w-full text-lg font-sans font-medium text-white px-2   flex justify-between mr-1">
+                        <div className="font-sans font-semibold text-sm text-gray-500 items-center">
+                          Order date {convertISOToDateFormat(order.createdAt)}
+                        </div>
+                        <div
+                          key={index}
+                          className="text-yellow-400 font-sans cursor-pointer font-bold text-xl  mt-2 mb-2 flex items-center justify-end"
+                        >
+                          {order.totalPrice}{" "}
+                          <TbCurrencyDong className="text-lg ml-1 font-sans" />
+                        </div>
                       </div>
                       <div className="w-full text-lg font-sans font-medium text-white px-2   flex justify-between mr-1">
                         <p className="bg-yellow-400 py-1 px-4 rounded">
                           {order.status}
                         </p>
-                        <button
-                          onClick={() => handleRemoveOrder(order._id)}
-                          class="block text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
-                          type="button"
-                        >
-                          Cancel order
-                        </button>
+                        {order.status === "Not Processed" ||
+                        order.status === "Processing" ? (
+                          <button
+                            onClick={() => handleRemoveOrder(order._id)}
+                            class="block text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+                            type="button"
+                          >
+                            Cancel order
+                          </button>
+                        ) : (
+                          ""
+                        )}
                       </div>
                     </div>
                   </div>

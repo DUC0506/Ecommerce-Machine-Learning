@@ -18,7 +18,7 @@ export default function Chat({ role, apartment }) {
 
   console.log(apartment);
   const { authInfo } = useAuth();
-  const host = "http://localhost:3000";
+  const host = process.env.SOCKET_URL;
   if (!apartment) {
     apartment = { _id: null };
   }

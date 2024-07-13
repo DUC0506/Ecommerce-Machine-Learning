@@ -169,10 +169,7 @@ const useValidation = () => {
       updateNotification("error", "News content not found");
       return false;
     }
-    if (!newsData.apartment) {
-      updateNotification("error", "Apartment not found");
-      return false;
-    }
+
     // Additional validation checks can be added here
     return true;
   };

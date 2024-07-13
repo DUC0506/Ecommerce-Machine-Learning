@@ -8,6 +8,7 @@ import {
 import { Link } from "react-router-dom";
 import NotFound from "./admin/shared/NotFound";
 import { TbCurrencyDong } from "react-icons/tb";
+import { formatCurrency } from "../utils/hepler";
 const CartItem = ({
   id,
   name,
@@ -22,7 +23,7 @@ const CartItem = ({
   size,
   removeItemCart,
 }) => {
-  const discountedPrice = price - (price * discount) / 100;
+  // const discountedPrice = price - (price * discount) / 100;
 
   return (
     // <div className="flex items-center justify-between p-4 border-b bg-white rounded mt-2">
@@ -116,7 +117,7 @@ const CartItem = ({
             </div>
             <div class="ml-2 text-end md:order-4 md:w-32">
               <p class="text-base flex items-center font-bold text-gray-900 dark:text-white">
-                {discountedPrice * quantity}{" "}
+                {formatCurrency(price * quantity)}{" "}
                 <TbCurrencyDong className="text-xl text-yellow-500" />
               </p>
             </div>
@@ -152,6 +153,8 @@ const CartItem = ({
 const ShoppingCart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [cart, setCart] = useState({});
+  const [savingPrice, setSavingPrice] = useState(0);
+
   const fetchCart = async () => {
     const { error, cart } = await getCart();
 
@@ -160,8 +163,21 @@ const ShoppingCart = () => {
       console.log(cart);
       setCart(cart);
       setCartItems(cart.items);
+      calculateSavingPrice(cart.items);
     }
   };
+  const calculateSavingPrice = (items) => {
+    const calculatedSavingPrice = items.reduce((acc, item) => {
+      const discountAmount =
+        (item.product.price *
+          item.product.priceDiscount *
+          item.totalProductQuantity) /
+        100;
+      return acc + discountAmount;
+    }, 0);
+    setSavingPrice(calculatedSavingPrice);
+  };
+
   // const navigate = useNavigate();
 
   // const discountCode = "DISCOUNT123";
@@ -309,7 +325,7 @@ const ShoppingCart = () => {
                   Original price
                 </dt>
                 <dd class="text-base flex items-center font-medium text-gray-900 font-sans">
-                  {cart.totalPrice ? cart.totalPrice : 0}{" "}
+                  {cart.totalPrice ? formatCurrency(cart.totalPrice) : 0}{" "}
                   <TbCurrencyDong className="text-xl text-yellow-500 font-sans" />
                 </dd>
               </dl>
@@ -319,16 +335,8 @@ const ShoppingCart = () => {
                   Savings
                 </dt>
                 <dd class="text-base font-medium flex items-center font-sans">
-                  0 <TbCurrencyDong className="text-2xl text-yellow-500" />
-                </dd>
-              </dl>
-
-              <dl class="flex items-center justify-between gap-4">
-                <dt class="text-base font-normal text-gray-500 font-sans">
-                  Store Pickup
-                </dt>
-                <dd class="text-base font-medium text-gray-900 flex items-center font-sans">
-                  0 <TbCurrencyDong className="text-2xl text-yellow-500" />
+                  {formatCurrency(savingPrice)}
+                  <TbCurrencyDong className="text-2xl text-yellow-500" />
                 </dd>
               </dl>
 
@@ -337,6 +345,7 @@ const ShoppingCart = () => {
                   Tax
                 </dt>
                 <dd class="text-base font-medium text-gray-900 flex items-center font-sans">
+                  {}
                   0 <TbCurrencyDong className="text-2xl text-yellow-500" />
                 </dd>
               </dl>
@@ -345,7 +354,7 @@ const ShoppingCart = () => {
             <dl class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
               <dt class="text-base font-bold text-gray-900 font-sans">Total</dt>
               <dd class="text-base flex items-center font-bold text-gray-900 dark:text-white">
-                {cart.totalPrice ? cart.totalPrice : 0}{" "}
+                {cart.totalPrice ? formatCurrency(cart.totalPrice) : 0}{" "}
                 <TbCurrencyDong className="text-xl text-yellow-500" />
               </dd>
             </dl>

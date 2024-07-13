@@ -48,28 +48,43 @@ export default function RecentOrders({ number, sellerId }) {
 					<div className="w-1/6 py-2 px-4 font-sans font-medium justify-center items-center flex">Trạng thái</div> */}
       {/* <div className="w-1/6 py-2 px-4 font-sans font-medium ">Hành động</div> */}
       {/* </div> */}
-      <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead class="text-xs  text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th scope="col" class="px-6 py-3 font-sans">
+            <th scope="col" className="px-6 py-3 font-sans">
               Product name
             </th>
-            <th scope="col" class="px-6 py-3 font-sans">
+            <th
+              scope="col"
+              className="px-6 py-3 font-sans hidden md:table-cell"
+            >
               Delivery time
             </th>
-            <th scope="col" class="px-6 py-3 font-sans">
+            <th
+              scope="col"
+              className="px-6 py-3 font-sans hidden md:table-cell"
+            >
               User name
             </th>
-            <th scope="col" class="px-6 py-3 font-sans">
+            <th
+              scope="col"
+              className="px-6 py-3 font-sans hidden md:table-cell"
+            >
               Order date
             </th>
-            <th scope="col" class="px-6 py-3 font-sans">
+            <th
+              scope="col"
+              className="px-6 py-3 font-sans hidden md:table-cell"
+            >
               Price
             </th>
-            <th scope="col" class="px-6 py-3 font-sans">
+            <th
+              scope="col"
+              className="px-6 py-3 font-sans hidden md:table-cell"
+            >
               Address
             </th>
-            <th scope="col" class="px-6 py-3 font-sans">
+            <th scope="col" className="px-6 py-3 font-sans">
               Status
             </th>
           </tr>
@@ -80,13 +95,13 @@ export default function RecentOrders({ number, sellerId }) {
             {recentOrders.map((order, index) => (
               <tr
                 key={index}
-                class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
+                className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
               >
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                   {order.products.map((product) => (
                     <div
                       key={product.id}
-                      className=" flex items-center font-sans justify-between"
+                      className="flex items-center font-sans justify-between"
                     >
                       <div>
                         <div className="font-sans">{product.nameProduct}</div>
@@ -101,34 +116,33 @@ export default function RecentOrders({ number, sellerId }) {
                     </div>
                   ))}
                 </td>
-                <td class="px-6 py-4 font-sans">{order.timeDelivery}</td>
-                <td class="px-6 py-4 font-sans">{order.user?.username}</td>
-                <td class="px-6 py-4 font-sans">
+                <td className="px-6 py-4 font-sans hidden md:table-cell">
+                  {order.timeDelivery}
+                </td>
+                <td className="px-6 py-4 font-sans hidden md:table-cell">
+                  {order.user?.username}
+                </td>
+                <td className="px-6 py-4 font-sans hidden md:table-cell">
                   {convertISOToDateFormat(order.createdAt)}
                 </td>
-                <td class="px-6 py-4 font-sans ">
+                <td className="px-6 py-4 font-sans hidden md:table-cell">
                   <div className="flex items-center font-sans">
                     {order.totalPrice}
                     <TbCurrencyDong className="text-yellow-400" />
                   </div>
                 </td>
-                <td class="px-6 py-4 font-sans">
+                <td className="px-6 py-4 font-sans hidden md:table-cell">
                   {order.shippingAddress?.address}
                 </td>
-                <td class="px-6 py-4 font-sans">
+                <td className="px-6 py-4 font-sans">
                   <select
                     value={order.status}
                     onChange={(e) =>
                       handleStatusChange(order._id, e.target.value)
                     }
-                    className=" py-2  bg-yellow-500 rounded cursor-pointer"
+                    className="py-2 bg-yellow-500 rounded cursor-pointer"
                   >
-                    <option
-                      value="Not Processed"
-                      className="py-2 hover:bg-red-500"
-                    >
-                      Not Processed
-                    </option>
+                    <option value="Not Processed">Not Processed</option>
                     <option value="Processing">Processing</option>
                     <option value="Shipped">Shipped</option>
                     <option value="Delivered">Delivered</option>

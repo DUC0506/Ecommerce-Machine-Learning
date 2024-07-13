@@ -42,7 +42,8 @@ export default function HomeProduct({ category }) {
                   id={item.id}
                   name={item.name}
                   price={item.price}
-                  images={`url('${item.mainImage}')`}
+                  images={item.mainImage}
+                  option={item.ratingsAverage}
                 />
               </div>
             ))

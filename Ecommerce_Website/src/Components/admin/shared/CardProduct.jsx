@@ -4,7 +4,7 @@ export default function CardProduct({ product, handleClick }) {
   return (
     <div>
       <div
-        class="absolute w-[240px] h-[300px]  -right-65 top-0 z-40 flex-shrink-0 max-w-lg mx-2 mb-6 overflow-hidden bg-yellow-500 rounded-lg shadow-lg"
+        class="absolute w-[180px] h-[240px]  -right-65 top-0 z-40 flex-shrink-0 max-w-lg mx-2 mb-6 overflow-hidden bg-yellow-500 rounded-lg shadow-lg"
         onClick={() => handleClick(product._id)}
       >
         <svg
@@ -36,7 +36,7 @@ export default function CardProduct({ product, handleClick }) {
             <source srcSet={product.mainImage} type="image/webp" />
             <source srcSet={product.mainImage} />
             <img
-              class="relative w-[160px] h-[180px] object-cover rounded"
+              class="relative w-[120px] h-[140px] object-cover rounded"
               src="/images/object/5.png"
               alt="shopping item"
             />
@@ -45,8 +45,10 @@ export default function CardProduct({ product, handleClick }) {
         <div class="relative px-2 pb-6 mt-6 text-white">
           {/* <span class="block -mb-1 opacity-75">{product.name}</span> */}
           <div class="flex justify-between">
-            <span class="block text-xl font-semibold">{product.name}</span>
-            <span class="flex items-center px-3 py-2 text-xs font-bold leading-none text-yellow-500 bg-white rounded-full">
+            <span class="block text-xl font-sans font-semibold">
+              {product.name}
+            </span>
+            <span class="flex font-sans items-center px-3 py-2 text-xs font-bold leading-none text-yellow-500 bg-white rounded-full">
               {product.price}
             </span>
           </div>

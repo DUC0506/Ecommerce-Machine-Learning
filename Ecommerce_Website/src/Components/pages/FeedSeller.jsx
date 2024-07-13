@@ -45,7 +45,7 @@ const FeedSeller = () => {
   const handleAddPost = async (data) => {
     const { type, message } = await addNews(data);
     if (type === "Error") return message;
-    updateNotification("Success", "News added successfully");
+    updateNotification("success", "News added successfully");
     fetchNews();
   };
   const handlePre = () => {

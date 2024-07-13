@@ -99,9 +99,9 @@ export default function TransactionChartSeller() {
         labels: generateLabels(formData.start_date, dataPre.length),
         product: formData.productId,
       };
-
+      console.log(dataPredict.labels, dataPredict.holidays);
       await addPredict(dataPredict);
-    }, 10000);
+    }, 8000);
   };
   // const fetchProducts = async () => {
   //   const { type, products } = await getSellerProducts(authInfo.profile._id);

@@ -9,7 +9,7 @@ export default function TransactionsFinance() {
   const [transactions, setTransactions] = useState([]);
   const [pagination, setPagination] = useState(1);
   const fetchTransactions = async () => {
-    const { type, transactions } = await getTransactions();
+    const { type, transactions } = await getTransactions(pagination);
     if (type === "Success") {
       console.log(transactions);
       setTransactions(transactions);

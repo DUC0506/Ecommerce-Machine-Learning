@@ -26,6 +26,7 @@ import { useNotification } from "../hooks";
 import { BiSolidCategory } from "react-icons/bi";
 import { GrDeliver } from "react-icons/gr";
 import { addFavoriteProduct } from "../api/favorite";
+import { formatCurrency } from "../utils/hepler";
 
 const DetailProduct = () => {
   const { updateNotification } = useNotification();
@@ -149,11 +150,9 @@ const DetailProduct = () => {
 
     navigate(`/cart`);
   };
-  console.log(showChat);
   const handleShowChat = (bool) => {
     setShowChat(bool);
   };
-  console.log(selectedSize);
   const handleSizeClick = (s) => {
     console.log(s);
     setSelectedSize(s);
@@ -202,104 +201,6 @@ const DetailProduct = () => {
       <ToastContainer />
       <Navbar />
       <div className="container mx-auto my-8 p-4 ">
-        {/* <div className="flex bg-slate-50 p-6">
-          <div className="w-1/2 relative bg-yellow-300 z-20 rounded-lg">
-            <img
-              src={mainImage || product.images[0]}
-              alt={product.name}
-              className=" w-full h-80  mb-2 z-20 object-contain rounded-md shadow-md"
-            />
-
-            <div className="mt-4 flex ">
-              {product.images.map((image, index) => (
-                <img
-                  key={index}
-                  src={image}
-                  alt={product.name}
-                  className="w-1/4  rounded-md shadow-md cursor-pointer mr-2 h-20 bg-yellow-200  object-contain"
-                  onClick={() => changeMainImage(image)}
-                />
-              ))}
-              <img
-                src={product.mainImage}
-                alt={product.name}
-                className="w-1/4 rounded-md shadow-md cursor-pointer h-20 bg-yellow-200  object-contain"
-                onClick={() => changeMainImage(product.mainImage)}
-              />
-            </div>
-          </div>
-          <div className="w-1/2 ml-4">
-            <h2 className="text-2xl font-medium font-sans mb-2 ">
-              {product.name}
-            </h2>
-            <p className="text-gray-800 mb-2 flex items-center mt-4">
-              {product.ratingsAverage} {getStarRating(product.ratingsAverage)}
-            </p>
-            <div className="flex text-sm font-medium mt-4 text-gray-800">
-              <p className="   mb-2 mr-2">{product.sold} Đã bán</p>
-              <p className=" mb-2 ml-2 underline underline-offset-8">
-                {product.ratingsQuantity} Đánh giá
-              </p>
-            </div>
-            <p className="text-2xl font-medium text-yellow-400 mb-2 p-4 flex bg-slate-200">
-              {selectedSize.ratioPrice
-                ? product.price * selectedSize.ratioPrice
-                : product.price}{" "}
-              <FaDongSign />
-            </p>
-            <div className="flex items-center mt-4">
-              {product.sizes.length > 0 &&
-                product.sizes.map((s, index) => (
-                  <div
-                    key={index}
-                    className={`mr-2  ${
-                      selectedSize.size === s.size
-                        ? "bg-yellow-500 text-white"
-                        : ""
-                    } px-2 py-1 font-semibold rounded cursor-pointer border-2 border-yellow-400 font-sans`}
-                    onClick={() => handleSizeClick(s)}
-                  >
-                    {s.size}
-                  </div>
-                ))}
-            </div>
-            <div className="flex text-sm font-medium font-sans mt-4 text-gray-800 p-4">
-              <p className="mb-2 mr-2 flex items-center font-sans">
-                {" "}
-                <LuPackageCheck className="text-yellow-500 text-xl mr-1" /> Đổi
-                trả miễn phí{" "}
-              </p>
-              <p className="mb-2 mr-2 flex items-center font-sans">
-                <FaCheckCircle className="text-yellow-500 text-xl mr-1" />
-                Hàng có nguồn gốc xuất xứ 100%
-              </p>
-            </div>
-            <div className="flex text-sm font-medium font-sans mt-4 text-gray-800 p-4">
-              <p className="mb-2 mr-2 flex items-center font-sans">
-                <GrDeliver className="text-yellow-500 text-xl mr-1" /> Miễn phí
-                vận chuyển
-              </p>
-              <p className="mb-2 mr-2 flex items-center font-sans">
-                {" "}
-                <FaHandsHelping className="text-yellow-500 text-xl mr-1" />{" "}
-                Hướng dẫn
-              </p>
-            </div>
-       
-
-            <div className="flex">
-              <button
-                onClick={() => addItemCart(product._id)}
-                className="bg-yellow-400  hover:bg-yellow-500 mr-2 flex items-center text-white px-2 py-3 rounded-md focus:outline-none font-sans"
-              >
-                <CiShoppingCart className="text-2xl mr-1 " /> Thêm vào giỏ hàng
-              </button>
-              <button className="bg-yellow-400 hover:bg-yellow-500 text-white px-4 py-3 rounded-md focus:outline-none font-sans">
-                Mua ngay
-              </button>
-            </div>
-          </div>
-        </div> */}
         <div>
           <section class="py-4">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -319,7 +220,7 @@ const DetailProduct = () => {
                     </div>
                   </div>
                   <div class="nav-for-slider ">
-                    <div class="swiper-wrapper flex ">
+                    <div class="swiper-wrapper flex justify-center ">
                       {product.images.map((image, index) => (
                         <div class="swiper-slide thumbs-slide mr-2" key={index}>
                           <img
@@ -346,10 +247,21 @@ const DetailProduct = () => {
                         <h2 class="font-manrope font-bold text-3xl leading-10 text-gray-900 mb-2  font-sans">
                           {product.name}
                         </h2>
-                        <p class="font-semibold w-fit px-2 py-1 flex items-center text-base text-white font-sans bg-yellow-500 rounded">
-                          <BiSolidCategory className="mr-2" />
-                          {product.category.name}
-                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          <p class="font-semibold w-fit px-2 py-1 flex items-center text-base text-white font-sans bg-yellow-500 rounded">
+                            <BiSolidCategory className="mr-2" />
+                            {product.category.name}
+                          </p>
+                          {product.colors.map((color, index) => (
+                            <p
+                              key={index}
+                              class="font-semibold w-fit px-2 py-1 flex items-center text-base text-white font-sans bg-yellow-500 rounded"
+                            >
+                              <BiSolidCategory className="mr-2" />
+                              {color.color}
+                            </p>
+                          ))}
+                        </div>
                       </div>
                       <button class="group transition-all duration-500 p-0.5">
                         <svg
@@ -381,14 +293,26 @@ const DetailProduct = () => {
                     </div>
 
                     <div class="flex  min-[400px]:flex-row min-[400px]:items-center mb-2 gap-y-3">
-                      <div class="flex items-center">
+                      <div class="flex items-center gap-2">
+                        {product.priceDiscount > 0 ? (
+                          <p class=" flex items-center line-through font-manrope font-semibold text-sm leading-9 text-gray-400 ">
+                            <FaDongSign className="text-gray-400" />
+                            {formatCurrency(product.price)}{" "}
+                          </p>
+                        ) : (
+                          ""
+                        )}
                         <h5 class=" flex items-center font-manrope font-semibold text-2xl leading-9 text-gray-900 ">
-                          {product.priceAfterDiscount}{" "}
+                          {formatCurrency(product.priceAfterDiscount)}{" "}
                           <FaDongSign className="text-yellow-400" />
                         </h5>
-                        <span class="ml-3 font-semibold text-lg text-yellow-400">
-                          30% off
-                        </span>
+                        {product.priceDiscount > 0 ? (
+                          <span class="ml-3 font-semibold text-lg text-yellow-400">
+                            {product.priceDiscount}% off
+                          </span>
+                        ) : (
+                          ""
+                        )}
                       </div>
                       <svg
                         class="mx-5 max-[400px]:hidden"

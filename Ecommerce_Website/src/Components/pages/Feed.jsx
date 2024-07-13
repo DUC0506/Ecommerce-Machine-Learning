@@ -291,43 +291,8 @@ const Feed = () => {
         </div>
       </div>
 
-      <div className="grid  grid-cols-1 md:grid-cols-3 w-full top-28 md:mt-16 relative">
-        {/* <div className="w-1/4 font-sans font-bold text-xl p-4 rounded  shadow-md bg-white ">
-          <div className=" font-sans font-semibold text-xl flex items-center justify-center flex-wrap">
-            <MdApartment className="mr-1 text-yellow-400" />
-            Chợ {apartment.name}
-          </div>
-          <div className=" font-sans mt-4    ">
-            <div className="flex items-center ont-sans font-medium text-base  border-b-2 border-zinc-300">
-              <FaEarthAfrica className="mr-1 text-yellow-400 " />
-              Public
-            </div>
-            <p className="flex-wrap flex font-sans font-normal text-base">
-              Anyone can see who's in the group and what they post.
-            </p>
-          </div>
-          <div className=" font-sans mt-4    ">
-            <div className="flex items-center ont-sans font-medium text-base border-b-2 border-zinc-300">
-              <MdOutlineDisabledVisible className="mr-1 text-yellow-400 " />
-              Visible
-            </div>
-            <p className="flex-wrap flex font-sans font-normal text-base">
-              Only residents of this apartment can find this group.
-            </p>
-          </div>
-          <div className=" font-sans mt-4   ">
-            <div className="flex items-center ont-sans font-medium text-base border-b-2 border-zinc-300 ">
-              <IoLocationSharp className="mr-1 text-yellow-400 " />
-              Location
-            </div>
-            <p className="flex-wrap flex font-sans font-normal text-base">
-              {apartment.address}
-            </p>
-          </div>
-        </div> */}
-        {/* top-28 mt-10 */}
-
-        <div className=" w-full col-span-1 md:col-span-2 md:px-20 mt-8  ">
+      <div className="grid   grid-cols-1 md:grid-cols-6 w-3/4 mx-auto top-28 md:mt-16 relative">
+        <div className=" w-full col-span-1 md:col-span-4 md:px-10 mt-8  ">
           {posts.map((post) => (
             <Post
               id={post._id}
@@ -342,11 +307,11 @@ const Feed = () => {
             />
           ))}
         </div>
-        <div className=" col-span-1 hidden md:block  h-fit rounded py-4  px-3 shadow-md bg-white  mr-2 sticky  whitespace-pre-line">
-          <div className="font-bold text-lg p-4 font-sans flex justify-center b-yellow-400 border-b-2 border-zinc-300 ">
+        <div className="col-span-2 hidden md:block h-fit rounded py-4 px-3 shadow-md bg-white sticky  whitespace-pre-line max-w-xs md:max-w-full">
+          <div className="font-bold text-lg p-4 font-sans flex justify-center b-yellow-400 border-b-2 border-zinc-300">
             Apartment community information
           </div>
-          <div className="font-sans px-4">{apartment.description}</div>
+          <div className="font-sans px-4 ">{apartment.description}</div>
         </div>
       </div>
     </div>

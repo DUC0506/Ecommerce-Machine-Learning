@@ -1,4 +1,6 @@
-
 import axios from "axios";
-const clientPyThon =axios.create({baseURL:'http://localhost:5000/'})
+console.log(process.env.REACT_APP_BASE_URL_PYTHON);
+const clientPyThon = axios.create({
+  baseURL: process.env.REACT_APP_BASE_URL_PYTHON,
+});
 export default clientPyThon;

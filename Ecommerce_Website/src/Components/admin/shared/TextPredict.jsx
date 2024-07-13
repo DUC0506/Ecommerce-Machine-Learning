@@ -30,7 +30,7 @@ export default function TextPredict({ startDate, endDate, dataPredict }) {
             <mark class="px-2 text-white bg-yellow-400 rounded ">analysis</mark>{" "}
             and advice for you
           </h4>
-          <p class="mb-3 rounded-lg p-4 font-semibold text-white  whitespace-pre-line font-sans bg-gradient-to-tr from-[#facc15] to-[#5FC3E4] shadow-md ">
+          <p class="mb-3 rounded-lg p-4 font-semibold text-white  whitespace-pre-line font-sans bg-gradient-to-tr from-[#faaa15] to-[#5FC3E4] shadow-md ">
             {text}
           </p>
         </div>

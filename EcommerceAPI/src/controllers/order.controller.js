@@ -108,6 +108,11 @@ export const getAllOrders = catchAsync(async (req, res) => {
   const { type, message, statusCode, orders } = await orderService.queryOrders(
     req
   );
+  const ordersWithTimestamps = orders.map((order) => ({
+    ...order.toObject(),
+    createdAt: order.createdAt,
+    updatedAt: order.updatedAt
+  }));
 
   // 2) Check if there is an error
   if (type === 'Error') {
@@ -121,7 +126,7 @@ export const getAllOrders = catchAsync(async (req, res) => {
   return res.status(statusCode).json({
     type,
     message: req.polyglot.t(message),
-    orders
+    orders: ordersWithTimestamps
   });
 });
 

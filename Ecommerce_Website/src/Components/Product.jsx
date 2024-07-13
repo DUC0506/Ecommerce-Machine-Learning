@@ -1,18 +1,11 @@
-// import { useDispatch } from "react-redux";
-
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import { addItemtoCart } from "../api/cart";
 import { useNotification } from "../hooks";
 import { TbCurrencyDong } from "react-icons/tb";
+import { formatCurrency } from "../utils/hepler";
+import { FaStar } from "react-icons/fa";
 const Product = ({ name, price, images, option, id, item }) => {
-  // const dispatch = useDispatch();
-  // const updatestate = (id) => {
-  //   dispatch(addToCart(id));
-  //   dispatch(updateadded());
-  //   toast.success('Added To Cart Successfully')
-  // }
-
   const navigate = useNavigate();
   const { updateNotification } = useNotification();
   const addItemCart = async (id) => {
@@ -32,21 +25,32 @@ const Product = ({ name, price, images, option, id, item }) => {
   };
   return (
     <div>
-      <div className="inline-block mx-2   items-center align-middle bg-yellow-50 p-2 rounded-lg mb-2 border-2 hover:border-yellow-400">
-        <div
+      <div
+        title={name}
+        className="inline-block mx-2  items-center align-middle bg-yellow-50 p-2 rounded-lg mb-2 border-2 hover:border-yellow-400"
+      >
+        {/* <div
           className="imagecont"
           onClick={() => getDetailProduct(id)}
           style={{
             backgroundImage: `${images}`,
           }}
-        ></div>
+        ></div> */}
+        <div onClick={() => getDetailProduct(id)}>
+          <img
+            src={images}
+            alt="product"
+            className="w-52 aspect-square rounded-sm overflow-hidden transition duration-300 ease-in-out hover:bg-opacity-50 cursor-pointer"
+          />
+        </div>
         <div className="flex justify-between items-center m-3">
           <div className="mr-2">
-            <div className="header1 font-normal font-sans text-normal">
+            <div className="w-16 overflow-hidden font-semibold whitespace-nowrap text-ellipsis font-sans">
               {name}
-            </div>
+            </div>{" "}
             <div className="font-bold text-sm font-sans text-yellow-400 flex items-center">
-              {price} <TbCurrencyDong className="ml-1 text-lg" />
+              {formatCurrency(price)}{" "}
+              <TbCurrencyDong className="ml-1 text-lg" />
             </div>
           </div>
           <div>
@@ -58,8 +62,8 @@ const Product = ({ name, price, images, option, id, item }) => {
             </button>
           </div>
         </div>
-        <div className="text-xs p-1 px-2 m-2 bg-sky-100 rounded-sm text-sky-500 w-max">
-          {option}
+        <div className="text-xs gap-1 flex items-center p-1 px-2 m-2 bg-sky-100 rounded-sm text-sky-500 w-max">
+          {option} <FaStar className="text-yellow-400 " />
         </div>
       </div>
     </div>

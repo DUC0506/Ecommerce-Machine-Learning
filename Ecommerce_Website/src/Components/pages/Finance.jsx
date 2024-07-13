@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { useAuth, useNotification } from "../../hooks";
 import { getOrder, getTotalSalesBySeller } from "../../api/order";
@@ -147,8 +148,11 @@ export default function Finance() {
                   onClick={() => setOpenCardModal(true)}
                 />
               </div>
-              {user?.cardBank.map((account) => (
-                <span className="flex  items-center rounded-full border font-semibold border-yellow-400 w-fit px-2">
+              {user?.cardBank.map((account, index) => (
+                <span
+                  key={index}
+                  className="flex  items-center rounded-full border font-semibold border-yellow-400 w-fit px-2"
+                >
                   <img src={card} alt="card" className="w-8 mr-2 " />
                   {account.bankNumber}
                 </span>
@@ -196,89 +200,28 @@ export default function Finance() {
               </div>
             </div>
           </div>
-          {/* <NavbarAdmin option1={option1} option2={option2} option3={option3} /> */}
 
-          {/* <div className="bg-white px-4 pt-3 pb-4 rounded-sm border border-gray-200 flex-1">
-          <div className="flex bg-gray-200 mb-2 w-full">
-            <div className="w-1/6 py-2 px-4 font-sans font-medium  items-center justify-center  flex ">
-              ID
-            </div>
-            <div className="w-1/6 py-2 px-4 font-sans font-medium justify-center items-center flex">
-              Order date
-            </div>
-            <div className="w-1/6 py-2 px-4 font-sans font-medium items-center justify-center flex">
-                Settlement date
-            </div>
-            <div className="w-1/6 py-2 px-4 font-sans font-medium items-center justify-center flex">
-                Payment amount
-            </div>
-            <div className="w-1/6 py-2 px-4 font-sans font-medium justify-center items-center flex">
-              {" "}
-             Revenue
-            </div>
-            <div className="w-1/6 py-2 px-4 font-sans font-medium justify-center items-center flex">
-              Hành động
-            </div>
-
-           
-          </div> */}
-          {/* {recentOrders.map((order, index) => (
-            <div
-              key={order._id}
-              className={`flex rounded w-full bg-slate-100  ${
-                index !== 0 ? "mt-2" : ""
-              }`}
-            >
-              <div className="w-1/6 font-sans font-medium flex p-4 items-center justify-center">
-                {order._id}
-              </div>
-              <div className="w-1/6 font-sans font-medium justify-center flex p-4 items-center">
-                {convertISOToDateFormat(order.createdAt)}
-              </div>
-              <div className="w-1/6 font-sans font-medium justify-center flex p-4 items-center">
-                {convertISOToDateFormat(order.createdAt, 1)}
-              </div>
-              <div className="w-1/6 font-sans font-medium justify-center flex items-center p-4">
-                {order.totalPrice * 0.98}
-                <TbCurrencyDong />{" "}
-              </div>
-              <div className="w-1/6 font-sans font-medium justify-center flex items-center p-4">
-                {order.totalPrice}
-                <TbCurrencyDong />{" "}
-              </div>
-              <div
-                className="w-1/6  font-sans font-medium justify-center flex items-center  cursor-pointer "
-                onClick={() => handleInfo(order._id)}
-              >
-                <div className="bg-yellow-400 py-2 px-4 rounded font-sans font-medium justify-center flex items-center  cursor-pointer">
-                  {" "}
-                  Xem chi tiết
-                </div>
-              </div>
-            </div>
-          ))}
-        </div> */}
           <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-              <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                  <th scope="col" class="px-6 py-3">
+                  <th scope="col" className="px-6 py-3">
                     ID
                   </th>
-                  <th scope="col" class="px-6 py-3">
+                  <th scope="col" className="px-6 py-3 hidden sm:table-cell">
                     Order date
                   </th>
-                  <th scope="col" class="px-6 py-3">
+                  <th scope="col" className="px-6 py-3 hidden sm:table-cell">
                     Settlement date
                   </th>
-                  <th scope="col" class="px-6 py-3">
+                  <th scope="col" className="px-6 py-3 hidden sm:table-cell">
                     Payment amount
                   </th>
-                  <th scope="col" class="px-6 py-3">
+                  <th scope="col" className="px-6 py-3 ">
                     Revenue
                   </th>
-                  <th scope="col" class="px-6 py-3">
-                    <span class="sr-only">Edit</span>
+                  <th scope="col" className="px-6 py-3 hidden sm:table-cell ">
+                    <span className="sr-only">Edit</span>
                   </th>
                 </tr>
               </thead>
@@ -286,37 +229,37 @@ export default function Finance() {
                 {recentOrders.map((order, index) => (
                   <tr
                     key={index}
-                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                    onClick={() => handleInfo(order._id)}
+                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                   >
                     <th
                       scope="row"
-                      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white font-sans"
+                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white font-sans"
                     >
                       {order._id}
                     </th>
-                    <td class="px-6 py-4 font-sans">
-                      {" "}
+                    <td className="px-6 py-4 font-sans hidden sm:table-cell">
                       {convertISOToDateFormat(order.createdAt)}
                     </td>
-                    <td class="px-6 py-4 font-sans">
+                    <td className="px-6 py-4 font-sans hidden sm:table-cell">
                       {convertISOToDateFormat(order.createdAt, 1)}
                     </td>
-                    <td class="px-6 py-4 font-sans ">
+                    <td className="px-6 py-4 font-sans hidden sm:table-cell">
                       <div className="flex items-center font-sans">
                         {order.totalPrice * 0.97}
                         <TbCurrencyDong />
                       </div>
                     </td>
-                    <td class="px-6 py-4 r">
+                    <td className="px-6 py-4 font-sans ">
                       <div className="flex items-center font-sans">
                         {order.totalPrice}
                         <TbCurrencyDong />
                       </div>
                     </td>
-                    <td class="px-6 py-4 text-right font-sans">
+                    <td className="px-6 py-4 text-right font-sans hidden sm:table-cell ">
                       <div
                         onClick={() => handleInfo(order._id)}
-                        class="font-medium text-yellow-400  hover:underline cursor-pointer"
+                        className="font-medium text-yellow-400 hover:underline cursor-pointer"
                       >
                         Detail
                       </div>
@@ -325,6 +268,7 @@ export default function Finance() {
                 ))}
               </tbody>
             </table>
+
             <div className="text-xs p-4">
               Page <strong>{pagination}</strong>
               <div class="flex mt-2">
@@ -348,7 +292,7 @@ export default function Finance() {
           <div
             className={
               hideModal
-                ? "absolute bg-gradient-to-tr from-[#facc15] to-[#5FC3E4] shadow-md w-1/2 h-auto rounded top-1/3 right-10 p-6 cursor-pointer z-10 "
+                ? "absolute bg-gradient-to-tr from-[#facc15] to-[#5FC3E4] shadow-md   md:w-1/2 h-auto rounded top-1/3 right-10 p-6 cursor-pointer z-10 "
                 : "hidden"
             }
           >

@@ -100,23 +100,24 @@ export default function AddNewsModal({
   };
   const formData1 = new FormData();
   const handleCreatePost = () => {
-    const bool = validateNews(formData);
-    if (!bool) {
-      return;
-    }
     for (const key in formData) {
       if (key === "images") {
         formData[key].forEach((image) => {
           formData1.append(key, image);
         });
       } else if (key === "apartment") {
-        formData1.append(key, authInfo.profile.apartment);
+        formData1.append(key, authInfo.profile.apartment._id);
       } else {
         formData1.append(key, formData[key]);
       }
     }
 
+    const bool = validateNews(formData);
+    if (!bool) {
+      return;
+    }
     handleAddPost(formData1);
+    onRequestClose();
   };
 
   return (
@@ -165,17 +166,17 @@ export default function AddNewsModal({
               htmlFor="fileInput"
               className="cursor-pointer text-white px-4 py-2 bg-yellow-400 rounded w-1/3"
             >
-              Choose Files
+              Choose Images
             </label>
           </div>
 
-          <div className="flex ">
+          <div className="grid grid-cols-3 ">
             {imagePreviews.map((imagePreview, index) => (
-              <div key={index} className="relative">
+              <div key={index} className="relative  w-52 ">
                 <img
                   src={imagePreview}
                   alt={`Preview ${index}`}
-                  className="mt-2 w-full rounded ml-1"
+                  className="mt-2 h-52 w-52  rounded ml-1"
                 />
                 <button
                   className="absolute top-0 right-0 mt-1 mr-1 p-1 bg-red-500 text-white rounded-full text-xs cursor-pointer"

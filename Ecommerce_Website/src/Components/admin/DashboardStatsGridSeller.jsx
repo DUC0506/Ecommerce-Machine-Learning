@@ -58,20 +58,8 @@ export default function DashboardStatsGridSeller() {
   }, []);
 
   return (
-    <div className="flex gap-4">
-      {/* <BoxWrapper >
-				<div className="rounded-full cursor-pointer h-12 w-12 flex items-center justify-center bg-sky-500">
-					<IoBagHandle className="text-2xl text-white" />
-				</div>
-				<div className="pl-4 cursor-pointer">
-					<span className="text-sm text-gray-500 font-sans font-normal">Total Sales</span>
-					<div className="flex items-center cursor-pointer">
-						<strong className="text-xl text-gray-700 font-semibold font-sans">{totalOrderPriceAll}</strong>
-						<span className="text-xl text-yellow-500 pl-2"><TbCurrencyDong /></span>
-					</div>
-				</div>
-			</BoxWrapper> */}
-      <Card x-chunk="dashboard-01-chunk-0" className="flex-1">
+    <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-4">
+      <Card x-chunk="dashboard-01-chunk-0" className="col-span-1">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium font-sans">
             Total Revenue
@@ -88,7 +76,7 @@ export default function DashboardStatsGridSeller() {
           </p>
         </CardContent>
       </Card>
-      <Card x-chunk="dashboard-01-chunk-0" className="flex-1">
+      <Card x-chunk="dashboard-01-chunk-0" className="col-span-1">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium font-sans">
             Total Expenses
@@ -104,7 +92,7 @@ export default function DashboardStatsGridSeller() {
           </p>
         </CardContent>
       </Card>
-      <Card x-chunk="dashboard-01-chunk-0" className="flex-1">
+      <Card x-chunk="dashboard-01-chunk-0" className="col-span-1">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium font-sans">
             {" "}
@@ -122,7 +110,7 @@ export default function DashboardStatsGridSeller() {
           </p>
         </CardContent>
       </Card>
-      <Card x-chunk="dashboard-01-chunk-0" className="flex-1">
+      <Card x-chunk="dashboard-01-chunk-0" className="col-span-1">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium font-sans">
             {" "}
@@ -139,54 +127,6 @@ export default function DashboardStatsGridSeller() {
           </p>
         </CardContent>
       </Card>
-      {/* <BoxWrapper>
-        <div className="rounded-full cursor-pointer h-12 w-12 flex items-center justify-center bg-orange-600">
-          <IoPieChart className="text-2xl text-white" />
-        </div>
-        <div className="pl-4 cursor-pointer">
-          <span className="text-sm text-gray-500  font-sans font-normal">
-            Total Expenses
-          </span>
-          <div className="flex items-center">
-            <strong className="text-xl text-gray-700 font-semibold font-sans">
-              3423
-            </strong>
-            <span className="text-xl text-yellow-500 pl-2">
-              <TbCurrencyDong />
-            </span>
-          </div>
-        </div>
-      </BoxWrapper>
-      <BoxWrapper>
-        <div className="rounded-full cursor-pointer h-12 w-12 flex items-center justify-center bg-yellow-400">
-          <IoPeople className="text-2xl text-white" />
-        </div>
-        <div className="pl-4 cursor-pointer">
-          <span className="text-sm text-gray-500 font-normal font-sans">
-            Total Customer
-          </span>
-          <div className="flex items-center">
-            <strong className="text-xl text-gray-700 font-semibold font-sans">
-              {totalUsers?.length}
-            </strong>
-          </div>
-        </div>
-      </BoxWrapper>
-      <BoxWrapper className="rounded">
-        <div className="rounded-full cursor-pointer h-12 w-12 flex items-center justify-center bg-green-600">
-          <IoCart className="text-2xl text-white" />
-        </div>
-        <div className="pl-4 cursor-pointer">
-          <span className="text-sm text-gray-500 font-normal font-sans">
-            Total Orders
-          </span>
-          <div className="flex items-center">
-            <strong className="text-xl text-gray-700 font-semibold font-sans">
-              {totalOrders?.length}
-            </strong>
-          </div>
-        </div>
-      </BoxWrapper> */}
     </div>
   );
 }
