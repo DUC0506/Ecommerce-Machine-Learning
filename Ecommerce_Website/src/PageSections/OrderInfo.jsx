@@ -10,6 +10,8 @@ import { createOrder } from "../api/order";
 import { useNotification } from "../hooks";
 import { TbCurrencyDong } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
+import { formatCurrency } from "../utils/hepler";
+import Loading from "../Components/admin/shared/Loading";
 
 const AddressSection = ({ onAddressChange }) => {
   const [city, setCity] = useState("");
@@ -100,7 +102,6 @@ const TimePaymentNoteSection = ({ onTimePaymentNoteChange }) => {
   const [expiry, setExpiry] = useState("");
   const [cvc, setCvc] = useState("");
   const [showCreditCardFields, setShowCreditCardFields] = useState(false);
-  const [showPayPalFields, setShowPayPalFields] = useState(false);
 
   useEffect(() => {
     // Gọi hàm onTimePaymentNoteChange để truyền dữ liệu về phía cha (OrderInfoPage)
@@ -118,8 +119,7 @@ const TimePaymentNoteSection = ({ onTimePaymentNoteChange }) => {
   const handlePaymentMethodChange = (e) => {
     const selectedPaymentMethod = e.target.value;
     setPaymentMethod(selectedPaymentMethod);
-    setShowCreditCardFields(selectedPaymentMethod === "creditCard");
-    setShowPayPalFields(selectedPaymentMethod === "paypal");
+    setShowCreditCardFields(selectedPaymentMethod !== "cash");
   };
 
   return (
@@ -159,11 +159,20 @@ const TimePaymentNoteSection = ({ onTimePaymentNoteChange }) => {
             <option className="font-sans font-medium " value="">
               Select a payment method
             </option>
-            <option className="font-sans " value="creditCard">
-              Credit Card
+            <option className="font-sans " value="pm_card_visa">
+              Visa
             </option>
-            <option className="font-sans " value="paypal">
-              PayPal
+            <option className="font-sans " value="pm_card_visa_debit">
+              Visa (debit)
+            </option>
+            <option className="font-sans " value="pm_card_jcb">
+              JCB
+            </option>
+            <option className="font-sans " value="pm_card_mastercard">
+              Mastercard
+            </option>
+            <option className="font-sans " value="pm_card_unionpay">
+              UnionPay
             </option>
             <option className="font-sans " value="cash">
               Payment upon delivery
@@ -171,44 +180,6 @@ const TimePaymentNoteSection = ({ onTimePaymentNoteChange }) => {
           </select>
         </div>
         {showCreditCardFields && (
-          // <div className="grid grid-cols-2 gap-4">
-          //   <div className="relative">
-          //     <label
-          //       htmlFor="cardNumber"
-          //       className="absolute top-0 left-0 pl-4 pt-3"
-          //     >
-          //       <FaCreditCard className="h-6 w-6 text-gray-400" />
-          //     </label>
-          //     <input
-          //       type="text"
-          //       id="cardNumber"
-          //       value={cardNumber}
-          //       className="mt-1 p-2 pl-12 border border-gray-300 rounded-md w-full focus:outline-none  focus:border-yellow-500"
-          //       placeholder="Card Number"
-          //       onChange={(e) => setCardNumber(e.target.value)}
-          //     />
-          //   </div>
-          //   <div>
-          //     <input
-          //       type="text"
-          //       id="expiry"
-          //       value={expiry}
-          //       placeholder="MM/YY"
-          //       className="mt-1 p-2 border border-gray-300 rounded-md w-full focus:outline-none  focus:border-yellow-500"
-          //       onChange={(e) => setExpiry(e.target.value)}
-          //     />
-          //   </div>
-          //   <div>
-          //     <input
-          //       type="text"
-          //       id="cvc"
-          //       value={cvc}
-          //       placeholder="CVC"
-          //       className="mt-1 p-2 border border-gray-300 rounded-md w-full focus:outline-none  focus:border-yellow-500"
-          //       onChange={(e) => setCvc(e.target.value)}
-          //     />
-          //   </div>
-          // </div>
           <div class="w-full rounded-lg border border-gray-200 bg-white p-1 shadow-sm  sm:p-2 lg:max-w-xl lg:p-4">
             <div class=" grid grid-cols-2 gap-4">
               <div class="col-span-2 sm:col-span-1">
@@ -317,22 +288,7 @@ const TimePaymentNoteSection = ({ onTimePaymentNoteChange }) => {
             </div>
           </div>
         )}
-        {showPayPalFields && (
-          <div>
-            <label
-              htmlFor="paypalEmail"
-              className="block text-sm font-medium text-gray-700 font-sans"
-            >
-              PayPal Email
-            </label>
-            <input
-              type="email"
-              id="paypalEmail"
-              className="mt-1 p-2 border border-gray-300 rounded-md w-full focus:outline-none  focus:border-yellow-500"
-            />
-            {/* Add more fields for PayPal details */}
-          </div>
-        )}
+
         <div>
           <label
             htmlFor="note"
@@ -357,9 +313,11 @@ const OrderInfoPage = () => {
   const [cart, setCart] = useState({});
   const [addressInfo, setAddressInfo] = useState({});
   const [timePaymentNoteInfo, setTimePaymentNoteInfo] = useState({});
+  const [loading, setLoading] = useState(false);
   const { updateNotification } = useNotification();
-  console.log(timePaymentNoteInfo);
+
   const handlePurchase = async () => {
+    setLoading(true);
     const part = timePaymentNoteInfo.expiry.split("/");
     const orderInfo = {
       paymentMethod: timePaymentNoteInfo.paymentMethod,
@@ -378,8 +336,7 @@ const OrderInfoPage = () => {
     };
 
     const { type, message } = await createOrder(orderInfo);
-    console.log(orderInfo);
-    console.log(message);
+    setLoading(false);
     if (type === "Error") return updateNotification("error", message);
     else if (type === "Success") {
       updateNotification("success", message);
@@ -390,7 +347,6 @@ const OrderInfoPage = () => {
     const { type, message, cart } = await getCart();
     if (type === "Error") return updateNotification("error", message);
     setCart(cart);
-    console.log(cart);
   };
 
   const handleAddressChange = (addressData) => {
@@ -405,7 +361,9 @@ const OrderInfoPage = () => {
   }, []);
 
   return (
-    <div>
+    <div className="relative">
+      {loading ? <Loading /> : null}
+
       <ToastContainer />
       <Navbar />
       <div className="container flex mx-auto  p-4 bg-slate-50">
@@ -416,30 +374,7 @@ const OrderInfoPage = () => {
             onTimePaymentNoteChange={handleTimePaymentNoteChange}
           />
         </div>
-        {/* <div className="mt-8 mb-4 bg-white  p-4">
-          <h3 className="text-xl font-semibold mb-2  font-sans">
-            Thông tin đơn hàng{" "}
-          </h3>
-          <div>
-            <p className="pt-4  font-sans font-semibold flex items-center ">
-              <strong className="font-sans font-semibold  mr-2">
-                Số lượng sản phẩm
-              </strong>
-              <div className="text-yellow-400 text-xl">
-                {" "}
-                {cart.totalQuantity}
-              </div>
-            </p>
-        
-            <p className="pt-4  font-sans flex  items-center font-semibold   ">
-              <strong className=" font-sans font-semibold mr-2">
-                Tổng tiền thanh toán
-              </strong>{" "}
-              <div className="text-yellow-400 text-xl">{cart.totalPrice}</div>{" "}
-              <TbCurrencyDong className="text-2xl text-yellow-500" />
-            </p>
-          </div>
-        </div> */}
+
         <div className="w-1/4 ml-2">
           <div class="mt-6 grow sm:mt-8 lg:mt-0">
             <div class="space-y-4 rounded-lg border border-gray-100 bg-white p-6 ">
@@ -449,7 +384,7 @@ const OrderInfoPage = () => {
                     Total price
                   </dt>
                   <dd class="text-base flex items-center font-medium text-gray-900 ">
-                    {cart.totalPrice}
+                    {formatCurrency(cart.totalPrice)}
                     <TbCurrencyDong className="text-2xl text-yellow-500" />
                   </dd>
                 </dl>
@@ -461,15 +396,6 @@ const OrderInfoPage = () => {
                   <dd class="text-base font-medium flex items-center mr-2">
                     {" "}
                     {cart.totalQuantity}
-                  </dd>
-                </dl>
-
-                <dl class="flex items-center justify-between gap-4">
-                  <dt class="text-base font-normal text-gray-500 ">
-                    Store Pickup
-                  </dt>
-                  <dd class="text-base font-medium text-gray-900 flex items-center ">
-                    0 <TbCurrencyDong className="text-2xl text-yellow-500" />
                   </dd>
                 </dl>
 
@@ -486,7 +412,7 @@ const OrderInfoPage = () => {
                 <dt class="text-base font-bold text-gray-900 ">Total</dt>
                 <dd class="text-base font-bold text-gray-900 flex items-center ">
                   {" "}
-                  {cart.totalPrice}
+                  {formatCurrency(cart.totalPrice)}
                   <TbCurrencyDong className="text-2xl text-yellow-500" />
                 </dd>
               </dl>
@@ -496,32 +422,19 @@ const OrderInfoPage = () => {
           <div class="mt-6 flex items-center justify-center gap-8 bg-white p-2 rounded">
             <img
               class="h-8 w-auto dark:hidden"
-              src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/paypal.svg"
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/JCB_logo.svg/993px-JCB_logo.svg.png"
               alt=""
             />
-            <img
-              class="hidden h-8 w-auto dark:flex"
-              src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/paypal-dark.svg"
-              alt=""
-            />
+
             <img
               class="h-8 w-auto dark:hidden"
               src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/visa.svg"
               alt=""
             />
-            <img
-              class="hidden h-8 w-auto dark:flex"
-              src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/visa-dark.svg"
-              alt=""
-            />
+
             <img
               class="h-8 w-auto dark:hidden"
               src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/mastercard.svg"
-              alt=""
-            />
-            <img
-              class="hidden h-8 w-auto dark:flex"
-              src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/mastercard-dark.svg"
               alt=""
             />
           </div>

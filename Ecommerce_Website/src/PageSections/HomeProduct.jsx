@@ -44,6 +44,9 @@ export default function HomeProduct({ category }) {
                   price={item.price}
                   images={item.mainImage}
                   option={item.ratingsAverage}
+                  discount={item.priceDiscount}
+                  priceAfterDiscount={item.priceAfterDiscount}
+                  sold={item.sold}
                 />
               </div>
             ))

@@ -264,10 +264,11 @@ export const createOrderBySeller = catchAsync(async (body, user) => {
     function calculateTotalPrice(items) {
       let totalPrice = 0;
       for (const item of items) {
-        totalPrice += item.priceAfterDiscount;
+        totalPrice += item.totalProductPrice;
       }
       return totalPrice;
     }
+
     const itemsWithSize = items.map((item) => ({
       ...item,
       size: item.selectedSize.size
@@ -350,22 +351,42 @@ export const createOrderBySeller = catchAsync(async (body, user) => {
   }
 
   // 7) Create stripe card token
-  const token = await stripe.tokens.create({
-    card: {
-      number: cardNumber,
-      exp_month: expMonth,
-      exp_year: expYear,
-      cvc
-    }
-  });
+  // const token = await stripe.tokens.create({
+  //   card: {
+  //     number: cardNumber,
+  //     exp_month: expMonth,
+  //     exp_year: expYear,
+  //     cvc
+  //   }
+  // });
 
   // 8) Create stripe charge
-  const charge = stripe.charges.create({
+  // const charge = stripe.charges.create({
+  //   amount: Math.round(cart.totalPrice),
+  //   currency: 'usd',
+  //   source: token.id,
+  //   description: 'Charge For Products'
+  // });
+
+  const paymentIntent = await stripe.paymentIntents.create({
     amount: Math.round(cart.totalPrice),
-    currency: 'usd',
-    source: token.id,
-    description: 'Charge For Products'
+    currency: 'vnd',
+    payment_method: paymentMethod,
+    receipt_email: user.email,
+    description: 'Payment for cart items',
+    shipping: {
+      // Thông tin giao hàng (tuỳ chọn)
+      name: user.username,
+      address: {
+        line1: address,
+        city: city,
+        state: country,
+        postal_code: postalCode,
+        country: 'VN'
+      }
+    }
   });
+  console.log(paymentIntent);
 
   // 9) Create order with payment method card
   const createdOrders = [];
@@ -379,7 +400,7 @@ export const createOrderBySeller = catchAsync(async (body, user) => {
       phone,
       sellerId,
       timeDelivery,
-      charge.id
+      paymentIntent.id
     );
     createdOrders.push(order);
     const text = textNewOrder(user, order);

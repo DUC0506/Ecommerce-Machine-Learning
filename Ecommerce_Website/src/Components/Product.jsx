@@ -5,7 +5,18 @@ import { useNotification } from "../hooks";
 import { TbCurrencyDong } from "react-icons/tb";
 import { formatCurrency } from "../utils/hepler";
 import { FaStar } from "react-icons/fa";
-const Product = ({ name, price, images, option, id, item }) => {
+import { FaDongSign } from "react-icons/fa6";
+const Product = ({
+  name,
+  price,
+  images,
+  option,
+  id,
+  item,
+  discount,
+  priceAfterDiscount,
+  sold,
+}) => {
   const navigate = useNavigate();
   const { updateNotification } = useNotification();
   const addItemCart = async (id) => {
@@ -45,25 +56,45 @@ const Product = ({ name, price, images, option, id, item }) => {
         </div>
         <div className="flex justify-between items-center m-3">
           <div className="mr-2">
-            <div className="w-16 overflow-hidden font-semibold whitespace-nowrap text-ellipsis font-sans">
+            <div className="w-full overflow-hidden font-semibold whitespace-nowrap text-ellipsis font-sans">
               {name}
             </div>{" "}
-            <div className="font-bold text-sm font-sans text-yellow-400 flex items-center">
-              {formatCurrency(price)}{" "}
-              <TbCurrencyDong className="ml-1 text-lg" />
+            <div className="flex">
+              <div className="font-bold text-sm font-sans text-yellow-400 flex items-center">
+                {formatCurrency(priceAfterDiscount)}{" "}
+                <TbCurrencyDong className="ml-1 text-lg" />
+              </div>
             </div>
           </div>
-          <div>
+          {/* <div>
             <button
               onClick={() => addItemCart(id)}
               className="transition ease-out duration-200  border-gray-50 border-2 focus:ring-2 focus:ring-yellow-300  text-sm m-1 bg-yellow-500 mt-1 p-2 rounded-md text-slate-50"
             >
               Add to Cart
             </button>
+          </div> */}
+          <div>
+            {discount > 0 ? (
+              <div>
+                <p class=" flex items-center line-through font-manrope font-semibold text-sm  text-gray-400 ">
+                  <FaDongSign className="text-gray-400" />
+                  {formatCurrency(price)}{" "}
+                </p>
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         </div>
-        <div className="text-xs gap-1 flex items-center p-1 px-2 m-2 bg-sky-100 rounded-sm text-sky-500 w-max">
-          {option} <FaStar className="text-yellow-400 " />
+        <div className="flex justify-between">
+          <div className="text-xs gap-1 flex items-center p-1 px-2 m-2 bg-sky-100 rounded-sm text-sky-500 w-max">
+            {option} <FaStar className="text-yellow-400 " />
+          </div>
+
+          <div className="text-xs gap-1 flex items-center p-1 px-2 m-2 bg-sky-100 rounded-sm text-sky-500 w-max">
+            {sold > 0 ? `Sold ${sold}` : "New product"}
+          </div>
         </div>
       </div>
     </div>

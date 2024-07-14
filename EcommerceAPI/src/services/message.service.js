@@ -90,8 +90,8 @@ export const queryGenerativeAI = catchAsync(async (body, userId) => {
     topP: 1,
     maxOutputTokens: 1024
   };
-
-  const parts = [{ text: `input: ${question}` }, { text: 'output: ' }];
+  const questionFood = `Nếu câu hỏi không về chủ đề thực phẩm thì yêu cầu chỉ hỏi về thực phẩm nếu câu hỏi về thực phẩm thì trả lời . Đây là câu hỏi "${question}"`;
+  const parts = [{ text: `input: ${questionFood}` }, { text: 'output: ' }];
 
   const result = await model.generateContent({
     contents: [{ role: 'user', parts }],

@@ -140,77 +140,6 @@ const Links = () => {
             </div>
           </div>
         ))}
-        {/* <div
-          onClick={() => handleNavigate("Trai Cay")}
-          className="mx-2 my-2 inline-block p-4 w-24 h-32 rounded-md items-center hover:shadow-pink-500 hover:shadow-2xl hover:bg-slate-50 cursor-pointer transition duration-300 ease-in-out  text-center align-middle bg-gray-400 bg-opacity-20"
-        >
-          <div className="items-center m-auto w-10 h-14 mb-1">
-            <img src={svgimg5} alt="svg" className="" />
-          </div>
-          <div className="text-gray-700 text-xs text-center font-sans">
-            Fruit{" "}
-          </div>
-        </div>
-
-        <div
-          onClick={() => handleNavigate("Thit")}
-          className=" mx-2 my-2 md:inline-block p-4 w-24 h-32 rounded-md items-center hover:shadow-gray-500 hover:shadow-2xl hover:bg-slate-50 cursor-pointer transition duration-300 ease-in-out text-center align-middle bg-gray-400 bg-opacity-20"
-        >
-          <div className="items-center m-auto w-10 h-14 mb-1">
-            <img src={svgimg2} alt="svg" className="" />
-          </div>
-          <div className="text-gray-700 text-xs text-center font-sans">
-            Meat
-          </div>
-        </div>
-
-        <div
-          onClick={() => handleNavigate("Hai san")}
-          className="mx-2 my-2 md:inline-block p-4 w-24 h-32 rounded-md items-center hover:shadow-red-400 text-center hover:shadow-2xl hover:bg-slate-50 cursor-pointer transition duration-300 ease-in-out align-middle bg-gray-400 bg-opacity-20"
-        >
-          <div className="items-center m-auto w-10 h-14 mb-1">
-            <img src={svgimg10} alt="svg" className="" />
-          </div>
-          <div className="text-gray-700 text-xs text-center font-sans">
-            Seafood
-          </div>
-        </div>
-
-        <div
-          onClick={() => handleNavigate("Do an nhanh")}
-          className="mx-2 my-2 inline-block p-4 w-24 h-32 rounded-md items-center text-center hover:shadow-yellow-500  hover:shadow-2xl hover:bg-slate-50 cursor-pointer transition duration-300 ease-in-out align-middle bg-gray-400 bg-opacity-20"
-        >
-          <div className="items-center m-auto w-10 h-14 mb-1">
-            <img src={svgcos} alt="svg" className="" />
-          </div>
-          <div className="text-gray-700 text-xs text-center font-sans">
-            Fast food
-          </div>
-        </div>
-
-        <div
-          onClick={() => handleNavigate("Thuc pham nha lam")}
-          className=" mx-2 my-2 inline-block p-4 w-24 h-32 rounded-md items-center hover:shadow-violet-500 text-center hover:shadow-2xl hover:bg-slate-50 cursor-pointer transition duration-300 ease-in-out align-middle bg-gray-400 bg-opacity-20"
-        >
-          <div className="items-center m-auto w-10 h-14 mb-1">
-            <img src={svgimg3} alt="svg" className="" />
-          </div>
-          <div className="text-gray-700 text-xs text-center font-sans">
-            Homemade
-          </div>
-        </div>
-
-        <div
-          onClick={() => dispatch(comingsoon())}
-          className="mx-2 my-2 inline-block p-4 w-24 h-32 rounded-md items-center hover:shadow-violet-500 text-center hover:shadow-2xl hover:bg-slate-50 cursor-pointer transition duration-300 ease-in-out align-middle bg-gray-400 bg-opacity-20"
-        >
-          <div className="items-center m-auto w-10 h-14 mb-1">
-            <img src={svgimg9} alt="svg" className="" />
-          </div>
-          <div className="text-gray-700 text-xs text-center font-sans">
-            Second hand
-          </div>
-        </div> */}
       </div>
       <div className="flex align-bottom items-center mb-4">
         <div className="font-semibold text-xl text-gray-800 mr-4 font-sans">
@@ -234,6 +163,9 @@ const Links = () => {
                   price={item.price}
                   images={item.mainImage}
                   option={item.ratingsAverage}
+                  discount={item.priceDiscount}
+                  priceAfterDiscount={item.priceAfterDiscount}
+                  sold={item.sold}
                 />
               </div>
             ))
