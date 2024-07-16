@@ -6,18 +6,20 @@ services:
       dockerfile: Dockerfile
     restart: always
     ports:
-      - '80:8080'
+      - '8080:3000'
     image: ecommerceapi:latest
     stdin_open: true
+    env_file:
+      - config.env
 
   mongodb:
     image: mongo
     restart: always
     environment:
       - MONGO_INITDB_ROOT_USERNAME=ecommerceDB
-      - MONGO_INITDB_ROOT_PASSWORD=
+      - MONGO_INITDB_ROOT_PASSWORD=duc050602
     ports:
-      - '27017:27017'
+      - '27018:27017'
     volumes:
       - db:/data/new/mongodb
     stdin_open: true

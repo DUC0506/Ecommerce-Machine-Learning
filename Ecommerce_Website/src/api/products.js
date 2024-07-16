@@ -32,8 +32,8 @@ export const getProductsNotApproved = async () => {
 export const getProductsByApartment = async (IdCategory, numberPage) => {
   console.log(numberPage);
   let url = IdCategory
-    ? `products-apartment?category=${IdCategory}&page=${numberPage}&limit=15&isApproved=true`
-    : `products-apartment?page=${numberPage}&limit=15&isApproved=true`;
+    ? `products-apartment?category=${IdCategory}&page=${numberPage}&limit=15&isApproved=true&sort=-sold`
+    : `products-apartment?page=${numberPage}&limit=15&isApproved=true&sort=-createdAt`;
   console.log(url);
   const token = getToken();
   try {
@@ -53,7 +53,7 @@ export const getProductsByHome = async (IdCategory) => {
   const token = getToken();
   try {
     const { data } = await client.get(
-      `/product/products-apartment?category=${IdCategory}&limit=5&isApproved=true`,
+      `/product/products-apartment?category=${IdCategory}&limit=5&isApproved=true&sort=-sold`,
       {
         headers: {
           Authorization: "Bearer " + token,
@@ -71,7 +71,7 @@ export const getProductsSearchByApartment = async (key, numberPage) => {
   console.log(numberPage);
   let url = key
     ? `products-search?keyword=${key}`
-    : `/products-apartment?page=${numberPage}&limit=20`;
+    : `/products-apartment?page=${numberPage}&limit=10&sort=-sold`;
   console.log(url);
   const token = getToken();
   try {

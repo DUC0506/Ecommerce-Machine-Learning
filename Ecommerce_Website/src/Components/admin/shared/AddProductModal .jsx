@@ -30,6 +30,7 @@ import useValidation from "../../../utils/validator";
 const AddProductModal = ({ isOpen, onRequestClose, onAddProduct }) => {
   const { validateProduct } = useValidation();
   const [categories, setCategories] = useState([]);
+
   const [formData, setFormData] = useState({
     name: "",
     category: "",

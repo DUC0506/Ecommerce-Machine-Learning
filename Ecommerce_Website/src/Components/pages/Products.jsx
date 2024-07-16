@@ -45,12 +45,14 @@ import { Badge } from "../ui/badge";
 import { File, ListFilter, MoreHorizontal, PlusCircle } from "lucide-react";
 import { Button } from "../ui/button";
 import NoItem from "../admin/shared/NoItem";
+import Loading from "../admin/shared/Loading";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [isAddProductModalOpen, setAddProductModalOpen] = useState(false);
   const [isUpdateProductModalOpen, setUpdateProductModalOpen] = useState(false);
   const [pagination, setPagination] = useState(1);
+  const [loading, setLoading] = useState(false);
   const [product, setProduct] = useState(null);
   // const [showGif, setShowGif] = useState(false);
   const { authInfo } = useAuth();
@@ -75,10 +77,11 @@ export default function Products() {
   };
 
   const handleAddProduct = async (newProduct) => {
+    setLoading(true);
     const { message, product } = await createProduct(newProduct);
     console.log(message);
     if (message === "error") return message;
-
+    setLoading(false);
     if (product) {
       setAddProductModalOpen(false);
       updateNotification("success", "Product successfully added");
@@ -273,7 +276,8 @@ export default function Products() {
 
   // )
   return (
-    <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 relative min-h-screen">
+    <main className="grid  flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 relative min-h-screen">
+      {loading ? <Loading /> : null}
       <AddProductModal
         isOpen={isAddProductModalOpen}
         onRequestClose={() => setAddProductModalOpen(false)}

@@ -16,10 +16,12 @@ import { useAuth, useNotification } from "../../hooks";
 import Post from "./Post";
 import AddNewsModal from "../admin/shared/AddNewsModal";
 import NoItem from "../admin/shared/NoItem";
+import Loading from "../admin/shared/Loading";
 
 const FeedSeller = () => {
   const [posts, setPosts] = useState([]);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [pagination, setPagination] = useState(1);
   const { authInfo } = useAuth();
   const { updateNotification } = useNotification();
@@ -43,9 +45,11 @@ const FeedSeller = () => {
     }
   };
   const handleAddPost = async (data) => {
+    setLoading(true);
     const { type, message } = await addNews(data);
     if (type === "Error") return message;
     updateNotification("success", "News added successfully");
+    setLoading(false);
     fetchNews();
   };
   const handlePre = () => {
@@ -61,7 +65,8 @@ const FeedSeller = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pagination]);
   return (
-    <div className="w-full h-screen ">
+    <div className="w-full h-screen  ">
+      {loading ? <Loading /> : null}
       <div className="w-full ">
         <AddNewsModal
           isOpen={showUpdateModal}

@@ -1,9 +1,27 @@
-import React from "react";
+import React, { useRef } from "react";
 import Navbar from "../Components/Navbar";
+
 import "../Styles/PageStyles/Landing.css";
 import vegetable from "../assets/vegetable1.png";
 import vegetable1 from "../assets/vegetable.png";
+import vegetable2 from "../assets/lading_fruit1.png";
+import vegetable3 from "../assets/lading_fruit2.png";
+import vegetable4 from "../assets/lading_fruit3.png";
+import landing1 from "../assets/landing1.png";
+import { useNavigate } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+
 const Landing = () => {
+  const navigate = useNavigate();
+  const handleNavigate = () => {
+    navigate(`/product-page`);
+  };
   return (
     <div>
       <Navbar />
@@ -18,18 +36,48 @@ const Landing = () => {
                 Local Delights Just for Your Community{" "}
                 <span className="text-yellow-500">Condo Market</span>
               </div>
-              <div className="text-sm mb-10 leading-7 font-sans">
+              <div className="text-sm mb-6 hidden lg:block leading-7 font-sans">
                 Discover and enjoy specialty foods from your neighbors. Buy,
                 sell, and savor local flavors right within your apartment
                 community.
               </div>
-              <button className="text-sm p-2 bg-white rounded-sm border-transparent border-2 text-semibold w-32 focus:ring-2 focus:sring-sky-400">
+              <button
+                onClick={handleNavigate}
+                className="text-sm p-2 bg-white rounded-sm border-transparent border-2 text-semibold w-32 focus:ring-2 focus:sring-sky-400"
+              >
                 Explore Now
               </button>
             </div>
-            <div className=" w-8/12  bg-center bottom-0">
-              <img src={vegetable} alt="" className="bg-transparent" />
-              <img src={vegetable1} alt="" className="bg-transparent" />
+            <div className=" w-6/12  bg-center bottom-0 hidden sm:flex justify-center items-center">
+              {/* <img src={vegetable} alt="" className="bg-transparent" />
+              <img src={vegetable1} alt="" className="bg-transparent" /> */}
+              <Swiper
+                spaceBetween={30}
+                centeredSlides={true}
+                autoplay={{
+                  delay: 2500,
+                  disableOnInteraction: false,
+                }}
+                modules={[Autoplay, Pagination, Navigation]}
+                onAutoplayTimeLeft={2000}
+                className="mySwiper"
+              >
+                <SwiperSlide>
+                  <img src={vegetable} alt="" className="bg-transparent" />
+                </SwiperSlide>
+                <SwiperSlide>
+                  <img src={vegetable1} alt="" className="bg-transparent" />
+                </SwiperSlide>
+                <SwiperSlide>
+                  <img src={vegetable2} alt="" className="bg-transparent" />
+                </SwiperSlide>
+                <SwiperSlide>
+                  <img src={vegetable3} alt="" className="bg-transparent" />
+                </SwiperSlide>
+                <SwiperSlide>
+                  <img src={vegetable4} alt="" className="bg-transparent" />
+                </SwiperSlide>
+              </Swiper>
             </div>
           </div>
           <div className="relative w-full mt-10 md:mt-0 rounded-md md:w-1/3 h-96 bg-yellow-300 p-1 overflow-hidden ">
@@ -65,11 +113,47 @@ const Landing = () => {
               </svg>
               20% OFF for Local Flavors!
             </div>
-            <div className="text-sm mt-4 font-sans w-72 ml-10 text-gray-600 leading-2">
+            <p className="text-sm mt-2 font-sans w-72 ml-10 text-gray-600 leading-2">
               Join our online community to discover, buy, and enjoy the best
-              local foods from your neighbors !.
+              local foods from your neighbors !.{" "}
+            </p>
+            <div className=" grid  grid-cols-2">
+              <div className=" grid-cols-1 ">
+                <img src={landing1} alt="" className=" w-full mt-20" />
+              </div>
+              <div className="mt-2">
+                <p className="font-sans text-white font-semibold p-1 text-center rounded bg-yellow-500">
+                  Top 5 discount
+                </p>
+                <Swiper
+                  spaceBetween={30}
+                  centeredSlides={true}
+                  autoplay={{
+                    delay: 2500,
+                    disableOnInteraction: false,
+                  }}
+                  modules={[Autoplay, Pagination, Navigation]}
+                  onAutoplayTimeLeft={2000}
+                  className="mySwiper w-50 h-30 grid-cols-1"
+                >
+                  <SwiperSlide>
+                    <img src={vegetable} alt="" className="bg-transparent" />
+                  </SwiperSlide>
+                  <SwiperSlide>
+                    <img src={vegetable1} alt="" className="bg-transparent" />
+                  </SwiperSlide>
+                  <SwiperSlide>
+                    <img src={vegetable2} alt="" className="bg-transparent" />
+                  </SwiperSlide>
+                  <SwiperSlide>
+                    <img src={vegetable3} alt="" className="bg-transparent" />
+                  </SwiperSlide>
+                  <SwiperSlide>
+                    <img src={vegetable4} alt="" className="bg-transparent" />
+                  </SwiperSlide>
+                </Swiper>
+              </div>
             </div>
-            <div className="images"></div>
           </div>
         </div>
       </div>

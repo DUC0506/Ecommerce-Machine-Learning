@@ -220,9 +220,9 @@ const DetailProduct = () => {
                     </div>
                   </div>
                   <div class="nav-for-slider ">
-                    <div class="swiper-wrapper flex justify-center ">
+                    <div class="swiper-wrapper flex justify-center">
                       {product.images.map((image, index) => (
-                        <div class="swiper-slide thumbs-slide mr-2" key={index}>
+                        <div class=" mr-2" key={index}>
                           <img
                             src={image}
                             alt={product.name}
@@ -244,7 +244,7 @@ const DetailProduct = () => {
                   <div class="pro-detail w-full lg:max-w-[608px] lg:pl-8 xl:pl-16 lg:mx-auto lg:mt-4">
                     <div class="flex items-center justify-between gap-6 mb-2">
                       <div class="text">
-                        <h2 class="font-manrope font-bold text-3xl leading-10 text-gray-900 mb-2  font-sans">
+                        <h2 class="font-manrope font-bold text-xl md:text-3xl leading-10 text-gray-900 mb-2  font-sans">
                           {product.name}
                         </h2>
                         <div className="flex flex-wrap gap-2">
@@ -302,7 +302,7 @@ const DetailProduct = () => {
                         ) : (
                           ""
                         )}
-                        <h5 class=" flex items-center font-manrope font-semibold text-2xl leading-9 text-gray-900 ">
+                        <h5 class=" flex items-center font-manrope font-semibold text-xl md:text-2xl leading-9 text-gray-900 ">
                           {formatCurrency(product.priceAfterDiscount)}{" "}
                           <FaDongSign className="text-yellow-400" />
                         </h5>
@@ -601,8 +601,8 @@ const DetailProduct = () => {
             ""
           )}
         </div>
-        <Footer />
       </div>
+      <Footer />
     </div>
   );
 };

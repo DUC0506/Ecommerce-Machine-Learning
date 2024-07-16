@@ -99,8 +99,8 @@ export const queryProductsByKeyword = catchAsync(async (req) => {
   if (keyword) {
     products = await Product.find({
       $or: [
-        { name: { $regex: keyword, $options: 'i' } }, // Tìm theo tên sản phẩm
-        { description: { $regex: keyword, $options: 'i' } } // Tìm theo mô tả sản phẩm
+        { name: { $regex: keyword, $options: 'i' } } // Tìm theo tên sản phẩm
+        // { description: { $regex: keyword, $options: 'i' } } // Tìm theo mô tả sản phẩm
       ],
       apartment: apartment // Filter sản phẩm theo apartment của user
     }).populate(populateQuery);

@@ -173,46 +173,50 @@ const Links = () => {
             <NotFound message="There are no sellers in your apartment complex listing the product for sale" />
           )}
         </div>
-        <div className="flex w-full items-center justify-center my-4">
-          <TiChevronLeftOutline
-            onClick={() => {
-              handleLeftNum();
-            }}
-            className=" text-3xl font-medium text-yellow-400 cursor-pointer mr-4"
-          />
-          <div
-            onClick={() => handleNumberPage(1)}
-            className={`text-lg px-4 py-1 rounded mr-1 font-sans cursor-pointer font-semibold ${
-              numberPage === 1 ? "bg-yellow-400" : ""
-            }`}
-          >
-            1
-          </div>
-          <div
-            onClick={() => handleNumberPage(2)}
-            className={`text-lg px-4 py-1 rounded mr-1 font-sans cursor-pointer font-semibold ${
-              numberPage === 2 ? "bg-yellow-400" : ""
-            }`}
-          >
-            2
-          </div>
-          {Array.from({ length: 3 }, (_, index) => (
+        {items.length >= 10 || numberPage > 1 ? (
+          <div className="flex w-full items-center justify-center my-4">
+            <TiChevronLeftOutline
+              onClick={() => {
+                handleLeftNum();
+              }}
+              className=" text-3xl font-medium text-yellow-400 cursor-pointer mr-4"
+            />
             <div
-              onClick={() => handleNumberPage(index + limit)}
+              onClick={() => handleNumberPage(1)}
               className={`text-lg px-4 py-1 rounded mr-1 font-sans cursor-pointer font-semibold ${
-                numberPage === index + limit ? "bg-yellow-400" : ""
+                numberPage === 1 ? "bg-yellow-400" : ""
               }`}
             >
-              {index + limit}
+              1
             </div>
-          ))}
-          <TiChevronRightOutline
-            onClick={() => {
-              handleRightNum();
-            }}
-            className=" text-3xl text-yellow-400 cursor-pointer ml-4"
-          />
-        </div>
+            <div
+              onClick={() => handleNumberPage(2)}
+              className={`text-lg px-4 py-1 rounded mr-1 font-sans cursor-pointer font-semibold ${
+                numberPage === 2 ? "bg-yellow-400" : ""
+              }`}
+            >
+              2
+            </div>
+            {Array.from({ length: 3 }, (_, index) => (
+              <div
+                onClick={() => handleNumberPage(index + limit)}
+                className={`text-lg px-4 py-1 rounded mr-1 font-sans cursor-pointer font-semibold ${
+                  numberPage === index + limit ? "bg-yellow-400" : ""
+                }`}
+              >
+                {index + limit}
+              </div>
+            ))}
+            <TiChevronRightOutline
+              onClick={() => {
+                handleRightNum();
+              }}
+              className=" text-3xl text-yellow-400 cursor-pointer ml-4"
+            />
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );

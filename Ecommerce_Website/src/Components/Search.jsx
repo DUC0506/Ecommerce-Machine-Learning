@@ -23,9 +23,9 @@ const Search = ({ search }) => {
   return (
     <div className="md:justify-between  md:w-2/4 ml-16 md:text-sm md:flex bg-gray-100 p-3 rounded-md text-gray-600 hidden">
       <div className=" flex justify-between">
-        <div className="relative pr-6 flex items-center justify-between w-48 divide-x divide-gray-600 font-sans">
+        <div className="relative pr-6 border-r-2 border-gray-400 flex items-center justify-between w-36 divide-x divide-gray-600 font-sans">
           All
-          <div onClick={() => dispatch(updatePopup())}>
+          {/* <div onClick={() => dispatch(updatePopup())}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -45,7 +45,7 @@ const Search = ({ search }) => {
                 <Popupa />
               </div>
             )}
-          </div>
+          </div> */}
         </div>
         <div>
           <input
