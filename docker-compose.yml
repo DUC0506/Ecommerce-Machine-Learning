@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  ecommerce_website:
+    build:
+      context: ./Ecommerce_Website
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000" # Điều chỉnh cổng phù hợp nếu cần thiết
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./Ecommerce_Website:/app
+    command: ["npm", "start"]
+
+  ecommerce_api:
+    build:
+      context: ./EcommerceAPI
+      dockerfile: Dockerfile
+    ports:
+      - "8080:3000" # Điều chỉnh cổng phù hợp nếu cần thiết
+    environment:
+      - NODE_ENV=development
+      # - PORT=4000 # Điều chỉnh cổng phù hợp nếu cần thiết
+    volumes:
+      - ./EcommerceAPI:/app
+    command: ["npm", "run", "start:dev"]

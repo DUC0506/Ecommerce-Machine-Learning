@@ -1,6 +1,6 @@
 FROM node:20.7.0
 
-WORKDIR /app
+WORKDIR /EcommerceAPI
 
 COPY package.json .
 
