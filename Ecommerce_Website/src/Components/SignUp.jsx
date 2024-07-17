@@ -6,9 +6,11 @@ import { resisterUser } from "../api/auth";
 import useValidation from "../utils/validator";
 import logo from "../assets/CONDOmarket .png";
 import VerifyApartment from "./VerifyApartment";
+import Loading from "./admin/shared/Loading";
 const SignUp = () => {
   const [apartments, setApartments] = useState([]);
   const [openModal, setOpenModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [userInfo, setUserInfo] = useState({
     email: "",
     password: "",
@@ -57,7 +59,7 @@ const SignUp = () => {
     }
   };
   const onSubmit = async (data) => {
-    console.log(data);
+    setLoading(true);
     const address = `${data.buildingName}- ${data.numberFloor} -${data.numberApartment}`;
     const phone = data.phone;
     validateFields(userInfo);
@@ -75,6 +77,7 @@ const SignUp = () => {
     formData.append("phone", phone);
     const { type, message, user } = await resisterUser(formData);
     console.log(type, message);
+    setLoading(false);
     if (type === "Error") {
       return updateNotification("error", message);
     }
@@ -99,6 +102,7 @@ const SignUp = () => {
   return (
     <div className="min-h-screen w-full p-14  flex items-center  justify-center  bg-gradient-to-tr from-[#fae17b] to-[#09940d] shadow-md">
       <VerifyApartment onSubmit={onSubmit} isOpen={openModal} />
+      {loading ? <Loading /> : null}
 
       <div
         className={`grid-cols-1 md:grid-cols-2 ${

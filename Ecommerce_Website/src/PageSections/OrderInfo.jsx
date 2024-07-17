@@ -78,13 +78,13 @@ const AddressSection = ({ onAddressChange }) => {
             htmlFor="deliveryAddress"
             className="block text-sm font-medium text-gray-700  font-sans"
           >
-            Address (block name + house number)
+            Address (block name - floor number - house number)
           </label>
           <input
             type="text"
             id="deliveryAddress"
             className="mt-1 p-2 border border-gray-300 rounded-md w-full  font-sans focus:outline-none  focus:border-yellow-500"
-            placeholder="block name + house number"
+            placeholder="block name - floor number - house number"
             value={deliveryAddress}
             onChange={(e) => setDeliveryAddress(e.target.value)}
           />

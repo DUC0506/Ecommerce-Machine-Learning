@@ -19,10 +19,9 @@ export default function Chat({ role, apartment }) {
   console.log(apartment);
   const { authInfo } = useAuth();
   const host = process.env.SOCKET_URL;
-  if (!apartment) {
-    apartment = { _id: null };
-  }
+
   const fetchUsers = async () => {
+    console.log(apartment._id);
     // const data = await axios.get(`${process.env.REACT_APP_ALL_USERS_ROUTE}/${currentUser._id}`);
     let { type, users } = await getUsers(role, apartment._id);
     if (type === "Error") {
@@ -38,8 +37,10 @@ export default function Chat({ role, apartment }) {
     console.log(data.users);
 
     let mergedContacts = [...users, ...data.users];
+    console.log(mergedContacts);
     setContacts(mergedContacts);
   };
+  console.log(contacts);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     socket.current = io(host);

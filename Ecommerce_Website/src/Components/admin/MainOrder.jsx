@@ -426,10 +426,10 @@ export default function MainOrder({ sellerId }) {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="grid gap-3">
                     <div className="font-semibold">Shipping Information</div>
-                    <address className="grid gap-0.5 not-italic text-muted-foreground">
-                      <span>{orderInfo.shippingAddress.address}</span>
-                      <span>{orderInfo.shippingAddress.city}</span>
-                      <span>{orderInfo.shippingAddress.country}</span>
+                    <address className="grid gap-0.5 not-italic text-muted-foreground ">
+                      <span className="font-sans">
+                        {orderInfo.shippingAddress.address}
+                      </span>
                     </address>
                   </div>
                   <div className="grid auto-rows-max gap-3">

@@ -49,6 +49,25 @@ export const getProductsByApartment = async (IdCategory, numberPage) => {
     return error;
   }
 };
+export const getTop5ProductsByApartment = async () => {
+  const numberPage = 1;
+  let url = `products-apartment?page=${numberPage}&limit=5&isApproved=true&sort=-priceDiscount`;
+
+  console.log(url);
+  const token = getToken();
+  try {
+    const { data } = await client.get(`/product/${url}`, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+
+    return data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
 export const getProductsByHome = async (IdCategory) => {
   const token = getToken();
   try {

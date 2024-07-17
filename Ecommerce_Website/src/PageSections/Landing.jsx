@@ -1,6 +1,6 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Navbar from "../Components/Navbar";
-
+import { CiDiscount1 } from "react-icons/ci";
 import "../Styles/PageStyles/Landing.css";
 import vegetable from "../assets/vegetable1.png";
 import vegetable1 from "../assets/vegetable.png";
@@ -11,17 +11,33 @@ import landing1 from "../assets/landing1.png";
 import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
-
+import { getTop5ProductsByApartment } from "../api/products";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import Product from "../Components/Product";
 
 const Landing = () => {
+  const [products, setProducts] = useState([]);
+
+  const fetchProducts = async () => {
+    const { type, products } = await getTop5ProductsByApartment();
+    console.log(products);
+    if (type === "Success") {
+      setProducts(products);
+    }
+  };
   const navigate = useNavigate();
   const handleNavigate = () => {
     navigate(`/product-page`);
   };
+  const handleProduct = (id) => {
+    navigate(`/product/${id}`);
+  };
+  useEffect(() => {
+    fetchProducts();
+  }, []);
   return (
     <div>
       <Navbar />
@@ -121,6 +137,7 @@ const Landing = () => {
               <div className=" grid-cols-1 ">
                 <img src={landing1} alt="" className=" w-full mt-20" />
               </div>
+
               <div className="mt-2">
                 <p className="font-sans text-white font-semibold p-1 text-center rounded bg-yellow-500">
                   Top 5 discount
@@ -134,9 +151,32 @@ const Landing = () => {
                   }}
                   modules={[Autoplay, Pagination, Navigation]}
                   onAutoplayTimeLeft={2000}
-                  className="mySwiper w-50 h-30 grid-cols-1"
+                  className="mySwiper  flex items-center justify-center h-full"
                 >
-                  <SwiperSlide>
+                  {products.map((product, index) => (
+                    <SwiperSlide key={index}>
+                      <div
+                        onClick={() => handleProduct(product._id)}
+                        className=" h-full flex flex-col items-center justify-center   "
+                      >
+                        <div className="px-1 text-sm bg-yellow-400 rounded flex items-center">
+                          <CiDiscount1 /> {product.priceDiscount}%
+                        </div>
+                        <div
+                          title={product.name}
+                          className="bg-yellow-50 p-1 rounded"
+                        >
+                          <img
+                            src={product.mainImage}
+                            alt=""
+                            className="bg-transparent w-28 h-28  rounded"
+                          />
+                        </div>
+                      </div>
+                    </SwiperSlide>
+                  ))}
+
+                  {/* <SwiperSlide>
                     <img src={vegetable} alt="" className="bg-transparent" />
                   </SwiperSlide>
                   <SwiperSlide>
@@ -150,7 +190,7 @@ const Landing = () => {
                   </SwiperSlide>
                   <SwiperSlide>
                     <img src={vegetable4} alt="" className="bg-transparent" />
-                  </SwiperSlide>
+                  </SwiperSlide> */}
                 </Swiper>
               </div>
             </div>

@@ -160,7 +160,7 @@ const ShoppingCart = () => {
 
     if (error) return error;
     if (cart) {
-      console.log(cart);
+      console.log(cart.items);
       setCart(cart);
       setCartItems(cart.items);
       calculateSavingPrice(cart.items);
@@ -171,6 +171,7 @@ const ShoppingCart = () => {
       const discountAmount =
         (item.product.price *
           item.product.priceDiscount *
+          item.selectedSize.ratioPrice *
           item.totalProductQuantity) /
         100;
       return acc + discountAmount;

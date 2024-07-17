@@ -10,7 +10,7 @@ const VerifyApartment = ({ onSubmit, isOpen }) => {
     phone: "",
     agreed: false,
   });
-  const [loading, setLoading] = useState(false);
+
   const [showTerms, setShowTerms] = useState(false);
   const { validateUser } = useValidation();
   const handleChange = (e) => {
@@ -31,9 +31,7 @@ const VerifyApartment = ({ onSubmit, isOpen }) => {
     validateUser(formData);
     // Validate and submit the form data
     if (formData.agreed) {
-      setLoading(true);
       onSubmit(formData);
-      setLoading(false);
     }
   };
   const handleKeyPress = (event) => {
@@ -136,10 +134,9 @@ const VerifyApartment = ({ onSubmit, isOpen }) => {
           <button
             type="button"
             onClick={handleSubmit}
-            disabled={loading}
             className="w-full bg-yellow-500 hover:bg-yellow-600 font-semibold text-white py-2 px-4 rounded font-sans"
           >
-            {loading ? "loading" : "Register"}
+            Register
           </button>
         </form>
       </div>
