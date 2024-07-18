@@ -91,17 +91,20 @@ export default function TransactionChartSeller() {
         start_date: formData.start_date,
         end_date: formData.end_date,
       });
+      console.log(formData.start_date, predictions.length);
+      const lb = generateLabels(formData.start_date, predictions.length);
+      console.log(lb);
       dataPredict = {
         startDate: formattedFormData.start_date,
         endDate: formattedFormData.end_date,
         holidays: holidays,
         dataPredict: predictions,
-        labels: generateLabels(formData.start_date, dataPre.length),
+        labels: lb,
         product: formData.productId,
       };
-      console.log(dataPredict.labels, dataPredict.holidays);
+      console.log(dataPredict);
       await addPredict(dataPredict);
-    }, 8000);
+    }, 10);
   };
   // const fetchProducts = async () => {
   //   const { type, products } = await getSellerProducts(authInfo.profile._id);

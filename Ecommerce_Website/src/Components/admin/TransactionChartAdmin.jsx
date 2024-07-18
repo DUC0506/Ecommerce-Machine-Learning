@@ -83,12 +83,14 @@ export default function TransactionChartAdmin() {
         start_date: formData.start_date,
         end_date: formData.end_date,
       });
+
+      const lb = generateLabels(formData.start_date, prediction.length);
       dataPredict = {
         startDate: formattedFormData.start_date,
         endDate: formattedFormData.end_date,
         holidays: holidays,
         dataPredict: prediction,
-        labels: generateLabels(formData.start_date, dataPre.length),
+        labels: lb,
         apartment: formData.productId,
       };
       console.log(dataPredict);
