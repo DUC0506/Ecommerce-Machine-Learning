@@ -104,7 +104,7 @@ export default function TransactionChartSeller() {
       };
       console.log(dataPredict);
       await addPredict(dataPredict);
-    }, 10);
+    }, 8000);
   };
   // const fetchProducts = async () => {
   //   const { type, products } = await getSellerProducts(authInfo.profile._id);
