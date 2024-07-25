@@ -8,7 +8,7 @@ export default function Contacts({ contacts, changeChat }) {
   // const [currentUserName, setCurrentUserName] = useState(undefined);
   const [currentUserImage, setCurrentUserImage] = useState(undefined);
   const [currentSelected, setCurrentSelected] = useState(undefined);
-
+  console.log(contacts);
   const { authInfo } = useAuth();
   useEffect(() => {
     // setCurrentUserName(authInfo.profile.username);

@@ -84,7 +84,7 @@ const SellerForm = () => {
     if (step === 0) {
       setTimeout(function () {
         setStep(1);
-      }, 8000);
+      }, 1000);
     }
     switch (step) {
       case 0:

@@ -16,6 +16,7 @@ export const createPredict = catchAsync(async (user, body) => {
   const { startDate, endDate, dataPredict, labels, product, apartment } = body;
 
   let { holidays } = body;
+  console.log(startDate, endDate, dataPredict, labels, product, apartment);
 
   // 1) Check if user entered all fields
   if (!startDate || !endDate) {

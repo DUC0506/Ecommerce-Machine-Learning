@@ -21,9 +21,8 @@ export default function Chat({ role, apartment }) {
   const host = process.env.SOCKET_URL;
 
   const fetchUsers = async () => {
-    console.log(apartment._id);
     // const data = await axios.get(`${process.env.REACT_APP_ALL_USERS_ROUTE}/${currentUser._id}`);
-    let { type, users } = await getUsers(role, apartment._id);
+    let { type, users } = await getUsers(role, apartment?._id);
     if (type === "Error") {
       users = [];
     }
