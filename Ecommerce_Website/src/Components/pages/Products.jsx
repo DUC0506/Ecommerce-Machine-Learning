@@ -46,6 +46,7 @@ import { File, ListFilter, MoreHorizontal, PlusCircle } from "lucide-react";
 import { Button } from "../ui/button";
 import NoItem from "../admin/shared/NoItem";
 import Loading from "../admin/shared/Loading";
+import { formatCurrency } from "../../utils/hepler";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -424,7 +425,7 @@ export default function Products() {
                         </TableCell>
                         <TableCell className="hidden md:table-cell font-sans ">
                           <div className="flex items-center">
-                            {product.price}
+                            {formatCurrency(product.price)}
                             <TbCurrencyDong />
                           </div>
                         </TableCell>

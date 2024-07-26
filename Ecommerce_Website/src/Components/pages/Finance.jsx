@@ -15,6 +15,7 @@ import NoItem from "../admin/shared/NoItem";
 import { getUser, updateBankOfSeller } from "../../api/user";
 
 import WithdrawFunds from "./WithDraw";
+import { formatCurrency } from "../../utils/hepler";
 
 export default function Finance() {
   const [recentOrders, setRecentOrders] = useState([]);
@@ -126,7 +127,7 @@ export default function Finance() {
               <div className="font-sans font-medium text-xl flex items-center justify-between mt-2">
                 <div className="flex items-center border px-4 py-2 rounded">
                   {/* {totalOrderPriceAll * 0.97}{" "} */}
-                  {user.balance}
+                  {formatCurrency(user.balance)}
                   <TbCurrencyDong className="text-yellow-400 text-2xl" />{" "}
                 </div>
                 <div
@@ -246,13 +247,13 @@ export default function Finance() {
                     </td>
                     <td className="px-6 py-4 font-sans hidden sm:table-cell">
                       <div className="flex items-center font-sans">
-                        {order.totalPrice * 0.97}
+                        {formatCurrency(order.totalPrice * 0.97)}
                         <TbCurrencyDong />
                       </div>
                     </td>
                     <td className="px-6 py-4 font-sans ">
                       <div className="flex items-center font-sans">
-                        {order.totalPrice}
+                        {formatCurrency(order.totalPrice)}
                         <TbCurrencyDong />
                       </div>
                     </td>
@@ -298,7 +299,7 @@ export default function Finance() {
           >
             <div className="flex justify-between">
               <h1 className="font-sans font-semibold text-2xl">
-                Chi tiết quyết toán
+                Settlement details
               </h1>
               <ImCancelCircle
                 className="text-red-500 text-xl "
@@ -307,13 +308,13 @@ export default function Finance() {
             </div>
             <div className="flex w-full justify-between mt-4 border-t-2 border-yellow-400 pt-8 ">
               <div className="font-sans font-medium text-sm">
-                <div className="font-sans">Ngày đặt hàng</div>
+                <div className="font-sans">Order date</div>
                 <div className="mt-2 font-sans">
                   {convertISOToDateFormat(order.createdAt)}
                 </div>
               </div>
               <div className="font-sans font-medium text-sm">
-                <div className=" font-sans">Ngày quyết toán</div>
+                <div className=" font-sans">Settlement date</div>
                 <div className="mt-2 font-sans">
                   {convertISOToDateFormat(order.createdAt, 1)}
                 </div>
@@ -325,68 +326,68 @@ export default function Finance() {
             </div>
             <div className="flex justify-between  w-full border-b-2 border-yellow-400 pb-8">
               <div className="font-sans font-medium text-sm">
-                <div className="mt-2 font-sans">Doanh thu</div>
+                <div className="mt-2 font-sans">Revenue</div>
                 <div className="mt-2 font-sans flex items-center">
-                  {order.totalPrice}
+                  {formatCurrency(order.totalPrice)}
                   <TbCurrencyDong />{" "}
                 </div>
               </div>
               <div className="font-sans font-medium text-sm">
-                <div className="mt-2 font-sans">Phí</div>
+                <div className="mt-2 font-sans">Fee</div>
                 <div className="mt-2 font-sans flex items-center">
-                  {order.totalPrice * 0.03}
+                  {formatCurrency(order.totalPrice * 0.03)}
                   <TbCurrencyDong />{" "}
                 </div>
               </div>
               <div className="font-sans font-medium text-sm">
                 <div className="mt-2 font-sans flex justify-center">
-                  Quyết toán
+                  Settlement
                 </div>
                 <div className="mt-2 font-sans flex items-center">
-                  {order.totalPrice * 0.97}
+                  {formatCurrency(order.totalPrice * 0.97)}
                   <TbCurrencyDong />{" "}
                 </div>
               </div>
             </div>
             <div className="flex  w-full">
               <div className="flex justify-between  w-full font-sans font-medium text-sm border-b-2 border-yellow-400 pb-6 pt-2 ">
-                <div className="mt-2 font-sans">Tổng Doanh thu</div>
+                <div className="mt-2 font-sans">Total revenue</div>
                 <div className="mt-2 font-sans flex items-center">
-                  {order.totalPrice}
+                  {formatCurrency(order.totalPrice)}
                   <TbCurrencyDong />{" "}
                 </div>
               </div>
             </div>
             <div className="  w-full border-b-2 border-yellow-400 pb-8">
               <div className="font-sans font-medium text-sm flex justify-between">
-                <div className="mt-2 font-sans">Phí</div>
+                <div className="mt-2 font-sans">Fee</div>
                 <div className="mt-2 font-sans flex items-center">
-                  {order.totalPrice * 0.02}
+                  {formatCurrency(order.totalPrice * 0.02)}
                   <TbCurrencyDong />{" "}
                 </div>
               </div>
               <div className="flex justify-between  w-full font-sans font-medium text-sm">
                 <div className=" ml-2 mt-2 font-sans">
-                  Phí hoa hồng cho nền tảng
+                  Platform commission fees
                 </div>
                 <div className=" ml-2 mt-2 font-sans flex items-center">
-                  {order.totalPrice * 0.022}
+                  {formatCurrency(order.totalPrice * 0.022)}
                   <TbCurrencyDong />{" "}
                 </div>
               </div>
               <div className="flex justify-between font-sans font-medium text-sm">
-                <div className=" ml-2 mt-2 font-sans">Phí hoa giao dịch</div>
+                <div className=" ml-2 mt-2 font-sans">Transaction fee</div>
                 <div className=" ml-2 mt-2 font-sans flex items-center">
-                  {order.totalPrice * 0.008}
+                  {formatCurrency(order.totalPrice * 0.008)}
                   <TbCurrencyDong />{" "}
                 </div>
               </div>
             </div>
             <div className="flex  w-full">
               <div className="flex justify-between  w-full font-sans font-semibold text-xl border-b-2 border-yellow-400 pb-4">
-                <div className="mt-2 font-sans">Tổng tiền quyết toán</div>
+                <div className="mt-2 font-sans">Total settlement amount</div>
                 <div className="mt-2 font-sans flex items-center">
-                  {order.totalPrice * 0.97}
+                  {formatCurrency(order.totalPrice * 0.97)}
                   <TbCurrencyDong />{" "}
                 </div>
               </div>

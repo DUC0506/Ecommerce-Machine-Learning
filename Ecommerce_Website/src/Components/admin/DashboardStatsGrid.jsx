@@ -5,6 +5,7 @@ import { getSellers } from "../../api/user";
 import { TbCurrencyDong } from "react-icons/tb";
 import { getAllApartments } from "../../api/apartment";
 import { MdApartment } from "react-icons/md";
+import { formatCurrency } from "../../utils/hepler";
 
 export default function DashboardStatsGrid() {
   const [totalSales, setTotalSales] = useState(0);
@@ -59,7 +60,7 @@ export default function DashboardStatsGrid() {
           </span>
           <div className="flex items-center cursor-pointer">
             <strong className="text-xl text-gray-700 font-semibold font-sans">
-              {totalSales}
+              {formatCurrency(totalSales)}
             </strong>
             <span className="text-xl text-yellow-500 pl-2">
               <TbCurrencyDong />

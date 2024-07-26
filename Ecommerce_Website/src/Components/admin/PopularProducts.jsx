@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getTop5Cheap } from "../../api/products";
 import { TbCurrencyDong } from "react-icons/tb";
+import { formatCurrency } from "../../utils/hepler";
 
 function PopularProducts() {
   const [products, setProducts] = useState([
@@ -60,7 +61,7 @@ function PopularProducts() {
               </span>
             </div>
             <div className="text-xs text-gray-400 pl-1.5 flex items-center">
-              {product.price}
+              {formatCurrency(product.price)}
               <TbCurrencyDong className="text-yellow-400 text-xl" />
             </div>
           </Link>

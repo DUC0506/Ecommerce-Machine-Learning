@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 // import { getOrderStatus } from "../lib/helpers";
 import { getTotalOrders, orderStatus } from "../../api/order";
 import { TbCurrencyDong } from "react-icons/tb";
+import { formatCurrency } from "../../utils/hepler";
 
 export default function RecentOrders({ number, sellerId }) {
   const [recentOrders, setRecentOrders] = useState([]);
@@ -127,7 +128,7 @@ export default function RecentOrders({ number, sellerId }) {
                 </td>
                 <td className="px-6 py-4 font-sans hidden md:table-cell">
                   <div className="flex items-center font-sans">
-                    {order.totalPrice}
+                    {formatCurrency(order.totalPrice)}
                     <TbCurrencyDong className="text-yellow-400" />
                   </div>
                 </td>

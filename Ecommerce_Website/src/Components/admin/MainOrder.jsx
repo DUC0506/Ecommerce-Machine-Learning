@@ -50,6 +50,7 @@ import {
 } from "../../api/order";
 import { useNotification } from "../../hooks";
 import NoItem from "./shared/NoItem";
+import { formatCurrency } from "../../utils/hepler";
 export default function MainOrder({ sellerId }) {
   const [recentOrders, setRecentOrders] = useState([]);
   const [totalRevenue, setTotalRevenue] = useState({
@@ -158,7 +159,7 @@ export default function MainOrder({ sellerId }) {
               <CardHeader className="pb-1 ">
                 <CardDescription>Amount</CardDescription>
                 <CardTitle className="text-2xl text-yellow-500 text-wrap">
-                  {totalRevenue.totalRevenue} đ
+                  {formatCurrency(totalRevenue.totalRevenue)} đ
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -281,7 +282,7 @@ export default function MainOrder({ sellerId }) {
                             </TableCell>
                             <TableCell className="text-right">
                               {" "}
-                              {order.totalPrice}
+                              {formatCurrency(order.totalPrice)}
                             </TableCell>
                           </TableRow>
                         ))}
@@ -397,7 +398,9 @@ export default function MainOrder({ sellerId }) {
                               {product.nameProduct} x{" "}
                               <span>{product.totalProductQuantity}</span>
                             </span>
-                            <span>{product.totalProductPrice}đ</span>
+                            <span>
+                              {formatCurrency(product.totalProductPrice)}đ
+                            </span>
                           </li>
                         ))
                       : ""}
@@ -418,7 +421,7 @@ export default function MainOrder({ sellerId }) {
                     </li>
                     <li className="flex items-center justify-between font-semibold">
                       <span className="text-muted-foreground">Total</span>
-                      <span>{orderInfo.totalPrice}đ</span>
+                      <span>{formatCurrency(orderInfo.totalPrice)}đ</span>
                     </li>
                   </ul>
                 </div>

@@ -17,6 +17,7 @@ import {
 } from "../ui/card";
 import { Activity, CreditCard, DollarSign, Users } from "lucide-react";
 import { getTotalExpenses } from "../../api/expense";
+import { formatCurrency } from "../../utils/hepler";
 export default function DashboardStatsGridSeller() {
   const [recentOrders, setRecentOrders] = useState();
   const [totalUsers, setTotalUsers] = useState([{}]);
@@ -68,7 +69,7 @@ export default function DashboardStatsGridSeller() {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold flex items-center font-sans">
-            {recentOrders}
+            {formatCurrency(recentOrders)}
             <TbCurrencyDong className="text-yellow-400" />
           </div>
           <p className="text-xs text-muted-foreground font-sans">
@@ -85,7 +86,8 @@ export default function DashboardStatsGridSeller() {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold font-sans  flex items-center">
-            {totalExpense} <TbCurrencyDong className="text-yellow-400" />
+            {formatCurrency(totalExpense)}{" "}
+            <TbCurrencyDong className="text-yellow-400" />
           </div>
           <p className="text-xs text-muted-foreground font-sans">
             {totalExpense > 0 ? " +12.1% from last month" : ""}

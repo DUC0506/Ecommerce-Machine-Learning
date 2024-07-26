@@ -85,13 +85,14 @@ export const queryGenerativeAI = catchAsync(async (body, userId) => {
     model: process.env.MODEL_NAME
   });
   const generationConfig = {
-    temperature: 0.9,
-    topK: 0,
-    topP: 1,
-    maxOutputTokens: 1024
+    temperature: 1,
+    top_p: 0.95,
+    top_k: 64,
+    max_output_tokens: 8192,
+    response_mime_type: 'text/plain'
   };
-  const questionFood = `Nếu câu hỏi không về chủ đề thực phẩm thì yêu cầu chỉ hỏi về thực phẩm nếu câu hỏi về thực phẩm thì trả lời . Đây là câu hỏi "${question}"`;
-  const parts = [{ text: `input: ${questionFood}` }, { text: 'output: ' }];
+  const questionFood = `Chỉ trả lời câu hỏi về thực phẩm. Đây là câu hỏi"${question}"`;
+  const parts = [{ text: ` ${questionFood}` }, { text: 'output: ' }];
 
   const result = await model.generateContent({
     contents: [{ role: 'user', parts }],

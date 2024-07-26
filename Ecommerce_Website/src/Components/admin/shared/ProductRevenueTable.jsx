@@ -1,3 +1,4 @@
+import { formatCurrency } from "../../../utils/hepler";
 import React from "react";
 import { TbCurrencyDong } from "react-icons/tb";
 
@@ -67,16 +68,18 @@ const ProductRevenueTable = ({ data }) => {
                 {product.sold}
               </td>
               <td className="px-6 py-4 whitespace-nowrap font-sans   ">
-                {product.price * product.sold}
+                {formatCurrency(product.price * product.sold)}
               </td>
               <td className="px-6 py-4 whitespace-nowrap font-sans flex items-center justify-center ">
-                {(product.priceDiscount / 100) * product.price * product.sold}
+                {formatCurrency(
+                  (product.priceDiscount / 100) * product.price * product.sold
+                )}
               </td>
               <td className="px-6 py-4 whitespace-nowrap font-sans   ">
-                {product.priceAfterDiscount * product.sold}
+                {formatCurrency(product.priceAfterDiscount * product.sold)}
               </td>
               <td className="px-6 py-4 whitespace-nowrap font-sans flex items-center justify-center ">
-                {product.priceAfterDiscount * product.sold}
+                {formatCurrency(product.priceAfterDiscount * product.sold)}
                 <TbCurrencyDong />
               </td>
             </tr>

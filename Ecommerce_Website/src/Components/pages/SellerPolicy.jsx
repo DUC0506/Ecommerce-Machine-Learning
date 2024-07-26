@@ -50,59 +50,59 @@ export default function SellerPolicy() {
         <div className="mb-8">
           <span class="text-yellow-600 font-semibold font-sans">
             {" "}
-            #1. Chính sách về sản phẩm
+            #1. Product policy
           </span>
 
           <p class="text-lg font-semibold text-gray-900 font-sans">
-            Nhà bán hàng cam kết cung cấp các sản phẩm chất lượng và đáng tin
-            cậy cho khách hàng. Mô tả sản phẩm phải đúng sự thật và minh bạch.
-            Bất kỳ thông tin về sản phẩm, bao gồm giá cả, kích thước, màu sắc và
-            chất liệu, cần phải được cung cấp một cách chính xác và chi tiết.
+            The seller is committed to providing quality and reliable products
+            to customers. Product descriptions must be truthful and transparent.
+            Any product information, including price, size, color and material,
+            must be provided accurately and in detail.
           </p>
         </div>
         <div className="mb-8">
           <span class="text-yellow-600 font-semibold font-sans">
-            #2. Chính sách giao hàng
+            #2. Delivery policy
           </span>
           <p class="text-lg font-semibold text-gray-900 font-sans">
-            Chúng tôi cam kết giao hàng đúng hẹn và đảm bảo sản phẩm được bảo
-            quản tốt trong quá trình vận chuyển. Thời gian giao hàng có thể thay
-            đổi tùy thuộc vào địa chỉ nhận hàng của khách hàng, nhưng chúng tôi
-            sẽ cố gắng giao hàng một cách nhanh chóng và thuận tiện nhất có thể.
+            We are committed to delivering on time and ensuring that the
+            products are well protected during transportation. Delivery time may
+            vary depending on the customer's delivery address, but we will try
+            to deliver as quickly and conveniently as possible.
           </p>
         </div>
         <div className="mb-8 font-sans">
           <span class="text-yellow-600 font-semibold font-sans">
-            #3. Chính sách đổi trả và hoàn tiền
+            #3. Return and refund policy
           </span>
           <p class="text-lg font-semibold text-gray-900 font-sans">
-            Nhà bán hàng chấp nhận đổi trả và hoàn tiền trong vòng 30 ngày kể từ
-            ngày mua hàng, đảm bảo rằng sản phẩm không bị hỏng và vẫn ở trong
-            trạng thái ban đầu. Khách hàng có thể yêu cầu đổi trả hoặc hoàn tiền
-            nếu họ không hài lòng với sản phẩm đã mua, với điều kiện sản phẩm
-            chưa sử dụng và vẫn trong bao bì gốc.
+            The seller accepts returns and refunds within 30 days of purchase,
+            providing that the product is undamaged and in its original
+            condition. Customers can request a return or refund if they are not
+            satisfied with the product they purchased, provided the product is
+            unused and in its original packaging.
           </p>
         </div>
         <div className="mb-8 font-sans">
           <span class="text-yellow-600 font-semibold font-sans">
-            #4. Chính sách thanh toán
+            #4. Payment policy
           </span>
           <p class="text-lg font-semibold text-gray-900 font-sans">
-            Chúng tôi chấp nhận thanh toán bằng nhiều phương thức khác nhau, bao
-            gồm tiền mặt, thẻ tín dụng/debit và chuyển khoản ngân hàng. Thanh
-            toán trực tuyến cũng được hỗ trợ thông qua các cổng thanh toán an
-            toàn và đáng tin cậy.
+            We accept payment by various methods, including cash, credit/debit
+            cards and bank transfers. Online payments are also supported through
+            secure and reliable payment gateways.
           </p>
         </div>
         <div>
           <span class="text-yellow-600 font-semibold font-sans">
-            #5. Chính sách bảo mật thông tin
+            #5. Information security policy
           </span>
           <p class="text-lg font-semibold text-gray-900 font-sans">
-            Nhà bán hàng cam kết bảo vệ thông tin cá nhân của khách hàng và
-            không chia sẻ thông tin này với bất kỳ bên thứ ba nào mà không có sự
-            đồng ý của khách hàng. Mọi thông tin cá nhân được thu thập sẽ được
-            bảo mật và sử dụng chỉ cho mục đích cung cấp dịch vụ cho khách hàng.
+            The Seller undertakes to protect the personal information of the
+            customer and not to share this information with any third party
+            without the customer's consent. All personal information collected
+            will be kept confidential and used only for the purpose of providing
+            services to the customer.
           </p>
         </div>
       </div>

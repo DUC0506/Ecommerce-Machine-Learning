@@ -12,6 +12,7 @@ import { getSellerSoldProducts } from "../../api/products";
 import ProductRevenueTable from "../admin/shared/ProductRevenueTable";
 import { getPredict, getPredicts } from "../../api/predict";
 import NoItem from "../admin/shared/NoItem";
+import { formatCurrency } from "../../utils/hepler";
 
 export default function Report() {
   const { authInfo } = useAuth();
@@ -168,7 +169,7 @@ export default function Report() {
 
               <div className="flex justify-between items-center mt-2">
                 <div className="font-sans font-bold text-xl text-yellow-400 flex items-center">
-                  {totalSale}
+                  {formatCurrency(totalSale)}
                   <FaDongSign />
                 </div>
                 <div
