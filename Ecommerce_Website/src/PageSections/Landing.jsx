@@ -157,7 +157,7 @@ const Landing = () => {
                     <SwiperSlide key={index}>
                       <div
                         onClick={() => handleProduct(product._id)}
-                        className=" h-full flex flex-col items-center justify-center   "
+                        className=" h-full flex flex-col items-center justify-center  cursor-pointer  "
                       >
                         <div className="px-1 text-sm bg-yellow-400 rounded flex items-center">
                           <CiDiscount1 /> {product.priceDiscount}%

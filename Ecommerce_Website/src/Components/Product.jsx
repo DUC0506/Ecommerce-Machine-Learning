@@ -56,7 +56,7 @@ const Product = ({
         </div>
         <div className="flex justify-between items-center m-3">
           <div className="mr-2">
-            <div className="w-full overflow-hidden font-semibold whitespace-nowrap text-ellipsis font-sans">
+            <div className="w-full max-w-[94px] overflow-hidden font-semibold whitespace-nowrap text-ellipsis font-sans">
               {name}
             </div>{" "}
             <div className="flex">
